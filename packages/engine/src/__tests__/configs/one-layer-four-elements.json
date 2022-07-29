@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Background",
+    "elements": [
+      {
+        "name": "Red"
+      },
+      {
+        "name": "Green"
+      },
+      {
+        "name": "Yellow"
+      },
+      {
+        "name": "Blue"
+      }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+name: Install, Build & Test
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  build-and-test:
+    name: "Run"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: Use Yarn Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Root Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install Pacakge Dependencies
+        run: yarn lerna bootstrap
+      - name: Build
+        run: yarn lerna exec yarn build
+      - name: Test
+        run: yarn lerna exec yarn test

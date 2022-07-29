@@ -1,0 +1,36 @@
+[
+    {
+        "name": "Background",
+        "elements": [
+            {
+                "name": "Red"
+            },
+            {
+                "name": "Green"
+            },
+            {
+                "name": "Yellow"
+            },
+            {
+                "name": "Blue"
+            }
+        ]
+    },
+    {
+        "name": "Landscape",
+        "elements": [
+            {
+                "name": "Mountainous"
+            },
+            {
+                "name": "Desert"
+            },
+            {
+                "name": "Ocean"
+            },
+            {
+                "name": "Green pastures"
+            }
+        ]
+    }
+]

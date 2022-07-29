@@ -1,0 +1,12 @@
+{
+  "command": {
+    "version": {
+      "conventionalCommits": true
+    }
+  },
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "useNx": true,
+  "useWorkspaces": false,
+  "version": "independent",
+  "npmClient": "yarn"
+}
