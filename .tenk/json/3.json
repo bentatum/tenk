@@ -1,0 +1,13 @@
+{
+  "name": "undefined#3",
+  "image": "undefined/3.png",
+  "dna": "e8c9a2c0b36c4ffa3f096f5c7921f84acdea9afa",
+  "edition": 3,
+  "date": 1657275251179,
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Teal"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "name": "undefined#0",
+    "image": "undefined/0.png",
+    "dna": "80301a54a361a16aa3e90d27ad9d7d242193ff35",
+    "edition": 0,
+    "date": 1657275251178,
+    "attributes": [
+      {
+        "trait_type": "Background",
+        "value": "Pink"
+      }
+    ]
+  },
+  {
+    "name": "undefined#1",
+    "image": "undefined/1.png",
+    "dna": "43322d717c9ad675a2cecee3a66d2ce3ca4fb196",
+    "edition": 1,
+    "date": 1657275251178,
+    "attributes": [
+      {
+        "trait_type": "Background",
+        "value": "Blue"
+      }
+    ]
+  },
+  {
+    "name": "undefined#2",
+    "image": "undefined/2.png",
+    "dna": "e6d1d32aa0ace48ade776cba7050edb77660f8a5",
+    "edition": 2,
+    "date": 1657275251179,
+    "attributes": [
+      {
+        "trait_type": "Background",
+        "value": "White"
+      }
+    ]
+  },
+  {
+    "name": "undefined#3",
+    "image": "undefined/3.png",
+    "dna": "e8c9a2c0b36c4ffa3f096f5c7921f84acdea9afa",
+    "edition": 3,
+    "date": 1657275251179,
+    "attributes": [
+      {
+        "trait_type": "Background",
+        "value": "Teal"
+      }
+    ]
+  },
+  {
+    "name": "undefined#4",
+    "image": "undefined/4.png",
+    "dna": "612f7473a3de3a21b853c5a525f4e6685986469e",
+    "edition": 4,
+    "date": 1657275251179,
+    "attributes": [
+      {
+        "trait_type": "Background",
+        "value": "Purple"
+      }
+    ]
+  }
+]
