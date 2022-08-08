@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1-alpha.1+8f1709a",
+  "version": "0.0.1-alpha.1+6d47826",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -55,10 +55,13 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@tenk/engine": "latest",
     "canvas": "^2.9.3",
     "node-html-parser": "^5.3.3",
-    "yargs": "^17.5.1",
-    "@tenk/engine": "latest"
+    "yargs": "^17.5.1"
   },
-  "gitHead": "8f1709adf4738a589316ba569fd4c4cd4719d73d"
+  "gitHead": "6d478265e5530a6a640a88fb5b603cac1feaa1af",
+  "publishConfig": {
+    "access": "public"
+  }
 }
