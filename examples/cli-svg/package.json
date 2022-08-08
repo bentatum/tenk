@@ -1,0 +1,13 @@
+{
+  "name": "cli-svg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Benjamin Tatum",
+  "license": "MIT",
+  "dependencies": {
+    "@tenk/cli": "latest"
+  },
+  "scripts": {
+    "build": "tenk"
+  }
+}
