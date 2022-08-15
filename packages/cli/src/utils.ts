@@ -1,9 +1,8 @@
 import yargs from 'yargs';
-import { cwd } from './env';
+import { attributesDir, cwd } from './env';
 import { Config, Options } from './types';
-import {
-  getConfig as getEngineConfig
-} from '@tenk/engine';
+import { getConfig as getEngineConfig, LayerElement } from '@tenk/engine';
+import fs from 'fs';
 
 export const getArgv = (): Options => {
   return yargs(process.argv.slice(2)).options({
@@ -11,9 +10,32 @@ export const getArgv = (): Options => {
   }).argv as Partial<Config>;
 };
 
+export const getAttributeElements = (attributeName: string): LayerElement[] => {
+  return fs.readdirSync(`${attributesDir}/${attributeName}`).map(name => ({
+    name,
+    weight: undefined, // @todo: parse by rarity delimiter
+  }));
+};
+
 export const loadUserConfig = async (): Promise<Options> => {
   const argv = getArgv();
-  const options = (await import(`${cwd}/tenk.config.js`)) as Options;
+  let options = (await import(
+    `${cwd}/tenk.config.js`
+  ).catch(() => {})) as Options;
+  if (!options && fs.existsSync(attributesDir)) {
+    const attributes = fs.readdirSync(attributesDir);
+    options = {
+      editions: [
+        {
+          size: 100,
+          layers: attributes.map(name => ({
+            name,
+            elements: getAttributeElements(name),
+          })),
+        },
+      ],
+    };
+  }
   return {
     ...options,
     ...argv,
@@ -22,6 +44,7 @@ export const loadUserConfig = async (): Promise<Options> => {
 
 export const getConfig = async (): Promise<Config> => {
   const userConfig = await loadUserConfig();
+
   return {
     ...getEngineConfig(userConfig),
     renderHeight: userConfig.renderHeight || 2000,

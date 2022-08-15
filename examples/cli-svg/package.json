@@ -5,7 +5,7 @@
   "author": "Benjamin Tatum",
   "license": "MIT",
   "dependencies": {
-    "@tenk/cli": "latest"
+    "@tenk/cli": "file:../../packages/cli"
   },
   "scripts": {
     "build": "tenk"

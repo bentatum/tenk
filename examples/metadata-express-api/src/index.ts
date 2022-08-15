@@ -4,22 +4,6 @@ import tenk from '@tenk/engine';
 const app = express();
 const port = 8080;
 
-// export interface Config {
-//   editions: EditionConfig[];
-//   rarityDelimiter: string;
-//   renderHeight: number;
-//   renderImages: boolean;
-//   renderTokenMetadataJson: boolean;
-//   renderWidth: number;
-//   sourceType: 'png' | 'svg';
-//   startIndex: number;
-//   tokenNamePrefix: string;
-//   tokenUri: string;
-//   tokenDescription: TokenDescription;
-//   verbose: boolean;
-//   viewBox: string;
-// }
-
 app.get('/', async (_req, res) => {
   const metadata = await tenk({
     editions: [
