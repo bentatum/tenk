@@ -5,17 +5,11 @@ const filterByOdds = (layer: Layer): boolean => {
   return Math.random() < odds;
 };
 
-const selectElement = (
-  layer: Layer,
-  editionCount: number
-): Layer => {
+const selectElement = (layer: Layer, tokenId: number): Layer => {
   if (layer.indexed) {
     const selectedElement = layer.elements?.find(
-      ({ name }) => Number(name) === editionCount
+      ({ name }) => Number(name) === tokenId
     );
-    // if (config.verbose) {
-    //   console.log({ editionCount, selectedElement });
-    // }
     return {
       ...layer,
       selectedElement,
@@ -34,11 +28,13 @@ const selectElement = (
       : layer.elements) || [];
 
   let totalWeight = 0;
+
   elements.forEach(element => {
     totalWeight += element.weight || 1;
   });
+
   // number between 0 - totalWeight
-  let random = Math.floor(Math.random() * totalWeight);
+  let random = Math.random() * totalWeight;
   for (var i = 0; i < elements.length; i++) {
     // subtract the current weight from the random weight until we reach a sub zero value.
     random -= elements[i].weight || 1;
@@ -53,15 +49,14 @@ const selectElement = (
 };
 
 const mapSelectedElementsToLayers = (
-  // config: Config,
   layers: Layer[],
-  editionCount: number
+  tokenId: number
 ): [Layer[], Layer[]] => {
   // pseudo randomly pick layers and
   // select the element for each
   let renderableLayers = layers
     .filter(filterByOdds)
-    .map(layer => selectElement(layer, editionCount))
+    .map(layer => selectElement(layer, tokenId))
     .filter((layer, _index, selectedLayers) => {
       if (!layer.selectedElement) {
         return false;

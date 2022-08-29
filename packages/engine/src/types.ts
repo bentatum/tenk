@@ -5,7 +5,6 @@ export interface EditionLayerOptions {}
 export interface Metadata {
   name: string;
   description?: string;
-  image: string;
   dna: string;
   edition: number;
   date: number;

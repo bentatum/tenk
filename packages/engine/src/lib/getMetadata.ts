@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { Config, Metadata, TokenAttribute } from '../types';
+import {  Metadata, TokenAttribute } from '../types';
 
 const sha1 = (value: any): string => {
   const shasum = crypto.createHash('sha1');
@@ -8,30 +8,18 @@ const sha1 = (value: any): string => {
 };
 
 const getMetadata = (
-  config: Config,
   dna: string,
-  edition: number,
+  tokenId: number,
   attributes: TokenAttribute[],
   editionAttributes: TokenAttribute[] = []
 ): Metadata => {
   const metadata: Metadata = {
-    name: `${config.tokenNamePrefix}#${edition}`,
-    image: `${config.tokenUri}/${edition}.png`,
+    name: String(tokenId),
     dna: sha1(dna),
-    edition,
+    edition: tokenId,
     date: Date.now(),
     attributes: [...attributes, ...editionAttributes],
   };
-
-  if (config.tokenDescription) {
-    metadata.description = config.tokenDescription(
-      dna,
-      edition,
-      attributes,
-      editionAttributes
-    );
-  }
-
   return metadata;
 };
 

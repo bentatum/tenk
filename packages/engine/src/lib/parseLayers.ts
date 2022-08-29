@@ -1,6 +1,6 @@
 // import fs from 'fs';
 // import { layersDir } from '../env';
-import { Layer, Config } from '../types';
+import { Layer } from '../types';
 
 // const cleanName = (filename: string, config: Config): string => {
 //   return String(
@@ -48,7 +48,7 @@ import { Layer, Config } from '../types';
 //     });
 // };
 
-export const parseLayers = (layers: Layer[], _config: Config): Layer[] => {
+export const parseLayers = (layers: Layer[]): Layer[] => {
   return layers.map((layer) => ({
     ...layer,
     // id: index,

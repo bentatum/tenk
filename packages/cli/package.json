@@ -60,7 +60,7 @@
     "node-html-parser": "^5.3.3",
     "yargs": "^17.5.1"
   },
-  "gitHead": "6d478265e5530a6a640a88fb5b603cac1feaa1af",
+  "gitHead": "fb19b9a8343bc1e0487b078f47efc2f29a553c20",
   "publishConfig": {
     "access": "public"
   }
