@@ -25,7 +25,6 @@ const generate = (
         ...renderableLayers,
         ...nonRenderableLayers,
       ]);
-
       data.push(getMetadata(dna, tokenId, attributes));
       dnaSet.add(dna);
     }
