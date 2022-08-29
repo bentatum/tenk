@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.3",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -51,7 +51,7 @@
     "tslib": "^2.4.0",
     "typescript": "^4.7.4"
   },
-  "gitHead": "fb19b9a8343bc1e0487b078f47efc2f29a553c20",
+  "gitHead": "ce8d7d9935b86fca2da6f852742a857a56cb34e4",
   "publishConfig": {
     "access": "public"
   }
