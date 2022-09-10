@@ -1,7 +1,7 @@
 import { Layer } from '../types';
 
 const filterByOdds = (layer: Layer): boolean => {
-  const odds = layer.odds || 1;
+  const odds = typeof layer.odds === 'undefined' ? 0.5 : layer.odds;
   return Math.random() < odds;
 };
 
@@ -22,22 +22,23 @@ const selectElement = (layer: Layer, tokenId: number): Layer => {
     return layer;
   }
 
-  const elements =
+  const elements = (
     (layer.only
       ? layer.elements?.filter(({ name }) => layer.only?.includes(name))
-      : layer.elements) || [];
+      : layer.elements) || []
+  ).filter(element => (element.weight || 0) > 0);
 
   let totalWeight = 0;
 
   elements.forEach(element => {
-    totalWeight += element.weight || 1;
+    totalWeight += element.weight || 0;
   });
 
   // number between 0 - totalWeight
   let random = Math.random() * totalWeight;
   for (var i = 0; i < elements.length; i++) {
     // subtract the current weight from the random weight until we reach a sub zero value.
-    random -= elements[i].weight || 1;
+    random -= elements[i].weight || 0;
     if (random < 0 && elements[i]) {
       return {
         ...layer,
