@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,7 +33,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@tenk/cli",
+  "name": "tenk",
   "author": "Benjamin Tatum",
   "module": "dist/tenk.esm.js",
   "size-limit": [
