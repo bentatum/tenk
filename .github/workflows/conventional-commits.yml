@@ -5,7 +5,7 @@ on:
 
 jobs:
   lint:
-    name: 'Lint PR Title'
+    name: "Lint PR Title"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,9 +15,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "16.x"
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@nft42"
-          always-auth: true
       - name: Install Dependencies
         run: yarn add @commitlint/config-conventional --ignore-workspace-root-check
       - uses: JulienKode/pull-request-name-linter-action@v0.5.0
