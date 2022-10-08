@@ -15,7 +15,9 @@ jobs:
         with:
           path: ~/.cache/yarn
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install
+      - name: Install Pacakge Dependencies
+        run: yarn lerna bootstrap
+      - name: Install Root Dependencies
         run: yarn install --frozen-lockfile
       - name: Build
         run: yarn lerna exec yarn build
