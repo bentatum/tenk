@@ -1,12 +1,16 @@
-import { Layer } from"../layer";
+import { Layer } from "../layer";
 
 const mustAccompanyFilter = (
   layer: Layer,
   _index: number,
   selectedLayers: Layer[]
 ) => {
+  if (!layer.selectedElement) {
+    return true;
+  }
+
   const layerRules = layer.mustAccompany;
-  const elementRules = layer.selectedElement?.mustAccompany;
+  const elementRules = layer.selectedElement.mustAccompany;
 
   if (!layerRules && !elementRules) return true;
 
@@ -18,19 +22,17 @@ const mustAccompanyFilter = (
     // get this layer's required elements
     requiredElements = Object.keys(layerRules)
       .filter((key) => {
-        // @todo: this is a function
         if (key.startsWith("/") && key.endsWith("/")) {
           return Boolean(
-            layer.selectedElement?.name.match(
-              new RegExp(key.replace(/\//g, ""), "g")
+            layer.selectedElement!.name.match(
+              new RegExp(key.replace(/\//g, ""), "gi")
             )
           );
         }
-        // @todo: this is a function
         return (
           key === "*" ||
           `${layer.name}.${key}` ===
-            `${layer.name}.${layer.selectedElement?.name}`
+            `${layer.name}.${layer.selectedElement!.name}`
         );
       })
       .map((key) => layerRules[key])
@@ -47,10 +49,11 @@ const mustAccompanyFilter = (
     ) as [string, string | undefined];
 
     const requiredLayer = selectedLayers.find(
-      (x) => x.name === requiredLayerName
+      (x) =>
+        x.name.toLocaleLowerCase() === requiredLayerName.toLocaleLowerCase()
     );
 
-    if (!requiredLayer) {
+    if (!requiredLayer || !requiredLayer.selectedElement) {
       return false;
     }
 
@@ -59,17 +62,17 @@ const mustAccompanyFilter = (
     }
 
     const regexQuery =
-      requiredElementName?.startsWith("/") &&
-      requiredElementName?.endsWith("/") &&
-      requiredElementName?.replace(/\//g, "");
+      requiredElementName.startsWith("/") &&
+      requiredElementName.endsWith("/") &&
+      requiredElementName.replace(/\//g, "");
 
     if (regexQuery) {
       return Boolean(
-        requiredLayer?.selectedElement?.name.match(new RegExp(regexQuery, "g"))
+        requiredLayer.selectedElement.name.match(new RegExp(regexQuery, "gi"))
       );
     }
 
-    return requiredElementName === requiredLayer.selectedElement?.name;
+    return requiredElementName === requiredLayer.selectedElement.name;
   });
 
   return hasRequiredElements;

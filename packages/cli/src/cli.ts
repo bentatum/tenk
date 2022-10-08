@@ -17,14 +17,19 @@ const getLayerElements = async (layerName): Promise<LayerElementConfig[]> => {
   const layerFiles = (
     await fs.promises.readdir(layerDir, { withFileTypes: true })
   )
-    .filter((dirent) => dirent.isFile() && path.extname(dirent.name) === ".png")
+    .filter(
+      (dirent) =>
+        dirent.isFile() && [".png", ".svg"].includes(path.extname(dirent.name))
+    )
     .map((dirent) => dirent.name);
+
+  const fileType = path.extname(layerFiles[0]);
 
   return layerFiles.map((fileName) => {
     const imgPath = `${layerDir}/${fileName}`;
     const dimensions = sizeOf(imgPath);
     return {
-      name: fileName.replace(".png", ""),
+      name: fileName.replace(fileType, ""),
       weight: 1,
       imgPath,
       imgWidth: dimensions.width,
@@ -34,6 +39,23 @@ const getLayerElements = async (layerName): Promise<LayerElementConfig[]> => {
 };
 
 type Config = Record<string, LayerConfig>;
+
+const parseLayerName = (layerName: string): [string, number] => {
+  let odds = 1;
+  let _layerName = layerName;
+  // if the layer name starts with a number,
+  // it's the order of the layer, let's remove it.
+  if (_layerName.match(/^([0-9]+_)/)) {
+    _layerName = _layerName.replace(/^([0-9]+_)/, "");
+  }
+  // if the layer name ends with a number,
+  // it's the weight of the layer, let's remove it.
+  if (_layerName.match(/(#[0-9]+)$/)) {
+    odds = Number(_layerName.split("#")[1]) / 100;
+    _layerName = _layerName.replace(/(#[0-9]+)$/, "");
+  }
+  return [_layerName, odds];
+};
 
 const getLayers = async (config?: Config): Promise<LayerConfig[]> => {
   const layerFolders = (
@@ -48,9 +70,12 @@ const getLayers = async (config?: Config): Promise<LayerConfig[]> => {
       if (config && config[layerName]) {
         layerConfig = config[layerName];
       }
+
+      const [name, odds] = parseLayerName(layerName);
+
       return {
-        odds: 1,
-        name: layerName,
+        odds,
+        name,
         elements: await getLayerElements(layerName),
         ...layerConfig,
       };
@@ -76,7 +101,6 @@ const getConfig = () => {
   const config = getConfig() as Config | undefined;
   const layers = await getLayers(config);
   const metadata = tenk(layers, { size });
-  console.log(metadata.map(x => x.attributes))
 
   const progressBar = new cliProgress.SingleBar(
     {
@@ -116,19 +140,4 @@ const getConfig = () => {
   );
 
   progressBar.stop();
-
-  // render based on metadata
-  // metadata.forEach(({ edition, attributes }) => {
-  //   const svgPath = `${buildDir}/svg/${edition}.svg`;
-  //   createSvgFile(
-  //     config,
-  //     svgPath,
-  //     attributes.map(({ trait_type, value }) => ({
-  //       name: String(trait_type || value),
-  //       selectedElement: {
-  //         name: String(value),
-  //       },
-  //     }))
-  //   );
-  // });
 })();
