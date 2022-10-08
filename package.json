@@ -1,10 +1,9 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.1.0",
+    "husky": "^8.0.1",
     "lerna": "^5.3.0"
   },
   "scripts": {

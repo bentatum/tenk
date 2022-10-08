@@ -1,6 +1,12 @@
 {
+  "command": {
+    "version": {
+      "allowBranch": "main",
+      "conventionalCommits": true
+    }
+  },
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
-  "useWorkspaces": true,
-  "version": "0.0.1-alpha.0"
+  "useWorkspaces": false,
+  "version": "independent"
 }

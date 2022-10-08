@@ -15,7 +15,7 @@
     "watch": "tsup --watch --onSuccess \"node dist/cli.js\""
   },
   "dependencies": {
-    "@tenk/engine": "^0.0.1-alpha.5",
+    "@tenk/engine": "latest",
     "canvas": "^2.10.1",
     "cli-progress": "^3.11.2",
     "image-size": "^1.0.2",
