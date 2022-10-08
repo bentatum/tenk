@@ -11,7 +11,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "16.x"
-      - uses: actions/cache@v2
+      - name: Use Yarn Cache
+        uses: actions/cache@v2
         with:
           path: ~/.cache/yarn
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
