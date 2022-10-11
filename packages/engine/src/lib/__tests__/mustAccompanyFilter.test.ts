@@ -1,5 +1,5 @@
-import { Layer } from "../../layer";
-import { LayerElement } from "../../LayerElement";
+import { Layer } from "@/Layer";
+import { LayerElement } from "@/LayerElement";
 import mustAccompanyFilter from "../mustAccompanyFilter";
 
 describe("mustAccompanyFilter", () => {
@@ -149,7 +149,7 @@ describe("mustAccompanyFilter", () => {
       const layers = [aboveHeadLayer, headwearLayer];
       const result = mustAccompanyFilter(headwearLayer, 0, layers);
       expect(result).toBeTruthy();
-    })
+    });
 
     test("exact match", () => {
       const rainCloud = new LayerElement({

@@ -13,4 +13,7 @@ module.exports = {
     },
   },
   coverageReporters: ["text-summary"],
+  moduleNameMapper: {
+    "@/(.*)$": "<rootDir>/src/$1",
+  },
 };

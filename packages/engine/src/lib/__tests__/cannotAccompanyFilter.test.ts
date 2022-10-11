@@ -1,5 +1,5 @@
-import { Layer } from"../../layer";
-import { LayerElement } from "../../LayerElement";
+import { Layer } from "@/Layer";
+import { LayerElement } from "@/LayerElement";
 import cannotAccompanyFilter from "../cannotAccompanyFilter";
 
 describe("cannotAccompanyFilter", () => {

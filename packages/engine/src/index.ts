@@ -1,14 +1,9 @@
-import { Collection } from "./Collection";
-import { CollectionConfig, LayerConfig, Metadata } from "./types";
+import { container } from "./inversify.config";
+import { Collection, LayerConfig, Metadata, Options } from "./interfaces";
 
-export * from "./Collection";
-export * from "./Layer";
-export * from "./LayerElement";
-export * from "./types";
+export type { Metadata, Options, LayerConfig, Attribute } from "./interfaces";
 
-export default (
-  layers: LayerConfig[],
-  options: CollectionConfig
-): Metadata[] => {
-  return new Collection(layers, options).getMetadata();
+export default (layers: LayerConfig[], options?: Options): Metadata[] => {
+  const collection = container.get<Collection>("Collection");
+  return collection.create(layers, options);
 };

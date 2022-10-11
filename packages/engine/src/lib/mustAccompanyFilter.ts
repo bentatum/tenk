@@ -1,13 +1,11 @@
-import { Layer } from "../layer";
+import { Layer } from "@/Layer";
 
 const mustAccompanyFilter = (
   layer: Layer,
   _index: number,
   selectedLayers: Layer[]
 ) => {
-  if (!layer.selectedElement) {
-    return true;
-  }
+  if (!layer.selectedElement) return true;
 
   const layerRules = layer.mustAccompany;
   const elementRules = layer.selectedElement.mustAccompany;
@@ -43,7 +41,7 @@ const mustAccompanyFilter = (
     return true;
   }
 
-  const hasRequiredElements = requiredElements.some((requiredElement) => {
+  return requiredElements.every((requiredElement) => {
     const [requiredLayerName, requiredElementName] = requiredElement.split(
       "."
     ) as [string, string | undefined];
@@ -72,10 +70,11 @@ const mustAccompanyFilter = (
       );
     }
 
-    return requiredElementName === requiredLayer.selectedElement.name;
+    return (
+      requiredElementName.toLocaleLowerCase() ===
+      requiredLayer.selectedElement.name.toLocaleLowerCase()
+    );
   });
-
-  return hasRequiredElements;
 };
 
 export default mustAccompanyFilter;

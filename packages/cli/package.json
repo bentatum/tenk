@@ -6,7 +6,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/cli-progress": "^3.11.0",
-    "@types/node": "^18.7.16",
+    "@types/node": "^18.8.3",
     "@types/yargs": "^17.0.12",
     "tsup": "^6.2.3"
   },
@@ -15,21 +15,13 @@
     "watch": "tsup --watch --onSuccess \"node dist/cli.js\""
   },
   "dependencies": {
-    "@tenk/engine": "latest",
     "canvas": "^2.10.1",
     "cli-progress": "^3.11.2",
     "image-size": "^1.0.2",
+    "inversify": "^6.0.1",
     "node-html-parser": "^6.0.0",
+    "reflect-metadata": "^0.1.13",
     "yargs": "^17.5.1"
-  },
-  "tsup": {
-    "entry": [
-      "src/cli.ts"
-    ],
-    "splitting": false,
-    "sourcemap": true,
-    "clean": true,
-    "minify": true
   },
   "bin": {
     "tenk": "dist/cli.js"

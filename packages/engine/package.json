@@ -20,13 +20,8 @@
     "watch": "tsup --watch",
     "test": "jest"
   },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "splitting": false,
-    "sourcemap": true,
-    "clean": true,
-    "dts": true
+  "dependencies": {
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13"
   }
 }
