@@ -1,7 +1,6 @@
 import "reflect-metadata";
-
-export * from "./ElementFile";
-export * from "./LayerDirectory";
+export * from "./Collection";
+export * from "./Element";
+export * from "./Layer";
 export * from "./PngFile";
-export * from "./Project";
 export * from "./SvgFile";

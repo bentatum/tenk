@@ -15,7 +15,7 @@ export class Layer implements Factory {
 
   constructor(
     @inject("Factory<Element>")
-    public elementFactory: () => Element
+    public ElementFactory: () => Element
   ) {}
 
   selectElement(): Layer {
@@ -51,7 +51,7 @@ export class Layer implements Factory {
   }: LayerConfig) {
     this.name = name;
     this.elements = elements.map((element) =>
-      this.elementFactory().create(element)
+      this.ElementFactory().create(element)
     );
     this.odds = typeof odds === "undefined" ? 1 : odds;
     this.bypassDNA = bypassDNA || false;

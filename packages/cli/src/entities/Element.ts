@@ -1,19 +1,19 @@
-import { ElementFileConfig, ElementFileMetadata, Factory } from "@/interfaces";
-import { injectable } from "inversify";
 import sizeOf from "image-size";
+import { injectable } from "inversify";
+import { ElementConfig, ElementMetadata, Factory } from "@/interfaces";
 
 @injectable()
-export class ElementFile implements Factory {
+export class Element implements Factory {
   name: string;
 
-  metadata: ElementFileMetadata = {
+  metadata: ElementMetadata = {
     fileType: "png",
     path: "",
     height: 0,
     width: 0,
   };
 
-  updateMetadata(data: Partial<ElementFileMetadata>) {
+  updateMetadata(data: Partial<ElementMetadata>) {
     this.metadata = { ...this.metadata, ...data };
   }
 
@@ -22,7 +22,7 @@ export class ElementFile implements Factory {
     this.updateMetadata({ height, width,  });
   }
 
-  create({ path, metadata }: ElementFileConfig) {
+  create({ path, metadata }: ElementConfig) {
     this.name = path.split("/").pop();
     this.updateMetadata({ path, ...metadata });
     this.setDimensions();

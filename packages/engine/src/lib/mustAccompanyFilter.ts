@@ -1,4 +1,4 @@
-import { Layer } from "@/Layer";
+import { Layer } from "@/entities/Layer";
 
 const mustAccompanyFilter = (
   layer: Layer,

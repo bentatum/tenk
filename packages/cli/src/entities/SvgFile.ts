@@ -1,9 +1,7 @@
 import fs from "fs";
 import { Attribute, Factory } from "@/interfaces";
-import { LayerDirectory } from "./LayerDirectory";
-import { parse as parseHtml, HTMLElement } from "node-html-parser";
+import { parse as parseHtml } from "node-html-parser";
 import { injectable } from "inversify";
-import { buildDir } from "@/env";
 
 @injectable()
 export class SvgFile implements Factory {

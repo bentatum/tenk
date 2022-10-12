@@ -23,13 +23,4 @@ container
     };
   });
 
-//   container.bind<Metadata>("Metadata").to(Metadata);
-//   container
-//     .bind<interfaces.Factory<Metadata>>("Factory<Metadata>")
-//     .toFactory<Metadata>((context: interfaces.Context) => {
-//       return () => {
-//         return context.container.get<Metadata>("Metadata");
-//       };
-//     });
-
 export { container };

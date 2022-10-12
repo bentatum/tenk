@@ -4,42 +4,42 @@ import { layersDir } from "@/env";
 import {
   Factory,
   FileType,
-  LayerDirectoryMetadata,
+  LayerMetadata,
   TenkConfig,
 } from "@/interfaces";
 import { inject, injectable } from "inversify";
-import { ElementFile } from "./ElementFile";
-import { LayerConfig } from "@/../../engine/dist";
+import { Element } from "./Element";
+import { LayerConfig } from "@tenk/engine";
 
 @injectable()
-export class LayerDirectory implements Factory {
+export class Layer implements Factory {
   odds: number;
   name: string;
-  elements: ElementFile[];
-  metadata: LayerDirectoryMetadata = {
-    fileType: "png",
-    path: "",
-  };
+  elements: Element[];
   mustAccompany?: Record<string, string[]>;
   cannotAccompany?: Record<string, string[]>;
   bypassDNA?: boolean;
   svgAttributes?: Record<string, string>;
+  metadata: LayerMetadata = {
+    fileType: "png",
+    path: "",
+  };
 
   constructor(
-    @inject("Factory<ElementFile>")
-    public elementFactory: () => ElementFile
+    @inject("Factory<Element>")
+    public ElementFactory: () => Element
   ) {}
 
-  updateMetadata(data: Partial<LayerDirectoryMetadata>) {
+  updateMetadata(data: Partial<LayerMetadata>) {
     this.metadata = { ...this.metadata, ...data };
   }
 
   applyConfig(config: LayerConfig) {
-    this.odds = config.odds;
-    this.mustAccompany = config.mustAccompany;
-    this.cannotAccompany = config.cannotAccompany;
-    this.bypassDNA = config.bypassDNA;
-    this.svgAttributes = config.svgAttributes;
+    this.odds = config.odds || this.odds;
+    this.mustAccompany = config.mustAccompany || this.mustAccompany;
+    this.cannotAccompany = config.cannotAccompany || this.cannotAccompany;
+    this.bypassDNA = config.bypassDNA || this.bypassDNA;
+    this.svgAttributes = config.svgAttributes || this.svgAttributes;
   }
 
   create(name: string, config?: TenkConfig) {
@@ -80,7 +80,7 @@ export class LayerDirectory implements Factory {
       fileType: path.extname(fileNames[0]).replace(".", "") as FileType,
     });
     this.elements = fileNames.map((name) =>
-      this.elementFactory().create({
+      this.ElementFactory().create({
         path: `${this.metadata.path}/${name}`,
         metadata: {
           svgAttributes: this.svgAttributes,

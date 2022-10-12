@@ -18,7 +18,6 @@ export class Collection implements Factory {
   duplicateThreshold: number;
   layers: Layer[] = [];
   metadata: Metadata[];
-  transformAttributes: TransformAttributes;
 
   constructor(
     @inject("Factory<Layer>")
@@ -27,15 +26,13 @@ export class Collection implements Factory {
 
   create(
     layerConfigurations: LayerConfig[],
-    { size = 10000, duplicateThreshold = 100, transformAttributes }: Options
+    { size = 10000, duplicateThreshold = 100 }: Options
   ) {
     this.layers = layerConfigurations.map((layer) =>
       this.layerFactory().create(layer)
     );
     this.size = size;
     this.duplicateThreshold = duplicateThreshold || 100;
-    this.transformAttributes =
-      transformAttributes || this.defaultTransformAttributes;
     return this.generateMetadata();
   }
 
@@ -82,26 +79,25 @@ export class Collection implements Factory {
     return sha256(message);
   }
 
-  defaultTransformAttributes(layers: Layer[]): Attribute[] {
-    return layers.map((layer) => {
-      const attr: Attribute = {
-        trait_type: layer.name,
-        value: layer.selectedElement?.name,
-      };
-      if (layer.selectedElement?.metadata) {
-        attr.metadata = layer.selectedElement.metadata;
-      }
-      return attr;
-    });
+  mapLayerAttributes(layer: Layer) {
+    const attr: Attribute = {
+      trait_type: layer.name,
+      value: layer.selectedElement?.name,
+    };
+    if (layer.selectedElement?.metadata) {
+      attr.metadata = layer.selectedElement.metadata;
+    }
+    return attr;
   }
 
   generateMetadata() {
     const dnaSet = new Set();
     const data: Metadata[] = [];
+
     let _duplicateThreshold = this.duplicateThreshold;
 
     for (let tokenId = 0; tokenId < this.size; tokenId++) {
-      let renderableLayers;
+      let renderableLayers: Layer[] = [];
 
       try {
         renderableLayers = this.getRenderableLayers(this.layers);
@@ -115,7 +111,7 @@ export class Collection implements Factory {
         if (!dnaSet.has(dna)) {
           data.push({
             name: String(tokenId),
-            attributes: this.transformAttributes(renderableLayers),
+            attributes: renderableLayers.map(this.mapLayerAttributes),
             dna,
           });
           dnaSet.add(dna);
@@ -129,6 +125,7 @@ export class Collection implements Factory {
         }
       }
     }
+
     return data;
   }
 }

@@ -1,24 +1,24 @@
 import { Container, interfaces } from "inversify";
-import { Project, LayerDirectory, ElementFile, SvgFile, PngFile } from "./entities";
+import { Collection, Layer, Element, SvgFile, PngFile } from "./entities";
 
 const container = new Container();
-container.bind<Project>("Project").to(Project);
+container.bind("Collection").to(Collection);
 
-container.bind<LayerDirectory>("LayerDirectory").to(LayerDirectory);
+container.bind<Layer>("Layer").to(Layer);
 container
-  .bind<interfaces.Factory<LayerDirectory>>("Factory<LayerDirectory>")
-  .toFactory<LayerDirectory>((context: interfaces.Context) => {
+  .bind<interfaces.Factory<Layer>>("Factory<Layer>")
+  .toFactory<Layer>((context: interfaces.Context) => {
     return () => {
-      return context.container.get<LayerDirectory>("LayerDirectory");
+      return context.container.get<Layer>("Layer");
     };
   });
 
-container.bind<ElementFile>("ElementFile").to(ElementFile);
+container.bind<Element>("Element").to(Element);
 container
-  .bind<interfaces.Factory<ElementFile>>("Factory<ElementFile>")
-  .toFactory<ElementFile>((context: interfaces.Context) => {
+  .bind<interfaces.Factory<Element>>("Factory<Element>")
+  .toFactory<Element>((context: interfaces.Context) => {
     return () => {
-      return context.container.get<ElementFile>("ElementFile");
+      return context.container.get<Element>("Element");
     };
   });
 

@@ -4,24 +4,24 @@ export interface Factory {
   create(...args: any): any;
 }
 
-export interface Project {
+export interface Collection {
   create(size: number): Promise<void>;
 }
 
-export interface LayerDirectory {
+export interface Layer {
   create(name: string): void;
 }
 
-export interface LayerDirectoryMetadata {
+export interface LayerMetadata {
   path: string;
   fileType: FileType;
 }
 
-export interface ElementFile {
+export interface Element {
   create(name: string): void;
 }
 
-export interface ElementFileMetadata {
+export interface ElementMetadata {
   path: string;
   fileType: FileType;
   height: number;
@@ -29,9 +29,9 @@ export interface ElementFileMetadata {
   svgAttributes?: Record<string, string>;
 }
 
-export interface ElementFileConfig {
+export interface ElementConfig {
   path: string;
-  metadata: Partial<ElementFileMetadata>;
+  metadata: Partial<ElementMetadata>;
 }
 
 export interface TenkConfig {
@@ -41,5 +41,5 @@ export interface TenkConfig {
 export type FileType = "svg" | "png";
 
 export interface Attribute extends EngineAttribute {
-  metadata: ElementFileMetadata;
+  metadata: ElementMetadata;
 }

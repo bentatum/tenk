@@ -1,4 +1,4 @@
-import { Layer } from "@/Layer";
+import { Layer } from "@/entities/Layer";
 
 const cannotAccompanyFilter = (
   layer: Layer,
@@ -48,7 +48,7 @@ const cannotAccompanyFilter = (
 
       if (regexQuery) {
         return Boolean(
-          sl.selectedElement?.name.match(new RegExp(regexQuery, "g"))
+          sl.selectedElement?.name.match(new RegExp(regexQuery, "gi"))
         );
       }
 
