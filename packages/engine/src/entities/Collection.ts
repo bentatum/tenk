@@ -25,7 +25,7 @@ export class Collection implements Factory {
   create(
     layerConfigurations: LayerConfig[],
     {
-      brokenRuleThreshold = 100,
+      brokenRuleThreshold = 1000000,
       duplicateThreshold = 100,
       size = 10000,
     }: Options = {}
