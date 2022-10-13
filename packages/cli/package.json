@@ -21,7 +21,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@tenk/engine": "^0.2.0",
+    "@tenk/engine": "latest",
     "canvas": "^2.10.1",
     "cli-progress": "^3.11.2",
     "image-size": "^1.0.2",
