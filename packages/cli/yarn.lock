@@ -611,6 +611,14 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@tenk/engine@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@tenk/engine/-/engine-0.0.2.tgz#3d0aa40f8ef10efd2290f32408b044c4fd2c3cc0"
+  integrity sha512-AtQGiDN8DmDdRLX3Z3u5uuLmBCbDdPGMZhHFta6SjzTB3kRCpnW/MC7v0dUVJygXF1QaUcxikY7bAv0E9ymDnQ==
+  dependencies:
+    inversify "^6.0.1"
+    reflect-metadata "^0.1.13"
+
 "@types/babel__core@^7.1.14":
   version "7.1.19"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.19.tgz#7b497495b7d1b4812bdb9d02804d0576f43ee460"
