@@ -16,14 +16,14 @@ describe("Collection", () => {
       collection = CollectionFactory();
       collection.create([], {});
     });
-    it("has a default size value of 10k", () => {
+    test("size", () => {
       expect(collection.size).toBe(10000);
     });
-    it("has a default duplicate threshold of 100", () => {
+    test("duplicate threshold", () => {
       expect(collection.duplicateThreshold).toBe(100);
     });
-    it("has a default broken rule threshold of 100", () => {
-      expect(collection.brokenRuleThreshold).toBe(100);
+    test("broken rule threshold", () => {
+      expect(collection.brokenRuleThreshold).toBe(1000000);
     });
   });
   describe("options", () => {
