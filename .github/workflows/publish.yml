@@ -12,8 +12,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Fetch Latest
-        run: git fetch --no-tags --prune origin +refs/heads/main:refs/remotes/origin/main
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
