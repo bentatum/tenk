@@ -9,6 +9,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "test": "lerna run test --"
+    "test": "lerna run test --",
+    "version": "yarn && git stage yarn.lock"
   }
 }
