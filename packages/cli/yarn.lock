@@ -611,7 +611,7 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@tenk/engine@^0.2.0":
+"@tenk/engine@latest":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@tenk/engine/-/engine-0.2.0.tgz#5643a2465912a64a481a2caa3bbf5b363ff20f14"
   integrity sha512-rB+xxIX7SCJsXYoyXPIPx+4sRxoHGBW9JPkUoPA1Lr6EJswG889ZvtrIIA50mcZOUZIS/Aw/zRBsaSsPDF9lZA==
