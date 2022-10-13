@@ -6,14 +6,15 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
   coverageThreshold: {
     global: {
-      statements: 90,
-      branches: 82,
-      functions: 94,
-      lines: 89,
+      statements: 100,
+      branches: 100,
+      functions: 100,
+      lines: 100,
     },
   },
   coverageReporters: ["text-summary"],
   moduleNameMapper: {
+    "@/test/(.*)$": "<rootDir>/test/$1",
     "@/(.*)$": "<rootDir>/src/$1",
   },
 };

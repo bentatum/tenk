@@ -1,6 +1,7 @@
-import { Factory, LayerConfig } from "@/interfaces";
+import { Factory, LayerConfig, RuleTypes } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "./Element";
+import { Rules } from "./Rules";
 
 @injectable()
 export class Layer implements Factory {
@@ -15,7 +16,9 @@ export class Layer implements Factory {
 
   constructor(
     @inject("Factory<Element>")
-    public ElementFactory: () => Element
+    public ElementFactory: () => Element,
+    @inject("Rules")
+    public rules: Rules
   ) {}
 
   selectElement(): Layer {
@@ -59,5 +62,12 @@ export class Layer implements Factory {
     this.mustAccompany = mustAccompany;
     this.metadata = metadata;
     return this;
+  }
+
+  canBeSelected(selectedLayers: Layer[]) {
+    return (
+      this.rules.cannotAccompany(this, selectedLayers) &&
+      this.rules.mustAccompany(this, selectedLayers)
+    );
   }
 }

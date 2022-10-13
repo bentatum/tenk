@@ -1,5 +1,5 @@
 import { Container, interfaces } from "inversify";
-import { Collection, Layer, Element } from "./entities";
+import { Collection, Layer, Element, Rules } from "./entities";
 
 const container = new Container();
 
@@ -22,5 +22,7 @@ container
       return context.container.get<Element>("Element");
     };
   });
+
+container.bind("Rules").to(Rules);
 
 export { container };

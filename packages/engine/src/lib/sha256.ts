@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import * as crypto from "crypto";
 
 const sha256 = (message: any): string => {
   const shasum = crypto.createHash("sha256");

@@ -1,6 +1,6 @@
 import { Layer } from "./Layer";
 import { ElementConfig, Factory } from "../interfaces";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 
 @injectable()
 export class Element implements Factory {
@@ -11,12 +11,23 @@ export class Element implements Factory {
   mustAccompany?: string[];
   metadata?: Record<string, any>;
 
-  constructor() {}
+  constructor(
+    @inject("Factory<Layer>")
+    public LayerFactory: () => Layer
+  ) {}
 
-  create({ name, weight, cannotAccompany, mustAccompany, metadata }: ElementConfig) {
+  create({
+    name,
+    weight,
+    cannotAccompany,
+    mustAccompany,
+    metadata,
+    layers,
+  }: ElementConfig) {
     this.name = name;
     this.weight = typeof weight === "undefined" ? 1 : weight;
-    // this.layers = layers?.map((layer) => new Layer(layer)) || [];
+    this.layers =
+      layers?.map((layer) => this.LayerFactory().create(layer)) || [];
     this.cannotAccompany = cannotAccompany;
     this.mustAccompany = mustAccompany;
     this.metadata = metadata;

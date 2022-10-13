@@ -25,6 +25,7 @@ export interface LayerConfig {
 export interface Options {
   size?: number;
   duplicateThreshold?: number;
+  brokenRuleThreshold?: number;
 }
 
 export interface Collection {
@@ -43,3 +44,5 @@ export interface Attribute {
   value: string;
   metadata?: Record<string, any>;
 }
+
+export type RuleTypes = "mustAccompany" | "cannotAccompany";

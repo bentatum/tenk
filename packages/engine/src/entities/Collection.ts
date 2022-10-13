@@ -1,21 +1,19 @@
-import { inject, injectable } from "inversify";
-import { Layer } from "./Layer";
 import {
   Attribute,
   Factory,
   LayerConfig,
   Metadata,
   Options,
-  TransformAttributes,
 } from "@/interfaces";
-import cannotAccompanyFilter from "@/lib/cannotAccompanyFilter";
-import mustAccompanyFilter from "@/lib/mustAccompanyFilter";
+import { inject, injectable } from "inversify";
+import { Layer } from "./Layer";
 import sha256 from "@/lib/sha256";
 
 @injectable()
 export class Collection implements Factory {
   size: number;
   duplicateThreshold: number;
+  brokenRuleThreshold: number;
   layers: Layer[] = [];
   metadata: Metadata[];
 
@@ -26,13 +24,18 @@ export class Collection implements Factory {
 
   create(
     layerConfigurations: LayerConfig[],
-    { size = 10000, duplicateThreshold = 100 }: Options
+    {
+      brokenRuleThreshold = 100,
+      duplicateThreshold = 100,
+      size = 10000,
+    }: Options = {}
   ) {
     this.layers = layerConfigurations.map((layer) =>
       this.layerFactory().create(layer)
     );
+    this.brokenRuleThreshold = brokenRuleThreshold;
+    this.duplicateThreshold = duplicateThreshold;
     this.size = size;
-    this.duplicateThreshold = duplicateThreshold || 100;
     return this.generateMetadata();
   }
 
@@ -43,17 +46,18 @@ export class Collection implements Factory {
     });
   }
 
+  throwIfLayersBreakRules(layers: Layer[]) {
+    if (!layers.every((layer) => layer.canBeSelected(layers))) {
+      throw new Error("Broken rules");
+    }
+  }
+
   getRenderableLayers(layers: Layer[]): Layer[] {
     const renderableLayers = this.filterByOdds(layers)
       .map((layer) => layer.selectElement())
       .filter((layer) => layer.selectedElement);
 
-    if (
-      !renderableLayers.every(cannotAccompanyFilter) ||
-      !renderableLayers.every(mustAccompanyFilter)
-    ) {
-      throw new Error();
-    }
+    this.throwIfLayersBreakRules(renderableLayers);
 
     const childLayers: Layer[] = renderableLayers
       .map((layer) => layer.getChildLayers())
@@ -80,11 +84,14 @@ export class Collection implements Factory {
   }
 
   mapLayerAttributes(layer: Layer) {
+    if (!layer.selectedElement) {
+      throw new Error("Layer must have a selected element");
+    }
     const attr: Attribute = {
       trait_type: layer.name,
-      value: layer.selectedElement?.name,
+      value: layer.selectedElement.name,
     };
-    if (layer.selectedElement?.metadata) {
+    if (layer.selectedElement.metadata) {
       attr.metadata = layer.selectedElement.metadata;
     }
     return attr;
@@ -95,6 +102,7 @@ export class Collection implements Factory {
     const data: Metadata[] = [];
 
     let _duplicateThreshold = this.duplicateThreshold;
+    let _brokenRuleThreshold = this.brokenRuleThreshold;
 
     for (let tokenId = 0; tokenId < this.size; tokenId++) {
       let renderableLayers: Layer[] = [];
@@ -102,8 +110,14 @@ export class Collection implements Factory {
       try {
         renderableLayers = this.getRenderableLayers(this.layers);
       } catch {
-        tokenId -= 1;
-        continue;
+        if (_brokenRuleThreshold > 0) {
+          _brokenRuleThreshold--;
+          tokenId--;
+          continue;
+        } else {
+          // too many broken rules
+          break;
+        }
       }
 
       if (renderableLayers.length) {

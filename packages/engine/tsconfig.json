@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": ".",
     "target": "es5",
     "lib": ["es2019", "dom"],
-    "types": ["reflect-metadata"],
+    "types": ["reflect-metadata", "jest", "node"],
     "module": "CommonJS",
     "moduleResolution": "Node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["src/*"],
+      "@/test": ["test/*"]
     }
   }
 }
