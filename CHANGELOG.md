@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/bentatum/tenk/compare/v0.2.1...v0.2.2) (2022-10-13)
+
+
+### Bug Fixes
+
+* cli yarn lock ([#17](https://github.com/bentatum/tenk/issues/17)) ([8d2eb2d](https://github.com/bentatum/tenk/commit/8d2eb2dcb4af53ffb61410f0473401a0a908661a))
+
+
+
+
+
 ## 0.2.1 (2022-10-13)
 
 
