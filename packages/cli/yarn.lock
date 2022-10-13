@@ -611,10 +611,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@tenk/engine@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@tenk/engine/-/engine-0.0.2.tgz#3d0aa40f8ef10efd2290f32408b044c4fd2c3cc0"
-  integrity sha512-AtQGiDN8DmDdRLX3Z3u5uuLmBCbDdPGMZhHFta6SjzTB3kRCpnW/MC7v0dUVJygXF1QaUcxikY7bAv0E9ymDnQ==
+"@tenk/engine@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@tenk/engine/-/engine-0.2.0.tgz#5643a2465912a64a481a2caa3bbf5b363ff20f14"
+  integrity sha512-rB+xxIX7SCJsXYoyXPIPx+4sRxoHGBW9JPkUoPA1Lr6EJswG889ZvtrIIA50mcZOUZIS/Aw/zRBsaSsPDF9lZA==
   dependencies:
     inversify "^6.0.1"
     reflect-metadata "^0.1.13"
