@@ -10,6 +10,6 @@ const getArgs = (): [number] => {
 };
 
 (async () => {
-  const project = container.get<Collection>("Collection");
-  await project.create(...getArgs());
+  const collection = container.get<Collection>("Collection");
+  await collection.create(...getArgs());
 })();
