@@ -9,7 +9,6 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "test": "lerna run test --",
-    "typecheck": "lerna run typecheck"
+    "test": "lerna run test --"
   }
 }
