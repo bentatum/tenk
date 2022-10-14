@@ -1,8 +1,5 @@
 {
   "command": {
-    "publish": {
-      "registry": "https://npm.pkg.github.com"
-    },
     "version": {
       "conventionalCommits": true,
       "message": "chore(release): published by lerna"
