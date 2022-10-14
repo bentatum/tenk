@@ -98,7 +98,7 @@ export class Collection implements Factory {
   writeMetadata(metadata: Metadata[]) {
     fs.writeFileSync(
       `${buildDir}/metadata.json`,
-      JSON.stringify(metadata.map(this.mapMetadata))
+      JSON.stringify(metadata.map((md) => this.mapMetadata(md)))
     );
   }
 
