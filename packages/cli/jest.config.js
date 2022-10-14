@@ -17,5 +17,4 @@ module.exports = {
     "@/test/(.*)$": "<rootDir>/test/$1",
     "@/(.*)$": "<rootDir>/src/$1",
   },
-
 };

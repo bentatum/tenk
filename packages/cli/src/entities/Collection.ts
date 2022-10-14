@@ -36,6 +36,11 @@ export class Collection implements Factory {
       size: this.size,
     });
 
+    if (!metadata.length) {
+      console.log('No metadata generated. Check your layers for errors.');
+      return;
+    }
+
     const progressBar = new cliProgress.SingleBar(
       {
         format: "{bar} {value}/{total} {percentage}%",
