@@ -31,4 +31,7 @@ jobs:
       - name: "Version and publish"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-        run: yarn lerna publish --yes
+        run: |
+          git config user.name "Ben Tatum"
+          git config user.email "mail@benjtatum.com"
+          yarn lerna publish --yes
