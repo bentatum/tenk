@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/bentatum/tenk/compare/v0.3.0...v0.2.1) (2022-10-14)
+
+
+### Bug Fixes
+
+* version ([5c13c09](https://github.com/bentatum/tenk/commit/5c13c09fce94bcea47620bee17d49ae9c8b674ff))
+
+
+
+
+
 # 0.3.0 (2022-10-14)
 
 
