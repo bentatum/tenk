@@ -2,10 +2,10 @@ import fs from "fs";
 import { Attribute, Factory, TenkConfig } from "@/interfaces";
 import { injectable, inject } from "inversify";
 import { buildDir, cwd, layersDir } from "@/env";
-import { Layer } from "./Layer";
+import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
-import { SvgFile } from "./SvgFile";
-import { PngFile } from "./PngFile";
+import { SvgFile } from "../SvgFile";
+import { PngFile } from "../PngFile";
 import cliProgress from "cli-progress";
 
 @injectable()
