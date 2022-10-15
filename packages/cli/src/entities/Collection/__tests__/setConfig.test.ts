@@ -25,19 +25,18 @@ describe("Collection.setConfig", () => {
   it("checks the current working directory for tenk.config.js", () => {
     mockedFsExistsSync.mockReturnValue(true);
     const mockedConfig: TenkConfig = {
-      layers: [
-        {
-          name: "layer1",
+      layers: {
+        layer1: {
           mustAccompany: {
             "*": ["layer2"],
-          }
-        }
-      ],
+          },
+        },
+      },
     };
     collection.requireConfig = jest.fn().mockReturnValue(mockedConfig);
     collection.setConfig();
     expect(mockedFsExistsSync).toBeCalledWith("/test/tenk.config.js");
     expect(collection.requireConfig).toBeCalledTimes(1);
-    expect(collection.config).toBeDefined();
+    expect(collection.config).toEqual(mockedConfig);
   });
 });

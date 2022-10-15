@@ -4,11 +4,11 @@ import { createMock } from "ts-jest-mock";
 import fs from "fs";
 
 jest.mock("@/env", () => ({
-  configPath: "/test/tenk.config.js",
+  layersDir: "/layers",
 }));
 
 jest.mock("fs");
-const mockedFsExistsSync = createMock(fs.existsSync);
+const mockedFsReaddirSync = createMock(fs.readdirSync);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -21,11 +21,37 @@ describe("Collection.getLayerDirNames", () => {
     collection = container.get<Collection>("Collection");
   });
 
-  it("checks the current working directory for tenk.config.js", () => {
-    // mockedFsExistsSync.mockReturnValue(true);
-    // collection.requireConfig = jest.fn();
+  it("gets the layer directory names", () => {
+    mockedFsReaddirSync.mockReturnValue([
+      {
+        name: "Background",
+        isDirectory: () => true,
+      },
+      {
+        name: "Foreground",
+        isDirectory: () => true,
+      },
+    ] as any);
     const result = collection.getLayerDirNames();
-    // expect(mockedFsExistsSync).toBeCalledWith("/test/tenk.config.js");
-    // expect(collection.requireConfig).toBeCalledTimes(1);
+    expect(mockedFsReaddirSync).toBeCalledWith("/layers", {
+      withFileTypes: true,
+    });
+    expect(result).toEqual(["Background", "Foreground"]);
+  });
+
+  it("logs an error and exits if the layers directory is missing", () => {
+    mockedFsReaddirSync.mockImplementation(() => {
+      throw new Error("ENOENT");
+    });
+    const logSpy = jest.spyOn(console, "warn").mockImplementation();
+    const exitSpy = jest.spyOn(process, "exit").mockImplementation();
+    collection.getLayerDirNames();
+    expect(mockedFsReaddirSync).toBeCalledWith("/layers", {
+      withFileTypes: true,
+    });
+    expect(logSpy).toBeCalledWith(
+      "No layers directory found. Please create one."
+    );
+    expect(exitSpy).toBeCalled();
   });
 });

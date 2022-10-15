@@ -35,7 +35,7 @@ export interface ElementConfig {
 }
 
 export interface TenkConfig {
-  layers?: Record<string, LayerConfig>;
+  layers?: Record<string, Partial<LayerConfig>>;
 }
 
 export type FileType = "svg" | "png";
