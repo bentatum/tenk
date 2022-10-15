@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Attribute, Factory, TenkConfig } from "@/interfaces";
 import { injectable, inject } from "inversify";
-import { buildDir, cwd, layersDir } from "@/env";
+import { buildDir, configPath, cwd, layersDir } from "@/env";
 import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
@@ -37,7 +37,7 @@ export class Collection implements Factory {
     });
 
     if (!metadata.length) {
-      console.log('No metadata generated. Check your layers for errors.');
+      console.log("No metadata generated. Check your layers for errors.");
       return;
     }
 
@@ -109,12 +109,13 @@ export class Collection implements Factory {
       .map((dirent) => dirent.name);
   }
 
+  requireConfig() {
+    return require(configPath);
+  }
+
   setConfig() {
-    const configPath = fs
-      .readdirSync(cwd)
-      .find((file) => file.includes("tenk.config"));
-    if (configPath) {
-      this.config = require(`${cwd}/${configPath}`);
+    if (fs.existsSync(configPath)) {
+      this.config = this.requireConfig();
     }
   }
 

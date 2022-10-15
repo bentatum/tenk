@@ -11,13 +11,6 @@ jest.mock("fs");
 const mockedFsExistsSync = createMock(fs.existsSync);
 const mockedFsRmSync = createMock(fs.rmSync);
 
-jest.mock("image-size", () =>
-  jest.fn().mockReturnValue({
-    width: 100,
-    height: 100,
-  })
-);
-
 beforeEach(() => {
   jest.clearAllMocks();
 });
