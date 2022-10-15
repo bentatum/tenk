@@ -1,6 +1,6 @@
 {
   "name": "@tenk/engine",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "main": "dist/index.js",
   "author": "Benjamin Tatum",
   "license": "MIT",
