@@ -13,7 +13,7 @@ export interface ElementConfig {
 
 export interface LayerConfig {
   name: string;
-  elements: ElementConfig[];
+  elements?: ElementConfig[];
   odds?: number;
   bypassDNA?: boolean;
   mustAccompany?: Record<string, string[]>;

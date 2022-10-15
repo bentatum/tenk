@@ -34,7 +34,7 @@ export class Layer implements Factory {
     this.metadata = { ...this.metadata, ...data };
   }
 
-  applyConfig(config: LayerConfig) {
+  applyConfig(config: Partial<LayerConfig>) {
     this.odds = config.odds || this.odds;
     this.mustAccompany = config.mustAccompany || this.mustAccompany;
     this.cannotAccompany = config.cannotAccompany || this.cannotAccompany;

@@ -1,4 +1,5 @@
 import { Collection } from "@/entities";
+import { TenkConfig } from "@/interfaces";
 import { container } from "@/inversify.config";
 import { createMock } from "ts-jest-mock";
 import fs from "fs";
@@ -23,9 +24,19 @@ describe("Collection.setConfig", () => {
 
   it("checks the current working directory for tenk.config.js", () => {
     mockedFsExistsSync.mockReturnValue(true);
-    collection.requireConfig = jest.fn();
+    const mockedConfig: TenkConfig = {
+      layers: {
+        layer1: {
+          mustAccompany: {
+            "*": ["layer2"],
+          },
+        },
+      },
+    };
+    collection.requireConfig = jest.fn().mockReturnValue(mockedConfig);
     collection.setConfig();
     expect(mockedFsExistsSync).toBeCalledWith("/test/tenk.config.js");
     expect(collection.requireConfig).toBeCalledTimes(1);
+    expect(collection.config).toEqual(mockedConfig);
   });
 });

@@ -103,10 +103,15 @@ export class Collection implements Factory {
   }
 
   getLayerDirNames(): string[] {
-    return fs
-      .readdirSync(layersDir, { withFileTypes: true })
-      .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => dirent.name);
+    try {
+      return fs
+        .readdirSync(layersDir, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+    } catch (error) {
+      console.warn("No layers directory found. Please create one.");
+      process.exit();
+    }
   }
 
   requireConfig() {
