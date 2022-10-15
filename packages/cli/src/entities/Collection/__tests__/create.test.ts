@@ -17,7 +17,6 @@ jest.mock("@/env", () => ({
 }));
 
 jest.mock("fs", () => ({
-  ...jest.requireActual("fs"),
   readdirSync: jest.fn().mockReturnValue([
     {
       name: "element1.svg",
