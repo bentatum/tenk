@@ -25,4 +25,4 @@ jobs:
       - name: Test
         run: yarn test
       - name: Generate coverage badges
-        run: yarn generate-coverage-badges
+        run: yarn make-badges
