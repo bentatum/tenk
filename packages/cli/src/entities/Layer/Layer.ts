@@ -8,7 +8,7 @@ import {
   TenkConfig,
 } from "@/interfaces";
 import { inject, injectable } from "inversify";
-import { Element } from "./Element";
+import { Element } from "../Element";
 import { LayerConfig } from "@tenk/engine";
 
 @injectable()

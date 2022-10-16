@@ -1,5 +1,8 @@
 {
   "command": {
+    "run": {
+      "npmClient": "yarn"
+    },
     "version": {
       "conventionalCommits": true,
       "message": "chore(release): published by lerna"

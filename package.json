@@ -1,6 +1,10 @@
 {
-  "name": "root",
-  "private": true,
+  "name": "tenk",
+  "author": {
+    "name": "Ben Tatum",
+    "email": "mail@benjtatum.com",
+    "url": "http://benjtatum.com"
+  },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.1.0",
     "husky": "^8.0.1",
