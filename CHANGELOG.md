@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/bentatum/tenk/compare/v0.4.0...v0.4.1) (2022-10-16)
+
+
+### Bug Fixes
+
+* process exit if metadata is empty ([#35](https://github.com/bentatum/tenk/issues/35)) ([cfd9aa9](https://github.com/bentatum/tenk/commit/cfd9aa9dd9dbe9d3c695d3a60d0133b774d15af6))
+
+
+
+
+
 # [0.4.0](https://github.com/bentatum/tenk/compare/v0.3.4...v0.4.0) (2022-10-15)
 
 
