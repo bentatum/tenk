@@ -15,6 +15,7 @@ export class Element implements Factory {
 
   updateMetadata(data: Partial<ElementMetadata>) {
     this.metadata = { ...this.metadata, ...data };
+    
   }
 
   setDimensions() {
