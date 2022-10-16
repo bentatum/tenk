@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn test && yarn make-badges && git add "README.md"
+yarn build && yarn test && npx lint-staged
