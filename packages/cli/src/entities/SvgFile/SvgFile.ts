@@ -6,7 +6,7 @@ import { injectable } from "inversify";
 @injectable()
 export class SvgFile implements Factory {
   getHtmlElement(attribute: Attribute) {
-    return parseHtml(fs.readFileSync(`${attribute.metadata.path}`).toString());
+    return parseHtml(fs.readFileSync(attribute.metadata.path).toString());
   }
 
   getLayerGroupElement(attribute: Attribute) {
@@ -26,25 +26,25 @@ export class SvgFile implements Factory {
   }
 
   create(attributes: Attribute[], renderPath: string) {
-    const svgGroupElements = this.getSvgGroupElements(attributes);
+    const viewBox = this.getViewBox(attributes[0]);
     const svgRootElement = parseHtml(
       `<svg
         version="1.1"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="${this.getViewBox(attributes[0])}"
+        viewBox="${viewBox}"
         height="${attributes[0].metadata.height}"
         width="${attributes[0].metadata.width}">
       </svg>`
     );
     const svgElement = svgRootElement.querySelector("svg");
+    const svgGroupElements = this.getSvgGroupElements(attributes);
     svgGroupElements.forEach((g, i) => {
       if (attributes[i].metadata.svgAttributes) {
         g.setAttributes(attributes[i].metadata.svgAttributes);
       }
-      svgElement?.appendChild(g);
+      svgElement.appendChild(g);
     });
-    const svgFile = String(svgElement?.toString());
-    fs.writeFileSync(renderPath, svgFile);
+    fs.writeFileSync(renderPath, svgElement.toString());
   }
 }

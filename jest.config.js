@@ -9,10 +9,10 @@ module.exports = {
   coverageReporters: ["json-summary", "text-summary"],
   coverageThreshold: {
     global: {
-      statements: 92,
-      branches: 88,
-      functions: 86,
-      lines: 86,
+      statements: 94,
+      branches: 96,
+      functions: 88,
+      lines: 94,
     },
   },
 };

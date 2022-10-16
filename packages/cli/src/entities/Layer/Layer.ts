@@ -40,6 +40,7 @@ export class Layer implements Factory {
     this.cannotAccompany = config.cannotAccompany || this.cannotAccompany;
     this.bypassDNA = config.bypassDNA || this.bypassDNA;
     this.svgAttributes = config.svgAttributes || this.svgAttributes;
+    
   }
 
   create(name: string, config?: TenkConfig) {
