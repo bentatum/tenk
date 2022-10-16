@@ -20,22 +20,16 @@ describe("SvgFile.getViewBox", () => {
         getAttribute: jest.fn().mockReturnValue("0 0 100 100"),
       }),
     } as any);
-    const elements = svgFile.getSvgGroupElements([
-      {
-        trait_type: "body",
-        value: "normal",
-        metadata: {
-          height: 100,
-          width: 100,
-          path: "/test/path",
-          fileType: "svg",
-        },
+    const viewBox = svgFile.getViewBox({
+      trait_type: "body",
+      value: "normal",
+      metadata: {
+        height: 100,
+        width: 100,
+        path: "/test/path",
+        fileType: "svg",
       },
-    ]);
-    expect(elements).toEqual([
-      {
-        getAttribute: expect.any(Function),
-      },
-    ]);
+    });
+    expect(viewBox).toBe("0 0 100 100");
   });
 });
