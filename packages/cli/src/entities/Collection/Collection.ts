@@ -114,13 +114,9 @@ export class Collection implements Factory {
     }
   }
 
-  requireConfig() {
-    return require(configPath);
-  }
-
   setConfig() {
     if (fs.existsSync(configPath)) {
-      this.config = this.requireConfig();
+      this.config = require(configPath);
     }
   }
 

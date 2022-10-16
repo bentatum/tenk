@@ -11,6 +11,17 @@ jest.mock("@/env", () => ({
 jest.mock("fs");
 const mockedFsExistsSync = createMock(fs.existsSync);
 
+const mockedConfig: TenkConfig = {
+  layers: {
+    layer1: {
+      mustAccompany: {
+        "*": ["layer2"],
+      },
+    },
+  },
+};
+jest.mock("/test/tenk.config.js", () => mockedConfig, { virtual: true });
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
@@ -22,21 +33,17 @@ describe("Collection.setConfig", () => {
     collection = container.get<Collection>("Collection");
   });
 
-  it("checks the current working directory for tenk.config.js", () => {
+  it("checks for $cwd/tenk.config.js", () => {
     mockedFsExistsSync.mockReturnValue(true);
-    const mockedConfig: TenkConfig = {
-      layers: {
-        layer1: {
-          mustAccompany: {
-            "*": ["layer2"],
-          },
-        },
-      },
-    };
-    collection.requireConfig = jest.fn().mockReturnValue(mockedConfig);
     collection.setConfig();
     expect(mockedFsExistsSync).toBeCalledWith("/test/tenk.config.js");
-    expect(collection.requireConfig).toBeCalledTimes(1);
     expect(collection.config).toEqual(mockedConfig);
+  });
+
+  it("doesn't set config if it doesn't exist", () => {
+    mockedFsExistsSync.mockReturnValue(false);
+    collection.setConfig();
+    expect(mockedFsExistsSync).toBeCalledWith("/test/tenk.config.js");
+    expect(collection.config).toBeUndefined();
   });
 });
