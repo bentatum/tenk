@@ -47,12 +47,12 @@ export class Layer implements Factory {
     this.updateMetadata({
       path: `${layersDir}/${name}`,
     });
-    if (config) {
-      const starConfig = config.layers?.["*"];
+    if (config && config.layers) {
+      const starConfig = config.layers["*"];
       if (starConfig) {
         this.applyConfig(starConfig);
       }
-      const layerConfig = config.layers?.[this.name.toLowerCase()];
+      const layerConfig = config.layers[this.name.toLowerCase()];
       if (layerConfig) {
         this.applyConfig(layerConfig);
       }

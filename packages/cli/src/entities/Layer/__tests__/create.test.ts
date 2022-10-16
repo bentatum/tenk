@@ -32,28 +32,32 @@ beforeEach(() => {
 });
 
 describe("Layer.create", () => {
-  const name = "01_test#50";
-  const layer = LayerFactory();
-  layer.updateMetadata = jest.fn();
-  layer.setElements = jest.fn();
+  let layer: Layer;
+  const layerName = "01_test#50";
+
+  beforeEach(() => {
+    layer = LayerFactory();
+    layer.updateMetadata = jest.fn();
+    layer.setElements = jest.fn();
+  });
 
   describe("without config", () => {
     beforeEach(() => {
-      layer.create(name);
+      layer.create(layerName);
     });
 
     it("returns the layer", () => {
       expect(layer).toBeInstanceOf(Layer);
     });
     it("set the name", () => {
-      expect(layer.name).toBe('test');
+      expect(layer.name).toBe("test");
     });
     it("sets the odds", () => {
       expect(layer.odds).toBe(0.5);
-    })
+    });
     it("calls updateMetadata", () => {
       expect(layer.updateMetadata).toBeCalledWith({
-        path: `${layersDir}/${name}`,
+        path: `${layersDir}/${layerName}`,
       });
     });
     it("calls setElements", () => {
@@ -75,11 +79,33 @@ describe("Layer.create", () => {
 
     beforeEach(() => {
       layer.applyConfig = jest.fn();
-      layer.create(name, config);
+      layer.create(layerName, config);
     });
 
     it("calls applyConfig with layer config", () => {
       expect(layer.applyConfig).toBeCalledWith(config.layers.test);
+    });
+  });
+
+  describe("with * config", () => {
+    const config = {
+      layers: {
+        "*": {
+          odds: 0.5,
+          mustAccompany: {
+            "*": ["some other layer"],
+          },
+        },
+      },
+    };
+
+    beforeEach(() => {
+      layer.applyConfig = jest.fn();
+      layer.create(layerName, config);
+    });
+
+    it("calls applyConfig with layer config", () => {
+      expect(layer.applyConfig).toBeCalledWith(config.layers["*"]);
     });
   });
 });
