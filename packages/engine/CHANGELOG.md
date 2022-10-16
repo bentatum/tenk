@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://github.com/bentatum/tenk/compare/v0.4.3...v0.4.4) (2022-10-16)
+
+**Note:** Version bump only for package @tenk/engine
+
+
+
+
+
 # [0.4.0](https://github.com/bentatum/tenk/compare/v0.3.4...v0.4.0) (2022-10-15)
 
 
