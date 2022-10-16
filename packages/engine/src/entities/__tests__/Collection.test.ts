@@ -12,6 +12,7 @@ const ElementFactory = () => container.get<Element>("Element");
 describe("Collection", () => {
   describe("options defaults", () => {
     let collection: Collection;
+
     beforeEach(() => {
       collection = CollectionFactory();
       collection.create([], {});
