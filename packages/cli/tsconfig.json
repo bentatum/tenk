@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "lib": ["es2019", "dom"],
-    "types": ["reflect-metadata", "jest", "node"],
     "moduleResolution": "Node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
