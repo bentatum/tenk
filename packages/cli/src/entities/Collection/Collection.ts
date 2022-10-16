@@ -37,8 +37,8 @@ export class Collection implements Factory {
     });
 
     if (!metadata.length) {
-      console.log("No metadata generated. Check your layers for errors.");
-      return;
+      console.warn("No metadata generated. Check your layers for errors.");
+      return process.exit();
     }
 
     const progressBar = new cliProgress.SingleBar(
