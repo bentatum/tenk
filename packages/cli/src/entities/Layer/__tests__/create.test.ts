@@ -2,11 +2,23 @@ import { container } from "@/inversify.config";
 import { createMock } from "ts-jest-mock";
 import { Layer } from "../Layer";
 import fs from "fs";
+import { layersDir } from "@/env";
 
 const LayerFactory = () => container.get<Layer>("Layer");
 
 jest.mock("fs");
 const mockedFsReaddirSync = createMock(fs.readdirSync);
+
+mockedFsReaddirSync.mockReturnValue([
+  {
+    name: "element1.svg",
+    isFile: () => true,
+  },
+  {
+    name: "element2.svg",
+    isFile: () => true,
+  },
+] as any);
 
 jest.mock("image-size", () =>
   jest.fn().mockReturnValue({
@@ -15,28 +27,59 @@ jest.mock("image-size", () =>
   })
 );
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe("Layer.create", () => {
-  it("creates a layer", () => {
-    mockedFsReaddirSync.mockReturnValue([
-      {
-        name: "element1.svg",
-        isFile: () => true,
-      },
-      {
-        name: "element2.svg",
-        isFile: () => true,
-      },
-    ] as any);
-    const layer = LayerFactory()
-    layer.parseFileName = jest.fn();
-    layer.updateMetadata = jest.fn();
-    layer.create("test");
-    expect(layer).toBeInstanceOf(Layer);
-    expect(layer.parseFileName).toBeCalled();
-    expect(layer.updateMetadata).toBeCalled()
+  const name = "01_test#50";
+  const layer = LayerFactory();
+  layer.updateMetadata = jest.fn();
+  layer.setElements = jest.fn();
+
+  describe("without config", () => {
+    beforeEach(() => {
+      layer.create(name);
+    });
+
+    it("returns the layer", () => {
+      expect(layer).toBeInstanceOf(Layer);
+    });
+    it("set the name", () => {
+      expect(layer.name).toBe('test');
+    });
+    it("sets the odds", () => {
+      expect(layer.odds).toBe(0.5);
+    })
+    it("calls updateMetadata", () => {
+      expect(layer.updateMetadata).toBeCalledWith({
+        path: `${layersDir}/${name}`,
+      });
+    });
+    it("calls setElements", () => {
+      expect(layer.setElements).toHaveBeenCalled();
+    });
   });
 
-  // describe("config", () => {
+  describe("with layer config", () => {
+    const config = {
+      layers: {
+        test: {
+          odds: 0.5,
+          mustAccompany: {
+            "*": ["some other layer"],
+          },
+        },
+      },
+    };
 
-  // })
+    beforeEach(() => {
+      layer.applyConfig = jest.fn();
+      layer.create(name, config);
+    });
+
+    it("calls applyConfig with layer config", () => {
+      expect(layer.applyConfig).toBeCalledWith(config.layers.test);
+    });
+  });
 });
