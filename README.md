@@ -1,7 +1,7 @@
-![Statements](https://img.shields.io/badge/statements-92.41%25-brightgreen.svg?style=flat)
-![Branches](https://img.shields.io/badge/branches-88.98%25-yellow.svg?style=flat)
-![Functions](https://img.shields.io/badge/functions-86.02%25-yellow.svg?style=flat)
-![Lines](https://img.shields.io/badge/lines-92.14%25-brightgreen.svg?style=flat)
+![Statements](https://img.shields.io/badge/statements-94.56%25-brightgreen.svg?style=flat)
+![Branches](https://img.shields.io/badge/branches-96.36%25-brightgreen.svg?style=flat)
+![Functions](https://img.shields.io/badge/functions-88.17%25-yellow.svg?style=flat)
+![Lines](https://img.shields.io/badge/lines-94.51%25-brightgreen.svg?style=flat)
 
 # tenk
 

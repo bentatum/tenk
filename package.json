@@ -19,6 +19,7 @@
     "build": "nx run-many --target=build",
     "test:packages": "nx run-many --target=test --",
     "test": "jest",
-    "make-badges": "istanbul-badges-readme --ci"
+    "make-badges": "istanbul-badges-readme",
+    "make-badges:ci": "istanbul-badges-readme --ci"
   }
 }
