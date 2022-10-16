@@ -19,8 +19,10 @@ jobs:
       - name: Install Root Dependencies
         run: yarn install --frozen-lockfile
       - name: Install Pacakge Dependencies
-        run: yarn lerna bootstrap
+        run: yarn bootstrap
       - name: Build
-        run: yarn lerna exec yarn build
+        run: yarn build
       - name: Test
-        run: yarn lerna exec yarn test
+        run: yarn test
+      - name: Generate coverage badges
+        run: yarn make-badges
