@@ -2,9 +2,6 @@ import { FileType } from "@/interfaces";
 import { container } from "@/inversify.config";
 import { SvgFile } from "../SvgFile";
 
-// jest.mock("fs");
-// const mockedFsReadFileSync = createMock(fs.readFileSync);
-
 const SvgFileFactory = () => container.get<SvgFile>("SvgFile");
 
 beforeEach(() => {
