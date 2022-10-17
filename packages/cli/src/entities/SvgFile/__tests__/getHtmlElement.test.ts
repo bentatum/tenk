@@ -1,5 +1,10 @@
 import { container } from "@/inversify.config";
 import { SvgFile } from "@/entities/SvgFile";
+import parseHtml from "node-html-parser";
+import { createMock } from "ts-jest-mock";
+
+jest.mock("node-html-parser");
+const mockedParseHtml = createMock(parseHtml);
 
 const SvgFileFactory = () => container.get<SvgFile>("SvgFile");
 
@@ -7,20 +12,18 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe("SvgFile.getViewBox", () => {
+describe("SvgFile.getHtmlElement", () => {
   let svgFile: SvgFile;
 
   beforeEach(() => {
     svgFile = SvgFileFactory();
   });
 
-  it("should return the viewBox from the svg", () => {
-    svgFile.getHtmlElement = jest.fn().mockReturnValue({
-      querySelector: jest.fn().mockReturnValue({
-        getAttribute: jest.fn().mockReturnValue("0 0 100 100"),
-      }),
+  it("should call node-html-parser with the attribute file", () => {
+    svgFile.readAttributeFile = jest.fn().mockReturnValue({
+      toString: jest.fn().mockReturnValue("test"),
     } as any);
-    const viewBox = svgFile.getViewBox({
+    svgFile.getHtmlElement({
       trait_type: "body",
       value: "normal",
       metadata: {
@@ -30,6 +33,6 @@ describe("SvgFile.getViewBox", () => {
         fileType: "svg",
       },
     });
-    expect(viewBox).toBe("0 0 100 100");
+    expect(mockedParseHtml).toBeCalledWith("test");
   });
 });

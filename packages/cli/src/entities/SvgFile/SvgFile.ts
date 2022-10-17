@@ -5,8 +5,12 @@ import { injectable } from "inversify";
 
 @injectable()
 export class SvgFile implements Factory {
+  readAttributeFile(attribute: Attribute) {
+    return fs.readFileSync(attribute.metadata.path);
+  }
+
   getHtmlElement(attribute: Attribute) {
-    return parseHtml(fs.readFileSync(attribute.metadata.path).toString());
+    return parseHtml(this.readAttributeFile(attribute).toString());
   }
 
   getLayerGroupElement(attribute: Attribute) {
