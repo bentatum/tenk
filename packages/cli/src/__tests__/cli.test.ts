@@ -15,11 +15,12 @@ beforeEach(() => {
 describe("main", () => {
   it("should call collection.create", () => {
     const mockedSize = 10;
-    mockedArgv.mockReturnValue([mockedSize]);
+    const mockedFormats = "svg";
+    mockedArgv.mockReturnValue([mockedSize, mockedFormats]);
     const mockedCreate = jest.fn();
     mockedContainerGet.mockReturnValue({ create: mockedCreate } as any);
     require("@/cli");
     expect(mockedContainerGet).toBeCalledWith("Collection");
-    expect(mockedCreate).toBeCalledWith(mockedSize);
+    expect(mockedCreate).toBeCalledWith(mockedSize, mockedFormats);
   });
 });
