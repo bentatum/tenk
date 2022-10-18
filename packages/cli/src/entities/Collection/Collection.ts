@@ -110,7 +110,7 @@ export class Collection implements Factory {
         .map((dirent) => dirent.name);
     } catch (error) {
       console.warn("No layers directory found. Please create one.");
-      process.exit();
+      process.exitCode = 1;
     }
   }
 

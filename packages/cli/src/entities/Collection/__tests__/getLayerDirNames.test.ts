@@ -44,7 +44,6 @@ describe("Collection.getLayerDirNames", () => {
       throw new Error("ENOENT");
     });
     const logSpy = jest.spyOn(console, "warn").mockImplementation();
-    const exitSpy = jest.spyOn(process, "exit").mockImplementation();
     collection.getLayerDirNames();
     expect(mockedFsReaddirSync).toBeCalledWith("/layers", {
       withFileTypes: true,
@@ -52,6 +51,6 @@ describe("Collection.getLayerDirNames", () => {
     expect(logSpy).toBeCalledWith(
       "No layers directory found. Please create one."
     );
-    expect(exitSpy).toBeCalled();
+    expect(process.exitCode).toBe(1);
   });
 });

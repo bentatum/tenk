@@ -75,10 +75,6 @@ describe("Collection.create", () => {
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      collection.LayerFactory = jest.fn().mockReturnValue({
-        create: jest.fn().mockReturnThis(),
-        getFileType: jest.fn().mockReturnValue("svg"),
-      });
       collection.layers = [
         LayerFactory().create("layer1"),
         LayerFactory().create("layer2"),
@@ -160,10 +156,6 @@ describe("Collection.create", () => {
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      collection.LayerFactory = jest.fn().mockReturnValue({
-        create: jest.fn().mockReturnThis(),
-        getFileType: jest.fn().mockReturnValue("svg"),
-      });
       collection.layers = [
         LayerFactory().create("layer1"),
         LayerFactory().create("layer2"),
