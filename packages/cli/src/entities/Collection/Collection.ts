@@ -24,7 +24,7 @@ export class Collection implements Factory {
     public pngFile: PngFile
   ) {}
 
-  async create(size: number) {
+  async create(size: number, formats?: string) {
     this.setupWorkspace();
     this.setConfig();
     this.size = size;
@@ -51,10 +51,12 @@ export class Collection implements Factory {
 
     progressBar.start(metadata.length, 0);
 
-    this.pngFile.setupCanvas(
-      metadata[0].attributes[0].metadata.height,
-      metadata[0].attributes[0].metadata.width
-    );
+    if (!formats || formats.includes("png")) {
+      this.pngFile.setupCanvas(
+        metadata[0].attributes[0].metadata.height,
+        metadata[0].attributes[0].metadata.width
+      );
+    }
 
     for (let i = 0; i < metadata.length; i++) {
       if (this.fileType === FileType.SVG) {
@@ -64,9 +66,17 @@ export class Collection implements Factory {
         const pngPath = `${buildDir}/png/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
         this.svgFile.create(attributes, svgPath);
-        // then create the png
-        await this.pngFile.create(attributes, pngPath, svgPath);
+        if (!formats || formats.includes("png")) {
+          await this.pngFile.create(attributes, pngPath, svgPath);
+        }
       } else if (this.fileType === FileType.PNG) {
+        if (formats && formats.includes("svg")) {
+          const warning =
+            "Your layers are png files. SVG files cannot not be generated.";
+          console.warn(warning);
+          process.exitCode = 1;
+          return;
+        }
         const pngPath = `${buildDir}/png/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
         await this.pngFile.create(attributes, pngPath);
