@@ -7,11 +7,9 @@ container.bind("Collection").to(Collection);
 container.bind<Layer>("Layer").to(Layer);
 container
   .bind<interfaces.Factory<Layer>>("Factory<Layer>")
-  .toFactory<Layer>((context: interfaces.Context) => {
-    return () => {
-      return context.container.get<Layer>("Layer");
-    };
-  });
+  .toFactory<Layer>(
+    (context: interfaces.Context) => () => context.container.get<Layer>("Layer")
+  );
 
 container.bind<Element>("Element").to(Element);
 container

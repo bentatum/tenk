@@ -5,7 +5,7 @@ import { buildDir, configPath, cwd, layersDir } from "@/env";
 import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
-import { PngFile } from "../PngFile";
+import { PngFile } from "../PngFile/PngFile";
 import cliProgress from "cli-progress";
 
 @injectable()
@@ -110,7 +110,7 @@ export class Collection implements Factory {
         .map((dirent) => dirent.name);
     } catch (error) {
       console.warn("No layers directory found. Please create one.");
-      process.exit();
+      process.exitCode = 1;
     }
   }
 
