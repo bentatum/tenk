@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/bentatum/tenk/compare/v0.4.9...v0.5.0) (2022-10-18)
+
+
+### Features
+
+* support png projects ([#46](https://github.com/bentatum/tenk/issues/46)) ([0120276](https://github.com/bentatum/tenk/commit/0120276ad4e56be613a691534a8b26835b96ee1b))
+
+
+
+
+
 ## [0.4.9](https://github.com/bentatum/tenk/compare/v0.4.8...v0.4.9) (2022-10-18)
 
 **Note:** Version bump only for package tenk
