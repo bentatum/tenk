@@ -17,7 +17,7 @@ describe("SvgFile.getLayerGroupElement", () => {
       height: 100,
       width: 100,
       path: "/test/path",
-      fileType: "svg" as FileType,
+      fileType: FileType.SVG,
     },
   };
   let mockedQuerySelector: jest.Mock;

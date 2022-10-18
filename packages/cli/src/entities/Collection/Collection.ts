@@ -1,5 +1,5 @@
 import fs from "fs";
-import { Attribute, Factory, TenkConfig } from "@/interfaces";
+import { Attribute, Factory, FileType, TenkConfig } from "@/interfaces";
 import { injectable, inject } from "inversify";
 import { buildDir, configPath, cwd, layersDir } from "@/env";
 import { Layer } from "../Layer";
@@ -13,6 +13,7 @@ export class Collection implements Factory {
   size: number;
   layers: Layer[];
   config?: TenkConfig;
+  fileType: FileType;
 
   constructor(
     @inject("Factory<Layer>")
@@ -31,7 +32,7 @@ export class Collection implements Factory {
     this.layers = folders.map((name) =>
       this.LayerFactory().create(name, this.config)
     );
-    const fileType = this.layers[0].getFileType();
+    this.fileType = this.layers[0].getFileType();
     const metadata = tenk(this.layers, {
       size: this.size,
     });
@@ -56,7 +57,7 @@ export class Collection implements Factory {
     );
 
     for (let i = 0; i < metadata.length; i++) {
-      if (fileType === "svg") {
+      if (this.fileType === FileType.SVG) {
         // if file type is svg, create an svg first
         // so we can apply top level user defined attributes
         const svgPath = `${buildDir}/svg/${i}.svg`;
@@ -65,6 +66,10 @@ export class Collection implements Factory {
         this.svgFile.create(attributes, svgPath);
         // then create the png
         await this.pngFile.create(attributes, pngPath, svgPath);
+      } else if (this.fileType === FileType.PNG) {
+        const pngPath = `${buildDir}/png/${i}.png`;
+        const attributes = metadata[i].attributes as Attribute[];
+        await this.pngFile.create(attributes, pngPath);
       }
       this.writeSingleMetadata(metadata[i], i);
       progressBar.increment();

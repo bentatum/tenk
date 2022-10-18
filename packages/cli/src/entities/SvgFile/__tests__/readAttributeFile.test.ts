@@ -2,6 +2,7 @@ import { createMock } from "ts-jest-mock";
 import fs from "fs";
 import { container } from "@/inversify.config";
 import { SvgFile } from "../SvgFile";
+import { FileType } from "@/interfaces";
 
 jest.mock("fs");
 const mockedFsReadFileSync = createMock(fs.readFileSync);
@@ -19,7 +20,7 @@ describe("SvgFile.readAttributeFile", () => {
         height: 100,
         width: 100,
         path: "/test/path",
-        fileType: "svg",
+        fileType: FileType.SVG,
       },
     });
     expect(mockedFsReadFileSync).toBeCalledWith("/test/path");

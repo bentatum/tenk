@@ -29,7 +29,7 @@ describe("PngFile.create", () => {
         path: "path/to/file.png",
         width: 100,
         height: 100,
-        fileType: "png" as FileType,
+        fileType: FileType.PNG,
       },
     },
     {
@@ -39,7 +39,7 @@ describe("PngFile.create", () => {
         path: "path/to/file.png",
         width: 100,
         height: 100,
-        fileType: "png" as FileType,
+        fileType: FileType.PNG,
       },
     },
   ];

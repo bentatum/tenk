@@ -1,13 +1,13 @@
 import sizeOf from "image-size";
 import { injectable } from "inversify";
-import { ElementConfig, ElementMetadata, Factory } from "@/interfaces";
+import { ElementConfig, ElementMetadata, Factory, FileType } from "@/interfaces";
 
 @injectable()
 export class Element implements Factory {
   name: string;
 
   metadata: ElementMetadata = {
-    fileType: "png",
+    fileType: FileType.PNG,
     path: "",
     height: 0,
     width: 0,

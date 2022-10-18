@@ -38,7 +38,10 @@ export interface TenkConfig {
   layers?: Record<string, Partial<LayerConfig>>;
 }
 
-export type FileType = "svg" | "png";
+export enum FileType {
+  SVG,
+  PNG,
+}
 
 export interface Attribute extends EngineAttribute {
   metadata: ElementMetadata;
