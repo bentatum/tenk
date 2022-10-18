@@ -224,12 +224,6 @@ describe("Collection.create", () => {
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      // const layer1 = LayerFactory().create("layer1");
-      // layer1.updateMetadata({
-      //   fileType: FileType.PNG,
-      // });
-      // const layer2 = LayerFactory().create("layer2");
-      // collection.layers = [layer1, layer2];
       collection.svgFile = {
         create: jest.fn(),
       } as any;
@@ -264,18 +258,5 @@ describe("Collection.create", () => {
       );
       expect(collection.svgFile.create).not.toBeCalled();
     });
-
-    // it("should write metadata json files for each token", () => {
-    //   expect(collection.writeSingleMetadata).toBeCalledTimes(1);
-    //   expect(collection.writeSingleMetadata).toBeCalledWith(
-    //     mockedMetadata[0],
-    //     0
-    //   );
-    // });
-
-    // it("should write the entire collection to a single json file", () => {
-    //   expect(collection.writeMetadata).toBeCalledTimes(1);
-    //   expect(collection.writeMetadata).toBeCalledWith(mockedMetadata);
-    // });
   });
 });
