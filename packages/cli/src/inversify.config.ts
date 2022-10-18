@@ -14,11 +14,10 @@ container
 container.bind<Element>("Element").to(Element);
 container
   .bind<interfaces.Factory<Element>>("Factory<Element>")
-  .toFactory<Element>((context: interfaces.Context) => {
-    return () => {
-      return context.container.get<Element>("Element");
-    };
-  });
+  .toFactory<Element>(
+    (context: interfaces.Context) => () =>
+      context.container.get<Element>("Element")
+  );
 
 container.bind<SvgFile>("SvgFile").to(SvgFile);
 container.bind<PngFile>("PngFile").to(PngFile);

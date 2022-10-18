@@ -53,7 +53,6 @@ describe("PngFile.create", () => {
 
   beforeEach(async () => {
     mockedLoadImage.mockResolvedValue(img as any);
-    // mockedFsWriteFileSync.mockImplementation(() => {});
     pngFile = PngFileFactory();
     pngFile.canvas = { toBuffer: jest.fn() } as any;
     pngFile.canvasContext = {

@@ -5,7 +5,7 @@ import { buildDir, configPath, cwd, layersDir } from "@/env";
 import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
-import { PngFile } from "../PngFile/PngFile";
+import { PngFile } from "../PngFile";
 import cliProgress from "cli-progress";
 
 @injectable()
