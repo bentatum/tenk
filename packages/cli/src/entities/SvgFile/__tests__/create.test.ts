@@ -41,7 +41,7 @@ describe("SvgFile.create", () => {
           height: 100,
           width: 100,
           path: "/test/path",
-          fileType: "svg" as FileType,
+          fileType: FileType.SVG,
         },
       },
     ];
@@ -70,7 +70,7 @@ describe("SvgFile.create", () => {
           height: 100,
           width: 100,
           path: "/test/path",
-          fileType: "svg" as FileType,
+          fileType: FileType.SVG,
           svgAttributes: mockedSvgAttributes,
         },
       },

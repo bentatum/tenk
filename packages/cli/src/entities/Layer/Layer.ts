@@ -1,12 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { layersDir } from "@/env";
-import {
-  Factory,
-  FileType,
-  LayerMetadata,
-  TenkConfig,
-} from "@/interfaces";
+import { Factory, FileType, LayerMetadata, TenkConfig } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "../Element";
 import { LayerConfig } from "@tenk/engine";
@@ -21,7 +16,7 @@ export class Layer implements Factory {
   bypassDNA?: boolean;
   svgAttributes?: Record<string, string>;
   metadata: LayerMetadata = {
-    fileType: "png",
+    fileType: FileType.PNG,
     path: "",
   };
 
@@ -72,12 +67,23 @@ export class Layer implements Factory {
       .map((dirent) => dirent.name);
   }
 
+  parseFileType(fileName: string) {
+    switch (path.extname(fileName)) {
+      case ".svg":
+        return FileType.SVG;
+      case ".png":
+        return FileType.PNG;
+      default:
+        throw new Error(`Unknown file type: ${fileName}`);
+    }
+  }
+
   setElements(): void {
     const fileNames = this.getLayerFiles();
     // we don't support mixed file types in a collection, yet.
     // grab the first file and use it to determine the type.
     this.updateMetadata({
-      fileType: path.extname(fileNames[0]).replace(".", "") as FileType,
+      fileType: this.parseFileType(fileNames[0]),
     });
     this.elements = fileNames.map((name) =>
       this.ElementFactory().create({

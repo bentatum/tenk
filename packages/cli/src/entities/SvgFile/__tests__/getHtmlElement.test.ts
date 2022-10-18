@@ -2,6 +2,7 @@ import { container } from "@/inversify.config";
 import { SvgFile } from "@/entities/SvgFile";
 import parseHtml from "node-html-parser";
 import { createMock } from "ts-jest-mock";
+import { FileType } from "@/interfaces";
 
 jest.mock("node-html-parser");
 const mockedParseHtml = createMock(parseHtml);
@@ -30,7 +31,7 @@ describe("SvgFile.getHtmlElement", () => {
         height: 100,
         width: 100,
         path: "/test/path",
-        fileType: "svg",
+        fileType: FileType.SVG,
       },
     });
     expect(mockedParseHtml).toBeCalledWith("test");

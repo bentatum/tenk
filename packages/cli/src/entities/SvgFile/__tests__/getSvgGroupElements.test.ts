@@ -1,5 +1,6 @@
 import { container } from "@/inversify.config";
 import { SvgFile } from "@/entities/SvgFile";
+import { FileType } from "@/interfaces";
 
 const SvgFileFactory = () => container.get<SvgFile>("SvgFile");
 
@@ -26,7 +27,7 @@ describe("SvgFile.getViewBox", () => {
           height: 100,
           width: 100,
           path: "/test/path/head.svg",
-          fileType: "svg",
+          fileType: FileType.SVG,
         },
       },
       {
@@ -36,7 +37,7 @@ describe("SvgFile.getViewBox", () => {
           height: 100,
           width: 100,
           path: "/test/path/body.svg",
-          fileType: "svg",
+          fileType: FileType.SVG,
         },
       },
     ]);
