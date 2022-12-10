@@ -87,6 +87,28 @@ describe("Layer.create", () => {
     });
   });
 
+  describe('layer config respects casing', () => {
+    const config = {
+      layers: {
+        test: {
+          odds: 0.5,
+          mustAccompany: {
+            "*": ["some other layer"],
+          },
+        },
+      },
+    };
+
+    beforeEach(() => {
+      layer.applyConfig = jest.fn();
+      layer.create('01_TeSt#10', config);
+    });
+
+    it("does not call applyConfig", () => {
+      expect(layer.applyConfig).not.toBeCalled();
+    });
+  })
+
   describe("with * config", () => {
     const config = {
       layers: {
