@@ -47,7 +47,7 @@ export class Layer implements Factory {
       if (starConfig) {
         this.applyConfig(starConfig);
       }
-      const layerConfig = config.layers[this.name.toLowerCase()];
+      const layerConfig = config.layers[this.name];
       if (layerConfig) {
         this.applyConfig(layerConfig);
       }
