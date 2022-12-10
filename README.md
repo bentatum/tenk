@@ -3,30 +3,21 @@
 ![Functions](https://img.shields.io/badge/functions-100%25-brightgreen.svg?style=flat)
 ![Lines](https://img.shields.io/badge/lines-100%25-brightgreen.svg?style=flat)
 
-# TENK
+# tenk
 
-The generative art framework
+Generative art projects made simple.
 
 ![npx tenk 10000 svg](/examples/demo.svg)
 
 ## Get Started
 
-Create a directory with a folder called `layers`. Each layer should be a folder with image files. It should look something like this:
+Create a directory with a folder called `layers`. Each layer needs to be a folder with image files.
 
-```
-my-generative-art-project/
-  layers/
-    01_Background
-    02_Body
-    03_Eyes
-    04_Hair
-```
-
-Ok, now run `npx tenk` in your project folder. Once completed, all of your generated files are rendered to the `.tenk` folder.
+`cd` to your project folder in your terminal and type `npx tenk`. Images are rendered to the `.tenk` folder next to `layers`.
 
 ### Layer Ordering
 
-Since layers are stacked in alphabetical order, you can configure the order in which they're stacked by prefixing them with a number and an underscore.
+Since layers are stacked in alphabetical order, you can control the order in which they appear by prefixing them with a number and an underscore. If `tenk` sees a number with an underscore as the first characters in your layer's directory name, it will remove it for you in the generated metadata.
 
 ```
 layers/
@@ -50,7 +41,3 @@ layers/
   04_Hair#85
   05_Jewlery#10
 ```
-
-### Child Layers
-
-Sometimes we layers that come in different colors or patterns. We make it simple to configure
