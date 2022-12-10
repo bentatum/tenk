@@ -55,7 +55,7 @@ export class Collection implements Factory {
   getRenderableLayers(layers: Layer[]): Layer[] {
     const renderableLayers = this.filterByOdds(layers)
       .map((layer) => layer.selectElement())
-      .filter((layer) => layer.selectedElement);
+      .filter((layer) => layer.isRenderable());   
 
     this.throwIfLayersBreakRules(renderableLayers);
 
@@ -67,7 +67,8 @@ export class Collection implements Factory {
       renderableLayers.push(...this.getRenderableLayers(childLayers));
     }
 
-    return renderableLayers;
+    // remove layers without element after extracting child layers
+    return renderableLayers.filter((layer) => layer.selectedElement);
   }
 
   getDna(layers: Layer[]): string {

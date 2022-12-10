@@ -27,4 +27,11 @@ describe("tenk", () => {
     // expect(metadata.length).toBe(4 * 5);
     expect(metadata.length).toBeGreaterThan(4 * 4);
   });
+
+  test("layer with only sublayers",() => {
+    const metadata = tenk(require("./configs/layer-with-only-sublayers.json"));
+    // see above
+    // expect(metadata.length).toBeGreaterThan(3 * 9);
+    expect(metadata.length).toBeGreaterThan(3 * 8);
+  })
 });

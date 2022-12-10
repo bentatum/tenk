@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Head",
+    "elements": [
+      {
+        "name": "Normal"
+      },
+      {
+        "name": "Big"
+      },
+      {
+        "name": "Small"
+      }
+    ]
+  },
+  {
+    "name": "Bandana",
+    "layers": [
+      {
+        "name": "Outline",
+        "bypassDNA": true,
+        "elements": [
+          {
+            "name": "Solid"
+          }
+        ]
+      },
+      {
+        "name": "Color",
+        "elements": [
+          {
+            "name": "Red"
+          },
+          {
+            "name": "Yellow"
+          },
+          {
+            "name": "Blue"
+          }
+        ]
+      },
+      {
+        "name": "Pattern",
+        "elements": [
+          {
+            "name": "Stripes"
+          },
+          {
+            "name": "Dots"
+          },
+          {
+            "name": "Stars"
+          }
+        ]
+      }
+    ]
+  }
+]
