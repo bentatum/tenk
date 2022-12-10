@@ -6,6 +6,7 @@ import { Rules } from "./Rules";
 @injectable()
 export class Layer implements Factory {
   name: string;
+  layers: Layer[];
   elements: Element[];
   selectedElement?: Element;
   odds: number;
@@ -16,7 +17,9 @@ export class Layer implements Factory {
 
   constructor(
     @inject("Factory<Element>")
-    public ElementFactory: () => Element,
+    public elementFactory: () => Element,
+    @inject("Factory<Layer>")
+    public layerFactory: () => Layer,
     @inject("Rules")
     public rules: Rules
   ) {}
@@ -40,12 +43,19 @@ export class Layer implements Factory {
   }
 
   getChildLayers(): Layer[] {
-    return this.selectedElement?.layers || [];
+    return !this.elements.length && this.layers.length > 0
+      ? this.layers
+      : this.selectedElement?.layers || [];
+  }
+
+  isRenderable(): boolean {
+    return Boolean(this.selectedElement || this.layers.length);
   }
 
   create({
     name,
-    elements,
+    layers = [],
+    elements = [],
     odds,
     bypassDNA,
     cannotAccompany,
@@ -53,8 +63,9 @@ export class Layer implements Factory {
     metadata,
   }: LayerConfig) {
     this.name = name;
+    this.layers = layers.map((layer) => this.layerFactory().create(layer));
     this.elements = elements.map((element) =>
-      this.ElementFactory().create(element)
+      this.elementFactory().create(element)
     );
     this.odds = typeof odds === "undefined" ? 1 : odds;
     this.bypassDNA = bypassDNA || false;

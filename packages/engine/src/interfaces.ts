@@ -13,6 +13,7 @@ export interface ElementConfig {
 
 export interface LayerConfig {
   name: string;
+  layers?: LayerConfig[];
   elements?: ElementConfig[];
   odds?: number;
   bypassDNA?: boolean;
