@@ -5,7 +5,12 @@ export interface Factory {
 }
 
 export interface Collection {
-  create(size: number): Promise<void>;
+  create(options: CollectionCreateOptions): Promise<void>;
+}
+
+export interface CollectionCreateOptions {
+  size: number;
+  formats?: string;
 }
 
 export interface Layer {
