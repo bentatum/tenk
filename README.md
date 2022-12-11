@@ -7,8 +7,6 @@
 
 Generative art projects made simple.
 
-![npx tenk 10000 svg](/examples/demo.svg)
-
 ## Get Started
 
 Create a directory with a folder called `layers`. Each layer needs to be a folder with image files.
