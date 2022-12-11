@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/bentatum/tenk/compare/v0.7.0...v0.8.0) (2022-12-11)
+
+
+* feat!: use standard cli argument format (#51) ([91caef6](https://github.com/bentatum/tenk/commit/91caef69d09185292e59087fa7cba3410c8f9a75)), closes [#51](https://github.com/bentatum/tenk/issues/51)
+
+
+### BREAKING CHANGES
+
+* using standard arg flags instead of implicit indexed args
+
+
+
+
+
 # [0.7.0](https://github.com/bentatum/tenk/compare/v0.6.1...v0.7.0) (2022-12-10)
 
 
