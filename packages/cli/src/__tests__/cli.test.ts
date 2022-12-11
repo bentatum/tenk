@@ -1,26 +1,40 @@
 import { container } from "@/inversify.config";
 import { createMock } from "ts-jest-mock";
-import argv from "@/argv";
 
-jest.mock("../argv");
-const mockedArgv = createMock(argv);
-
-jest.mock("@/inversify.config");
+jest.mock("@/inversify.config", () => ({
+  container: {
+    get: jest.fn(),
+  },
+}));
 const mockedContainerGet = createMock(container.get);
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
+const cmd = async (...args: string[]): Promise<void> => {
+  process.argv = ["/mock/path/to/node", "/mock/path/to/bin/cli.js", ...args];
+  return require("@/cli");
+}
 
-describe("main", () => {
-  it("should call collection.create", () => {
-    const mockedSize = 10;
-    const mockedFormats = "svg";
-    mockedArgv.mockReturnValue([mockedSize, mockedFormats]);
+describe("cli", () => {
+  // let originalArgv;
+
+  // beforeEach(() => {
+  //   jest.resetModules();
+  //   originalArgv = process.argv;
+  // });
+
+  // afterEach(() => {
+  //   jest.resetAllMocks();
+  //   process.argv = originalArgv;
+  // });
+
+  it("should call the default command with default arguments", async () => {
     const mockedCreate = jest.fn();
     mockedContainerGet.mockReturnValue({ create: mockedCreate } as any);
-    require("@/cli");
-    expect(mockedContainerGet).toBeCalledWith("Collection");
-    expect(mockedCreate).toBeCalledWith(mockedSize, mockedFormats);
+    await cmd();
+    expect(mockedCreate).toBeCalledTimes(1);
+    expect(mockedCreate).toBeCalledWith({
+      size: 10000,
+      formats: "svg",
+    });
   });
 });
+

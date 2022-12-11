@@ -1,7 +1,13 @@
 import fs from "fs";
-import { Attribute, Factory, FileType, TenkConfig } from "@/interfaces";
+import {
+  Attribute,
+  CollectionCreateOptions,
+  Factory,
+  FileType,
+  TenkConfig,
+} from "@/interfaces";
 import { injectable, inject } from "inversify";
-import { buildDir, configPath, cwd, layersDir } from "@/env";
+import { buildDir, configPath, layersDir } from "@/env";
 import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
@@ -24,14 +30,18 @@ export class Collection implements Factory {
     public pngFile: PngFile
   ) {}
 
-  async create(size: number, formats?: string) {
+  createLayers() {
+    const folders = this.getLayerDirNames();
+    this.layers = folders.map((name) => this.LayerFactory().create(name));
+  }
+
+  async create(options: CollectionCreateOptions) {
     this.setupWorkspace();
     this.setConfig();
-    this.size = size;
-    const folders = this.getLayerDirNames();
-    this.layers = folders.map((name) =>
-      this.LayerFactory().create(name, this.config)
-    );
+    this.size = options.size;
+
+    this.createLayers();
+
     this.fileType = this.layers[0].getFileType();
     const metadata = tenk(this.layers, {
       size: this.size,
@@ -50,6 +60,8 @@ export class Collection implements Factory {
     );
 
     progressBar.start(metadata.length, 0);
+
+    const formats = options.formats;
 
     if (!formats || formats.includes("png")) {
       this.pngFile.setupCanvas(
