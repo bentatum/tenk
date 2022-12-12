@@ -5,6 +5,7 @@ import { Factory, FileType, LayerMetadata, TenkConfig } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "../Element";
 import { LayerConfig } from "@tenk/engine";
+import { Config } from "../Config";
 
 @injectable()
 export class Layer implements Factory {
@@ -21,8 +22,10 @@ export class Layer implements Factory {
   };
 
   constructor(
+    @inject("Logger")
+    public logger: any,
     @inject("Config")
-    public config: TenkConfig,
+    public config: Config,
     @inject("Factory<Element>")
     public elementFactory: () => Element
   ) {}
@@ -44,12 +47,13 @@ export class Layer implements Factory {
     this.updateMetadata({
       path: `${layersDir}/${folderName}`,
     });
-    if (this.config && this.config.layers) {
-      const starConfig = this.config.layers["*"];
+    const layersConfig = this.config.get("layers");
+    if (layersConfig) {
+      const starConfig = layersConfig["*"];
       if (starConfig) {
         this.applyConfig(starConfig);
       }
-      const layerConfig = this.config.layers[this.name];
+      const layerConfig = layersConfig[this.name];
       if (layerConfig) {
         this.applyConfig(layerConfig);
       }
@@ -111,6 +115,10 @@ export class Layer implements Factory {
       odds = Number(name.split("#")[1]) / 100;
       name = name.replace(/(#[0-9]+)$/, "");
     }
+
+    this.logger.verbose("folder:", folderName);
+    this.logger.verbose("name:", name);
+    this.logger.verbose("odds:", odds);
 
     this.odds = odds;
     this.name = name;

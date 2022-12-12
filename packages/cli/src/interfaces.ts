@@ -40,6 +40,9 @@ export interface ElementConfig {
 }
 
 export interface TenkConfig {
+  size?: number;
+  formats?: string;
+  verbose?: boolean;
   layers?: Record<string, Partial<LayerConfig>>;
 }
 

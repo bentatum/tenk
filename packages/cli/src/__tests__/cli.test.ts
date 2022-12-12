@@ -11,7 +11,7 @@ const mockedContainerGet = createMock(container.get);
 const cmd = async (...args: string[]): Promise<void> => {
   process.argv = ["/mock/path/to/node", "/mock/path/to/bin/cli.js", ...args];
   return require("@/cli");
-}
+};
 
 describe("cli", () => {
   // let originalArgv;
@@ -28,7 +28,9 @@ describe("cli", () => {
 
   it("should call the default command with default arguments", async () => {
     const mockedCreate = jest.fn();
-    mockedContainerGet.mockReturnValue({ create: mockedCreate } as any);
+    mockedContainerGet
+      .mockReturnValueOnce({ set: jest.fn() } as any)
+      .mockReturnValueOnce({ create: mockedCreate } as any);
     await cmd();
     expect(mockedCreate).toBeCalledTimes(1);
     expect(mockedCreate).toBeCalledWith({
@@ -37,4 +39,3 @@ describe("cli", () => {
     });
   });
 });
-
