@@ -1,10 +1,5 @@
 import fs from "fs";
-import {
-  Attribute,
-  CollectionCreateOptions,
-  Factory,
-  FileType,
-} from "@/interfaces";
+import { Attribute, Factory, FileType } from "@/interfaces";
 import { injectable, inject } from "inversify";
 import { buildDir, layersDir } from "@/env";
 import { Layer } from "../Layer";
@@ -22,6 +17,8 @@ export class Collection implements Factory {
   fileType: FileType;
 
   constructor(
+    @inject("Config")
+    public config: Config,
     @inject("Logger")
     public logger: Logger,
     @inject("Factory<Layer>")
@@ -43,17 +40,15 @@ export class Collection implements Factory {
     this.layers = folders.map((name) => this.layerFactory().create(name));
   }
 
-  async create(options: CollectionCreateOptions) {
-    this.logger.verbose("Creating collection...", options);
+  async create() {
+    this.logger.verbose("Creating collection...");
 
     this.setupWorkspace();
-    this.size = options.size;
-
     this.createLayers();
 
     this.fileType = this.layers[0].getFileType();
     const metadata = tenk(this.layers, {
-      size: this.size,
+      size: this.config.get("size"),
     });
 
     if (!metadata.length) {
@@ -70,7 +65,7 @@ export class Collection implements Factory {
 
     progressBar.start(metadata.length, 0);
 
-    const formats = options.formats;
+    const formats = this.config.get("formats");
 
     if (!formats || formats.includes("png")) {
       this.pngFile.setupCanvas(

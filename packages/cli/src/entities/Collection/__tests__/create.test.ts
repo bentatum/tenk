@@ -34,7 +34,7 @@ beforeEach(() => {
 });
 
 describe("Collection.create", () => {
-  describe("svg project, no formats defined", () => {
+  describe("svg project", () => {
     let collection: Collection;
     const imgHeight = 100;
     const imgWidth = 100;
@@ -101,10 +101,21 @@ describe("Collection.create", () => {
         stop: stopProgressBar,
         increment: incrementProgressBar,
       } as any);
+      // mock config
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "svg";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
       // run
-      await collection.create({
-        size: 10000,
-      });
+      await collection.create();
     });
 
     it("should call tenk", () => {
@@ -121,20 +132,12 @@ describe("Collection.create", () => {
       expect(stopProgressBar).toBeCalledTimes(1);
     });
 
-    it("renders to svg and png", () => {
+    it("renders to svg", () => {
       const svgPath = `/test/build/dir/svg/0.svg`;
-      const pngPath = `/test/build/dir/png/0.png`;
-      expect(collection.pngFile.setupCanvas).toBeCalledWith(
-        imgHeight,
-        imgWidth
-      );
+      expect(collection.pngFile.setupCanvas).toBeCalledTimes(0);
+      expect(collection.pngFile.create).toBeCalledTimes(0);
       expect(collection.svgFile.create).toBeCalledWith(
         mockedAttributes,
-        svgPath
-      );
-      expect(collection.pngFile.create).toBeCalledWith(
-        mockedAttributes,
-        pngPath,
         svgPath
       );
     });
@@ -223,30 +226,58 @@ describe("Collection.create", () => {
     });
 
     test("svg only", async () => {
-      await collection.create({
-        size: 10000,
-        formats: "svg",
-      });
+      // mock config
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "svg";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
       expect(collection.pngFile.setupCanvas).not.toBeCalled();
       expect(collection.svgFile.create).toBeCalled();
       expect(collection.pngFile.create).not.toBeCalled();
     });
 
     test("png only", async () => {
-      await collection.create({
-        size: 10000,
-        formats: "png",
-      });
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "png";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
       expect(collection.pngFile.setupCanvas).toBeCalled();
       expect(collection.svgFile.create).toBeCalled();
       expect(collection.pngFile.create).toBeCalled();
     });
 
     test("both svg and png", async () => {
-      await collection.create({
-        size: 10000,
-        formats: "svg,png",
-      });
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "svg,png";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
       expect(collection.pngFile.setupCanvas).toBeCalled();
       expect(collection.svgFile.create).toBeCalled();
       expect(collection.pngFile.create).toBeCalled();
@@ -256,6 +287,18 @@ describe("Collection.create", () => {
   describe("tenk returns empty metadata", () => {
     it("should exit and console warn with a message", async () => {
       const collection = container.get<Collection>("Collection");
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "svg,png";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
       // mock internal collection methods
       collection.setupWorkspace = jest.fn();
       collection.getLayerDirNames = jest
@@ -270,7 +313,7 @@ describe("Collection.create", () => {
       const warnSpy = jest.spyOn(console, "warn").mockImplementation();
       const exitSpy = jest.spyOn(process, "exit").mockImplementation();
       // run
-      await collection.create({ size: 10000 });
+      await collection.create();
       expect(warnSpy).toBeCalledWith(
         "No metadata generated. Check your layers for errors."
       );
@@ -345,10 +388,19 @@ describe("Collection.create", () => {
 
     test("svg only", async () => {
       const warnSpy = jest.spyOn(console, "warn").mockImplementation();
-      await collection.create({
-        formats: "svg",
-        size: 10000,
-      });
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "svg";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
       expect(warnSpy).toBeCalledWith(
         "Your layers are png files. SVG files cannot not be generated."
       );
@@ -356,20 +408,38 @@ describe("Collection.create", () => {
     });
     test("png and svg", async () => {
       const warnSpy = jest.spyOn(console, "warn").mockImplementation();
-      await collection.create({
-        formats: "svg,png",
-        size: 10000,
-      });
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "svg,png";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
       expect(warnSpy).toBeCalledWith(
         "Your layers are png files. SVG files cannot not be generated."
       );
       expect(process.exitCode).toBe(1);
     });
     test("png only", async () => {
-      await collection.create({
-        formats: "png",
-        size: 10000,
-      });
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return "png";
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
       expect(collection.pngFile.setupCanvas).toBeCalled();
       expect(collection.svgFile.create).not.toBeCalled();
       expect(collection.pngFile.create).toBeCalled();

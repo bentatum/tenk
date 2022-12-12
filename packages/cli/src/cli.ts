@@ -31,16 +31,15 @@ yargs
       });
       argv.positional("verbose", {
         type: "boolean",
-        default: false,
         describe: "Enable verbose logging",
         alias: "v",
       });
     },
-    async ({ size, formats, verbose }) => {
+    async ({ verbose, size, formats }) => {
       // Setup the config
-      container.get<Config>("Config").set({ size, formats, verbose });
+      container.get<Config>("Config").set({ verbose, size, formats });
       // Create the collection
-      await container.get<Collection>("Collection").create({ size, formats });
+      await container.get<Collection>("Collection").create();
     }
   )
   .help().argv;
