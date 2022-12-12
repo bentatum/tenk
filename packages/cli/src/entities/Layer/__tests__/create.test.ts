@@ -78,8 +78,9 @@ describe("Layer.create", () => {
     };
 
     beforeEach(() => {
+      layer.config = config;
       layer.applyConfig = jest.fn();
-      layer.create(layerName, config);
+      layer.create(layerName);
     });
 
     it("calls applyConfig with layer config", () => {
@@ -100,8 +101,9 @@ describe("Layer.create", () => {
     };
 
     beforeEach(() => {
+      // layer.config = config;
       layer.applyConfig = jest.fn();
-      layer.create('01_TeSt#10', config);
+      layer.create('01_TeSt#10');
     });
 
     it("does not call applyConfig", () => {
@@ -122,8 +124,9 @@ describe("Layer.create", () => {
     };
 
     beforeEach(() => {
+      layer.config = config;
       layer.applyConfig = jest.fn();
-      layer.create(layerName, config);
+      layer.create(layerName);
     });
 
     it("calls applyConfig with layer config", () => {

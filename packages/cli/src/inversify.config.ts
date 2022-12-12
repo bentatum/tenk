@@ -1,8 +1,16 @@
 import { Container, interfaces } from "inversify";
-import { Collection, Layer, Element, SvgFile, PngFile } from "./entities";
+import {
+  Collection,
+  Config,
+  Layer,
+  Element,
+  SvgFile,
+  PngFile,
+} from "./entities";
 
 const container = new Container();
 container.bind("Collection").to(Collection);
+container.bind("Config").to(Config);
 
 container.bind<Layer>("Layer").to(Layer);
 container
