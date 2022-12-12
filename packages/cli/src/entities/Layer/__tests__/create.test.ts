@@ -3,7 +3,6 @@ import { createMock } from "ts-jest-mock";
 import { Layer } from "../Layer";
 import fs from "fs";
 import { layersDir } from "@/env";
-// import { layersDir } from "@/env";
 
 jest.mock("/test/tenk.config.js", () => ({}), { virtual: true });
 
