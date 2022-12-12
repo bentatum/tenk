@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
-import { Collection } from "@/entities";
+import { Collection, Config } from "@/entities";
 import { container } from "@/inversify.config";
 import yargs from "yargs";
 
 interface Argv {
   size?: number;
   formats?: string;
+  verbose?: boolean;
 }
 
 yargs
@@ -28,10 +29,17 @@ yargs
         describe: "Comma delimited string of desired output formats",
         alias: "f",
       });
+      argv.positional("verbose", {
+        type: "boolean",
+        describe: "Enable verbose logging",
+        alias: "v",
+      });
     },
-    async ({ size, formats }) => {
-      const collection = container.get<Collection>("Collection");
-      await collection.create({ size, formats });
+    async ({ verbose, size, formats }) => {
+      // Setup the config
+      container.get<Config>("Config").set({ verbose, size, formats });
+      // Create the collection
+      await container.get<Collection>("Collection").create();
     }
   )
   .help().argv;

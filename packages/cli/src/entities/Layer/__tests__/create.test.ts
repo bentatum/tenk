@@ -4,6 +4,8 @@ import { Layer } from "../Layer";
 import fs from "fs";
 import { layersDir } from "@/env";
 
+jest.mock("/test/tenk.config.js", () => ({}), { virtual: true });
+
 const LayerFactory = () => container.get<Layer>("Layer");
 
 jest.mock("fs");
@@ -45,10 +47,6 @@ describe("Layer.create", () => {
     beforeEach(() => {
       layer.create(layerName);
     });
-
-    it("returns the layer", () => {
-      expect(layer).toBeInstanceOf(Layer);
-    });
     it("set the name", () => {
       expect(layer.name).toBe("test");
     });
@@ -78,7 +76,9 @@ describe("Layer.create", () => {
     };
 
     beforeEach(() => {
-      layer.config = config;
+      layer.config = {
+        get: jest.fn().mockReturnValue(config.layers),
+      } as any;
       layer.applyConfig = jest.fn();
       layer.create(layerName);
     });
@@ -88,7 +88,7 @@ describe("Layer.create", () => {
     });
   });
 
-  describe('layer config respects casing', () => {
+  describe("layer config respects casing", () => {
     const config = {
       layers: {
         test: {
@@ -101,15 +101,17 @@ describe("Layer.create", () => {
     };
 
     beforeEach(() => {
-      // layer.config = config;
+      layer.config = {
+        get: jest.fn().mockReturnValue(config.layers),
+      } as any;
       layer.applyConfig = jest.fn();
-      layer.create('01_TeSt#10');
+      layer.create("01_TeSt#10");
     });
 
     it("does not call applyConfig", () => {
       expect(layer.applyConfig).not.toBeCalled();
     });
-  })
+  });
 
   describe("with * config", () => {
     const config = {
@@ -124,7 +126,9 @@ describe("Layer.create", () => {
     };
 
     beforeEach(() => {
-      layer.config = config;
+      layer.config = {
+        get: jest.fn().mockReturnValue(config.layers),
+      } as any;
       layer.applyConfig = jest.fn();
       layer.create(layerName);
     });

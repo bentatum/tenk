@@ -3,18 +3,26 @@ import { TenkConfig } from "@/interfaces";
 import { injectable } from "inversify";
 import fs from "fs";
 
+let _config: TenkConfig;
+
 @injectable()
 export class Config {
-  _config: TenkConfig;
   constructor() {
-    if (fs.existsSync(configPath)) {
-      this._config = require(configPath) as TenkConfig;
+    if (!_config && fs.existsSync(configPath)) {
+      _config = require(configPath) as TenkConfig;
     }
   }
+
+  set(config: TenkConfig) {
+    _config = {
+      ..._config,
+      ...config,
+    };
+  }
+
   get(key: string) {
-    if (!this._config) {
-      throw new Error("Config not initialized");
+    if (_config) {
+      return _config[key];
     }
-    return this._config[key];
   }
 }

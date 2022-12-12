@@ -7,6 +7,7 @@ import {
   SvgFile,
   PngFile,
 } from "./entities";
+import { Logger } from "./entities/Logger";
 
 const container = new Container();
 container.bind("Collection").to(Collection);
@@ -18,6 +19,8 @@ container
   .toFactory<Layer>(
     (context: interfaces.Context) => () => context.container.get<Layer>("Layer")
   );
+
+container.bind<Logger>("Logger").to(Logger);
 
 container.bind<Element>("Element").to(Element);
 container

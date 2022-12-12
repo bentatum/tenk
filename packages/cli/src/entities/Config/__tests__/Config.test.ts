@@ -42,18 +42,14 @@ describe("Config", () => {
   });
 
   describe("get", () => {
-    it("throws error if config not initialized", () => {
+    it("returns the config value for the given key", () => {
       const config = ConfigFactory();
-      config._config = undefined;
-      expect(() => config.get("test")).toThrow();
+      expect(config.get("layers")).toEqual(mockedConfig.layers);
     });
-    it("returns value if config initialized", () => {
+
+    it("returns undefined if the key does not exist", () => {
       const config = ConfigFactory();
-      const layersConfig = { test: { odds: 0.5 } };
-      config._config = {
-        layers: layersConfig,
-      };
-      expect(config.get("layers")).toEqual(layersConfig);
+      expect(config.get("nonExistentKey")).toBeUndefined();
     });
   });
 });

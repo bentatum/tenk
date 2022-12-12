@@ -1,11 +1,5 @@
 import fs from "fs";
-import {
-  Attribute,
-  CollectionCreateOptions,
-  Factory,
-  FileType,
-  TenkConfig,
-} from "@/interfaces";
+import { Attribute, Factory, FileType } from "@/interfaces";
 import { injectable, inject } from "inversify";
 import { buildDir, layersDir } from "@/env";
 import { Layer } from "../Layer";
@@ -13,15 +7,20 @@ import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
 import { PngFile } from "../PngFile";
 import cliProgress from "cli-progress";
+import { Config } from "../Config";
+import { Logger } from "../Logger";
 
 @injectable()
 export class Collection implements Factory {
   size: number;
   layers: Layer[];
-  config?: TenkConfig;
   fileType: FileType;
 
   constructor(
+    @inject("Config")
+    public config: Config,
+    @inject("Logger")
+    public logger: Logger,
     @inject("Factory<Layer>")
     public layerFactory: () => Layer,
     @inject("SvgFile")
@@ -32,18 +31,24 @@ export class Collection implements Factory {
 
   createLayers() {
     const folders = this.getLayerDirNames();
+
+    this.logger.verbose(
+      `Found the following layer folders in ${layersDir}`,
+      folders
+    );
+
     this.layers = folders.map((name) => this.layerFactory().create(name));
   }
 
-  async create(options: CollectionCreateOptions) {
-    this.setupWorkspace();
-    this.size = options.size;
+  async create() {
+    this.logger.verbose("Creating collection...");
 
+    this.setupWorkspace();
     this.createLayers();
 
     this.fileType = this.layers[0].getFileType();
     const metadata = tenk(this.layers, {
-      size: this.size,
+      size: this.config.get("size"),
     });
 
     if (!metadata.length) {
@@ -60,7 +65,7 @@ export class Collection implements Factory {
 
     progressBar.start(metadata.length, 0);
 
-    const formats = options.formats;
+    const formats = this.config.get("formats");
 
     if (!formats || formats.includes("png")) {
       this.pngFile.setupCanvas(

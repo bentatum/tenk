@@ -4,26 +4,9 @@ export interface Factory {
   create(...args: any): any;
 }
 
-export interface Collection {
-  create(options: CollectionCreateOptions): Promise<void>;
-}
-
-export interface CollectionCreateOptions {
-  size: number;
-  formats?: string;
-}
-
-export interface Layer {
-  create(name: string): void;
-}
-
 export interface LayerMetadata {
   path: string;
   fileType: FileType;
-}
-
-export interface Element {
-  create(name: string): void;
 }
 
 export interface ElementMetadata {
@@ -40,6 +23,9 @@ export interface ElementConfig {
 }
 
 export interface TenkConfig {
+  size?: number;
+  formats?: string;
+  verbose?: boolean;
   layers?: Record<string, Partial<LayerConfig>>;
 }
 
