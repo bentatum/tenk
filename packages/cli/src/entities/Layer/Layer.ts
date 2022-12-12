@@ -21,8 +21,10 @@ export class Layer implements Factory {
   };
 
   constructor(
+    @inject("Config")
+    public config: TenkConfig,
     @inject("Factory<Element>")
-    public ElementFactory: () => Element
+    public elementFactory: () => Element
   ) {}
 
   updateMetadata(data: Partial<LayerMetadata>) {
@@ -37,17 +39,17 @@ export class Layer implements Factory {
     this.svgAttributes = config.svgAttributes || this.svgAttributes;
   }
 
-  create(name: string, config?: TenkConfig) {
-    this.parseFileName(name);
+  create(folderName: string) {
+    this.parseFileName(folderName);
     this.updateMetadata({
-      path: `${layersDir}/${name}`,
+      path: `${layersDir}/${folderName}`,
     });
-    if (config && config.layers) {
-      const starConfig = config.layers["*"];
+    if (this.config && this.config.layers) {
+      const starConfig = this.config.layers["*"];
       if (starConfig) {
         this.applyConfig(starConfig);
       }
-      const layerConfig = config.layers[this.name];
+      const layerConfig = this.config.layers[this.name];
       if (layerConfig) {
         this.applyConfig(layerConfig);
       }
@@ -86,7 +88,7 @@ export class Layer implements Factory {
       fileType: this.parseFileType(fileNames[0]),
     });
     this.elements = fileNames.map((name) =>
-      this.ElementFactory().create({
+      this.elementFactory().create({
         path: `${this.metadata.path}/${name}`,
         metadata: {
           svgAttributes: this.svgAttributes,
@@ -95,9 +97,9 @@ export class Layer implements Factory {
     );
   }
 
-  parseFileName(rawDirectoryName: string) {
+  parseFileName(folderName: string) {
     let odds = 1,
-      name = rawDirectoryName;
+      name = folderName;
     // if the layer name starts with a number,
     // it's the order of the layer, let's remove it.
     if (name.match(/^([0-9]+_)/)) {

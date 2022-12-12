@@ -7,7 +7,7 @@ import {
   TenkConfig,
 } from "@/interfaces";
 import { injectable, inject } from "inversify";
-import { buildDir, configPath, layersDir } from "@/env";
+import { buildDir, layersDir } from "@/env";
 import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
@@ -23,7 +23,7 @@ export class Collection implements Factory {
 
   constructor(
     @inject("Factory<Layer>")
-    public LayerFactory: () => Layer,
+    public layerFactory: () => Layer,
     @inject("SvgFile")
     public svgFile: SvgFile,
     @inject("PngFile")
@@ -32,12 +32,11 @@ export class Collection implements Factory {
 
   createLayers() {
     const folders = this.getLayerDirNames();
-    this.layers = folders.map((name) => this.LayerFactory().create(name));
+    this.layers = folders.map((name) => this.layerFactory().create(name));
   }
 
   async create(options: CollectionCreateOptions) {
     this.setupWorkspace();
-    this.setConfig();
     this.size = options.size;
 
     this.createLayers();
@@ -138,12 +137,6 @@ export class Collection implements Factory {
     } catch (error) {
       console.warn("No layers directory found. Please create one.");
       process.exitCode = 1;
-    }
-  }
-
-  setConfig() {
-    if (fs.existsSync(configPath)) {
-      this.config = require(configPath);
     }
   }
 
