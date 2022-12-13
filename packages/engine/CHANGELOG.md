@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/bentatum/tenk/compare/v0.9.0...v0.10.0) (2022-12-13)
+
+
+### Features
+
+* make elements configurable ([#54](https://github.com/bentatum/tenk/issues/54)) ([d43ab83](https://github.com/bentatum/tenk/commit/d43ab8305e96ba92d7377d9aaa5b407b33652dd6))
+
+
+
+
+
 # [0.9.0](https://github.com/bentatum/tenk/compare/v0.8.1...v0.9.0) (2022-12-12)
 
 **Note:** Version bump only for package @tenk/engine
