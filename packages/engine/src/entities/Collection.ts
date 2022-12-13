@@ -55,7 +55,7 @@ export class Collection implements Factory {
   getRenderableLayers(layers: Layer[]): Layer[] {
     const renderableLayers = this.filterByOdds(layers)
       .map((layer) => layer.selectElement())
-      .filter((layer) => layer.isRenderable());   
+      .filter((layer) => layer.isRenderable());
 
     this.throwIfLayersBreakRules(renderableLayers);
 

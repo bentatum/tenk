@@ -20,13 +20,25 @@ export interface ElementMetadata {
 export interface ElementConfig {
   path: string;
   metadata: Partial<ElementMetadata>;
+  weight?: number;
+}
+
+export interface TenkLayerConfig {
+  layers?: LayerConfig[];
+  odds?: number;
+  bypassDNA?: boolean;
+  mustAccompany?: Record<string, string[]>;
+  cannotAccompany?: Record<string, string[]>;
+  svgAttributes?: Record<string, any>;
+  metadata?: Record<string, any>;
+  elements?: Record<string, Partial<ElementConfig>>;
 }
 
 export interface TenkConfig {
   size?: number;
   formats?: string;
   verbose?: boolean;
-  layers?: Record<string, Partial<LayerConfig>>;
+  layers?: Record<string, TenkLayerConfig>;
 }
 
 export enum FileType {

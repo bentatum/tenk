@@ -1,10 +1,15 @@
 import fs from "fs";
 import path from "path";
 import { layersDir } from "@/env";
-import { Factory, FileType, LayerMetadata, TenkConfig } from "@/interfaces";
+import {
+  ElementConfig,
+  Factory,
+  FileType,
+  LayerMetadata,
+  TenkLayerConfig,
+} from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "../Element";
-import { LayerConfig } from "@tenk/engine";
 import { Config } from "../Config";
 
 @injectable()
@@ -34,30 +39,35 @@ export class Layer implements Factory {
     this.metadata = { ...this.metadata, ...data };
   }
 
-  applyConfig(config: Partial<LayerConfig>) {
-    this.odds = config.odds || this.odds;
-    this.mustAccompany = config.mustAccompany || this.mustAccompany;
-    this.cannotAccompany = config.cannotAccompany || this.cannotAccompany;
-    this.bypassDNA = config.bypassDNA || this.bypassDNA;
-    this.svgAttributes = config.svgAttributes || this.svgAttributes;
+  applyConfig() {
+    const layerConfig = this.getLayerConfig();
+    if (layerConfig) {
+      this.odds = layerConfig.odds || this.odds;
+      this.mustAccompany = layerConfig.mustAccompany || this.mustAccompany;
+      this.cannotAccompany =
+        layerConfig.cannotAccompany || this.cannotAccompany;
+      this.bypassDNA = layerConfig.bypassDNA || this.bypassDNA;
+      this.svgAttributes = layerConfig.svgAttributes || this.svgAttributes;
+    }
+  }
+
+  getLayerConfig(): TenkLayerConfig | undefined {
+    const layersConfig = this.config.get("layers");
+    if (layersConfig) {
+      return {
+        ...layersConfig["*"],
+        ...layersConfig[this.name],
+      };
+    }
   }
 
   create(folderName: string) {
-    this.parseFileName(folderName);
+    this.parseFolderName(folderName);
     this.updateMetadata({
       path: `${layersDir}/${folderName}`,
     });
-    const layersConfig = this.config.get("layers");
-    if (layersConfig) {
-      const starConfig = layersConfig["*"];
-      if (starConfig) {
-        this.applyConfig(starConfig);
-      }
-      const layerConfig = layersConfig[this.name];
-      if (layerConfig) {
-        this.applyConfig(layerConfig);
-      }
-    }
+
+    this.applyConfig();
     this.setElements();
     return this;
   }
@@ -91,17 +101,29 @@ export class Layer implements Factory {
     this.updateMetadata({
       fileType: this.parseFileType(fileNames[0]),
     });
-    this.elements = fileNames.map((name) =>
-      this.elementFactory().create({
-        path: `${this.metadata.path}/${name}`,
+
+    const layerConfig = this.getLayerConfig();
+
+    this.elements = fileNames.map((fileName) => {
+      const elementName = fileName.replace(path.extname(fileName), "");
+      const elementConfig = layerConfig?.elements?.[elementName];
+      this.logger.verbose(
+        "Creating element...",
+        elementName,
+        elementConfig ? elementConfig : "[no config found]"
+      );
+      return this.elementFactory().create({
+        ...elementConfig,
+        path: `${this.metadata.path}/${fileName}`,
         metadata: {
+          ...elementConfig?.metadata,
           svgAttributes: this.svgAttributes,
         },
-      })
-    );
+      });
+    });
   }
 
-  parseFileName(folderName: string) {
+  parseFolderName(folderName: string) {
     let odds = 1,
       name = folderName;
     // if the layer name starts with a number,
@@ -116,9 +138,13 @@ export class Layer implements Factory {
       name = name.replace(/(#[0-9]+)$/, "");
     }
 
-    this.logger.verbose("folder:", folderName);
-    this.logger.verbose("name:", name);
-    this.logger.verbose("odds:", odds);
+    this.logger.verbose("Parsing folder name...");
+
+    this.logger.verbose(
+      `Layer directory name: ${folderName}`,
+      `Layer name: ${name}`,
+      `Layer odds: ${odds}`
+    );
 
     this.odds = odds;
     this.name = name;

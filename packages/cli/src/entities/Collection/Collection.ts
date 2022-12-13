@@ -33,7 +33,8 @@ export class Collection implements Factory {
     const folders = this.getLayerDirNames();
 
     this.logger.verbose(
-      `Found the following layer folders in ${layersDir}`,
+      "Found layer folders...",
+      `Layers directory set to: ${layersDir}`,
       folders
     );
 
@@ -47,6 +48,7 @@ export class Collection implements Factory {
     this.createLayers();
 
     this.fileType = this.layers[0].getFileType();
+
     const metadata = tenk(this.layers, {
       size: this.config.get("size"),
     });
