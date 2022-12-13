@@ -50,7 +50,7 @@ describe("Layer.create", () => {
     it("set the name", () => {
       expect(layer.name).toBe("test");
     });
-    it("sets the odds", () => {
+    it("sets the odds from the folder name", () => {
       expect(layer.odds).toBe(0.5);
     });
     it("calls updateMetadata", () => {
@@ -79,12 +79,17 @@ describe("Layer.create", () => {
       layer.config = {
         get: jest.fn().mockReturnValue(config.layers),
       } as any;
-      layer.applyConfig = jest.fn();
+      layer.getLayerConfig = jest.fn().mockReturnValue(config.layers.test);
+      layer.odds = 1;
+      layer.mustAccompany = undefined;
       layer.create(layerName);
     });
 
-    it("calls applyConfig with layer config", () => {
-      expect(layer.applyConfig).toBeCalledWith(config.layers.test);
+    it("sets properties from configuration", () => {
+      expect(layer.odds).toBe(0.5);
+      expect(layer.mustAccompany).toEqual({
+        "*": ["some other layer"],
+      });
     });
   });
 
@@ -104,16 +109,18 @@ describe("Layer.create", () => {
       layer.config = {
         get: jest.fn().mockReturnValue(config.layers),
       } as any;
-      layer.applyConfig = jest.fn();
-      layer.create("01_TeSt#10");
+      layer.odds = 1;
+      layer.mustAccompany = undefined;
+      layer.create("01_TeSt");
     });
 
-    it("does not call applyConfig", () => {
-      expect(layer.applyConfig).not.toBeCalled();
+    it("does not set properties", () => {
+      expect(layer.odds).toBe(1);
+      expect(layer.mustAccompany).toBeUndefined();
     });
   });
 
-  describe("with * config", () => {
+  describe.skip("with * config", () => {
     const config = {
       layers: {
         "*": {
@@ -129,12 +136,16 @@ describe("Layer.create", () => {
       layer.config = {
         get: jest.fn().mockReturnValue(config.layers),
       } as any;
-      layer.applyConfig = jest.fn();
+      layer.odds = 1;
+      layer.mustAccompany = undefined;
       layer.create(layerName);
     });
 
-    it("calls applyConfig with layer config", () => {
-      expect(layer.applyConfig).toBeCalledWith(config.layers["*"]);
+    it("sets properties from star configuration", () => {
+      expect(layer.odds).toBe(0.5);
+      expect(layer.mustAccompany).toEqual({
+        "*": ["some other layer"],
+      });
     });
   });
 });
