@@ -6,7 +6,7 @@ import {
   Factory,
   FileType,
 } from "@/interfaces";
-import { Logger } from "./Logger";
+import { Logger } from "../Logger";
 
 @injectable()
 export class Element implements Factory {
@@ -35,9 +35,9 @@ export class Element implements Factory {
 
   create({ path, metadata, weight }: ElementConfig) {
     this.name = path.split("/").pop();
+    this.weight = weight;
     this.updateMetadata({ path, ...metadata });
     this.setDimensions();
-    this.weight = weight;
     return this;
   }
 }

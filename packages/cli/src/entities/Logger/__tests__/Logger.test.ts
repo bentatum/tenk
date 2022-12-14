@@ -21,4 +21,22 @@ describe("Logger", () => {
       spy.mockRestore();
     });
   });
+
+  describe("debug", () => {
+    it("should log with a DEBUG prefix", () => {
+      const spy = jest.spyOn(console, "log").mockImplementation(() => {});
+      logger.debug("foo");
+      expect(spy).toHaveBeenCalledWith("DEBUG:", "foo");
+      spy.mockRestore();
+    });
+  });
+
+  describe("warn", () => {
+    it("should log with a warning emoji", () => {
+      const spy = jest.spyOn(console, "warn").mockImplementation(() => {});
+      logger.warn("foo");
+      expect(spy).toHaveBeenCalledWith("⚠️", "foo");
+      spy.mockRestore();
+    });
+  });
 });
