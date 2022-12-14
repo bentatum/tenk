@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/bentatum/tenk/compare/v0.10.0...v0.11.0) (2022-12-14)
+
+
+### Features
+
+* **sub-layers:** tests ([#55](https://github.com/bentatum/tenk/issues/55)) ([1cdb240](https://github.com/bentatum/tenk/commit/1cdb24046675607d2d04294a75640d7e966deed7))
+
+
+
+
+
 # [0.10.0](https://github.com/bentatum/tenk/compare/v0.9.0...v0.10.0) (2022-12-13)
 
 
