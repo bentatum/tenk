@@ -41,6 +41,7 @@ describe("Layer.create", () => {
     layer = LayerFactory();
     layer.updateMetadata = jest.fn();
     layer.setElements = jest.fn();
+    layer.getLayerDirNames = jest.fn().mockReturnValue([]);
   });
 
   describe("without config", () => {
@@ -120,7 +121,7 @@ describe("Layer.create", () => {
     });
   });
 
-  describe.skip("with * config", () => {
+  describe("with * config", () => {
     const config = {
       layers: {
         "*": {

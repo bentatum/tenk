@@ -1,12 +1,10 @@
-import { Collection, Layer } from "@/entities";
+import { Collection } from "@/entities";
 import { container } from "@/inversify.config";
 import { createMock } from "ts-jest-mock";
 import tenk from "@tenk/engine";
 import { SingleBar } from "cli-progress";
 import { FileType } from "@/interfaces";
-import fs from "fs";
 
-const LayerFactory = () => container.get<Layer>("Layer");
 const CollectionFactory = () => container.get<Collection>("Collection");
 
 jest.mock("cli-progress");
@@ -19,15 +17,13 @@ jest.mock("@/env", () => ({
   buildDir: "/test/build/dir",
 }));
 
-jest.mock("fs");
-const mockedFsReaddirSync = createMock(fs.readdirSync);
-
-jest.mock("image-size", () =>
-  jest.fn().mockReturnValue({
-    width: 100,
-    height: 100,
-  })
-);
+// todo see if you can remove this
+// jest.mock("image-size", () =>
+//   jest.fn().mockReturnValue({
+//     width: 100,
+//     height: 100,
+//   })
+// );
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -63,26 +59,15 @@ describe("Collection.create", () => {
     const stopProgressBar = jest.fn();
 
     beforeEach(async () => {
-      mockedFsReaddirSync.mockReturnValue([
-        {
-          name: "element1.svg",
-          isFile: () => true,
-        },
-        {
-          name: "element2.svg",
-          isFile: () => true,
-        },
-      ] as any);
       collection = CollectionFactory();
       // mock internal collection methods
       collection.setupWorkspace = jest.fn();
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      collection.layers = [
-        LayerFactory().create("layer1"),
-        LayerFactory().create("layer2"),
-      ];
+      const layer1 = jest.fn();
+      const layer2 = jest.fn();
+      collection.layers = [layer1, layer2] as any;
       collection.svgFile = {
         create: jest.fn(),
       } as any;
@@ -92,6 +77,10 @@ describe("Collection.create", () => {
       } as any;
       collection.writeSingleMetadata = jest.fn();
       collection.writeMetadata = jest.fn();
+      collection.layerFactory = jest.fn().mockReturnValue({
+        create: jest.fn().mockReturnThis(),
+        getFileType: jest.fn().mockReturnValue(FileType.SVG),
+      });
       // mock tenk
       mockedTenk.mockReturnValue(mockedMetadata as any);
       // mock progress bar
@@ -185,26 +174,13 @@ describe("Collection.create", () => {
     const stopProgressBar = jest.fn();
 
     beforeEach(async () => {
-      mockedFsReaddirSync.mockReturnValue([
-        {
-          name: "element1.svg",
-          isFile: () => true,
-        },
-        {
-          name: "element2.svg",
-          isFile: () => true,
-        },
-      ] as any);
       collection = CollectionFactory();
       // mock internal collection methods
       collection.setupWorkspace = jest.fn();
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      collection.layers = [
-        LayerFactory().create("layer1"),
-        LayerFactory().create("layer2"),
-      ];
+      collection.layers = [jest.fn(), jest.fn()] as any;
       collection.svgFile = {
         create: jest.fn(),
       } as any;
@@ -214,6 +190,10 @@ describe("Collection.create", () => {
       } as any;
       collection.writeSingleMetadata = jest.fn();
       collection.writeMetadata = jest.fn();
+      collection.layerFactory = jest.fn().mockReturnValue({
+        create: jest.fn().mockReturnThis(),
+        getFileType: jest.fn().mockReturnValue(FileType.SVG),
+      });
       // mock tenk
       mockedTenk.mockReturnValue(mockedMetadata as any);
       // mock progress bar
@@ -304,10 +284,11 @@ describe("Collection.create", () => {
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      collection.layers = [
-        LayerFactory().create("layer1"),
-        LayerFactory().create("layer2"),
-      ];
+      collection.layers = [jest.fn(), jest.fn()] as any;
+      collection.layerFactory = jest.fn().mockReturnValue({
+        create: jest.fn().mockReturnThis(),
+        getFileType: jest.fn().mockReturnValue(FileType.SVG),
+      });
       // mock tenk
       mockedTenk.mockReturnValue([]);
       const warnSpy = jest.spyOn(console, "warn").mockImplementation();
@@ -350,16 +331,6 @@ describe("Collection.create", () => {
     const stopProgressBar = jest.fn();
 
     beforeEach(async () => {
-      mockedFsReaddirSync.mockReturnValue([
-        {
-          name: "element1.png",
-          isFile: () => true,
-        },
-        {
-          name: "element2.png",
-          isFile: () => true,
-        },
-      ] as any);
       collection = CollectionFactory();
       // mock internal collection methods
       collection.setupWorkspace = jest.fn();
@@ -375,6 +346,10 @@ describe("Collection.create", () => {
       } as any;
       collection.writeSingleMetadata = jest.fn();
       collection.writeMetadata = jest.fn();
+      collection.layerFactory = jest.fn().mockReturnValue({
+        create: jest.fn().mockReturnThis(),
+        getFileType: jest.fn().mockReturnValue(FileType.PNG),
+      });
       // mock tenk
       mockedTenk.mockReturnValue(mockedMetadata as any);
       // mock progress bar

@@ -13,4 +13,12 @@ export class Logger {
       console.log(...args);
     }
   }
+
+  debug(...args: any[]) {
+    console.log("DEBUG:", ...args);
+  }
+
+  warn(...args: any[]) {
+    console.warn("⚠️", ...args);
+  }
 }

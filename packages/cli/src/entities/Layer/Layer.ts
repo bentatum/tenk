@@ -2,14 +2,13 @@ import fs from "fs";
 import path from "path";
 import { layersDir } from "@/env";
 import {
-  ElementConfig,
   Factory,
   FileType,
   LayerMetadata,
   TenkLayerConfig,
 } from "@/interfaces";
 import { inject, injectable } from "inversify";
-import { Element } from "../Element";
+import { Element } from "../Element/Element";
 import { Config } from "../Config";
 
 @injectable()
@@ -17,6 +16,7 @@ export class Layer implements Factory {
   odds: number;
   name: string;
   elements: Element[];
+  layers: Layer[];
   mustAccompany?: Record<string, string[]>;
   cannotAccompany?: Record<string, string[]>;
   bypassDNA?: boolean;
@@ -32,7 +32,9 @@ export class Layer implements Factory {
     @inject("Config")
     public config: Config,
     @inject("Factory<Element>")
-    public elementFactory: () => Element
+    public elementFactory: () => Element,
+    @inject("Factory<Layer>")
+    public layerFactory: () => Layer
   ) {}
 
   updateMetadata(data: Partial<LayerMetadata>) {
@@ -61,26 +63,41 @@ export class Layer implements Factory {
     }
   }
 
-  create(folderName: string) {
+  create(folderName: string, relativePath: string = layersDir): Layer {
     this.parseFolderName(folderName);
-    this.updateMetadata({
-      path: `${layersDir}/${folderName}`,
-    });
-
+    this.updateMetadata({ path: `${relativePath}/${folderName}` });
     this.applyConfig();
     this.setElements();
+    this.setSubLayers();
     return this;
   }
 
-  getLayerFiles(): string[] {
-    return fs
-      .readdirSync(this.metadata.path, { withFileTypes: true })
-      .filter(
-        (dirent) =>
-          dirent.isFile() &&
-          [".png", ".svg"].includes(path.extname(dirent.name))
-      )
-      .map((dirent) => dirent.name);
+  getLayerFileNames(): string[] {
+    try {
+      return fs
+        .readdirSync(this.metadata.path, { withFileTypes: true })
+        .filter(
+          (dirent) =>
+            dirent.isFile() &&
+            [".png", ".svg"].includes(path.extname(dirent.name))
+        )
+        .map((dirent) => dirent.name);
+    } catch (error) {
+      this.logger.warn("Failed to read layer directory.");
+      process.exitCode = 1;
+    }
+  }
+
+  getLayerDirNames(): string[] {
+    try {
+      return fs
+        .readdirSync(this.metadata.path, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+    } catch (error) {
+      this.logger.warn("No layers directory found. Please create one.");
+      process.exitCode = 1;
+    }
   }
 
   parseFileType(fileName: string) {
@@ -94,11 +111,26 @@ export class Layer implements Factory {
     }
   }
 
+  setSubLayers(): void {
+    const dirNames = this.getLayerDirNames();
+    if (!dirNames.length) {
+      return;
+    }
+
+    this.layers = dirNames.map((dirName) =>
+      this.layerFactory().create(dirName, this.metadata.path)
+    );
+  }
+
   setElements(): void {
-    const fileNames = this.getLayerFiles();
-    // we don't support mixed file types in a collection, yet.
-    // grab the first file and use it to determine the type.
+    const fileNames = this.getLayerFileNames();
+    if (!fileNames.length) {
+      return;
+    }
+
     this.updateMetadata({
+      // we don't support mixed file types in a collection, yet.
+      // grab the first file and use it to determine the type.
       fileType: this.parseFileType(fileNames[0]),
     });
 
