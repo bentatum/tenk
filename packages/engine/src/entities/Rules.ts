@@ -28,7 +28,7 @@ export class Rules {
       elementNameRule.endsWith("/")
     ) {
       return Boolean(
-        elementName.match(new RegExp(elementNameRule.replace(/\//gi, ""), "gi"))
+        elementName.match(new RegExp(elementNameRule.replace(/\//g, ""), "g"))
       );
     }
 
@@ -55,7 +55,7 @@ export class Rules {
           const elementName = layer.selectedElement?.name;
           if (key.startsWith("/") && key.endsWith("/")) {
             return Boolean(
-              elementName.match(new RegExp(key.replace(/\//g, ""), "gi"))
+              elementName.match(new RegExp(key.replace(/\//g, ""), "g"))
             );
           }
           return key === "*" || key === elementName;

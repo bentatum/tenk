@@ -558,7 +558,7 @@ describe("Rules", () => {
         const eyeWhites = LayerFactory().create({
           name: "Headwear",
           elements: [cyclopsEyeWhites],
-          mustAccompany: { ["/cyclops/"]: ["pupils./cyclops/"] },
+          mustAccompany: { ["/Cyclops/"]: ["Pupils./Cyclops/"] },
         });
         eyeWhites.selectedElement = cyclopsEyeWhites;
 
