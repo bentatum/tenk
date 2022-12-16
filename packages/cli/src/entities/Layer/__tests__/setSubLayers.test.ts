@@ -29,4 +29,34 @@ describe("Layer.setSubLayers", () => {
 
     expect(layer.layers).toBeDefined();
   });
+
+  it("should pass along parent layer name", () => {
+    layer.getLayerDirNames = jest.fn().mockReturnValueOnce(["Color"]);
+
+    const layerCreateMock = jest.fn();
+    layer.layerFactory = jest.fn().mockReturnValue({
+      create: layerCreateMock,
+    });
+
+    const path = "/layers/Shirt";
+    layer.metadata = {
+      path,
+    } as any;
+    const parentLayer = {
+      name: "Body",
+      parentLayer: {
+        name: "Person",
+      },
+    };
+    layer.name = "Shirt";
+    layer.parentLayer = parentLayer as any;
+
+    layer.setSubLayers();
+
+    expect(layerCreateMock).toHaveBeenCalledTimes(1);
+    expect(layerCreateMock).toHaveBeenCalledWith("Color", path, {
+      name: "Shirt",
+      parentLayer,
+    });
+  });
 });

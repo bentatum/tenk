@@ -52,18 +52,13 @@ export class Rules {
     } else if (layerRules) {
       rules = Object.keys(layerRules)
         .filter((key) => {
-          // const layerName = layer.name.toLowerCase();
-          const elementName = layer.selectedElement?.name.toLowerCase();
+          const elementName = layer.selectedElement?.name;
           if (key.startsWith("/") && key.endsWith("/")) {
             return Boolean(
               elementName.match(new RegExp(key.replace(/\//g, ""), "gi"))
             );
           }
-          const _key = key.toLowerCase();
-          return (
-            _key === "*" || _key === elementName
-            // _key === `${layerName}.${elementName}`
-          );
+          return key === "*" || key === elementName;
         })
         .map((key) => layerRules[key])
         .flat();

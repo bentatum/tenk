@@ -1,4 +1,4 @@
-import { Factory, LayerConfig, RuleTypes } from "@/interfaces";
+import { Factory, LayerConfig } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "./Element";
 import { Rules } from "./Rules";

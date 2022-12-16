@@ -8,14 +8,17 @@ import {
   TenkLayerConfig,
 } from "@/interfaces";
 import { inject, injectable } from "inversify";
-import { Element } from "../Element/Element";
+import { Element } from "../Element";
 import { Config } from "../Config";
+
+type ParentLayer = Pick<Layer, "name" | "parentLayer">;
 
 @injectable()
 export class Layer implements Factory {
   odds: number;
   name: string;
   elements: Element[];
+  parentLayer?: ParentLayer;
   layers: Layer[];
   mustAccompany?: Record<string, string[]>;
   cannotAccompany?: Record<string, string[]>;
@@ -43,6 +46,13 @@ export class Layer implements Factory {
 
   applyConfig() {
     const layerConfig = this.getLayerConfig();
+
+    this.logger.verbose(
+      "Creating layer... ",
+      this.name,
+      layerConfig ? layerConfig : "[no config found]"
+    );
+
     if (layerConfig) {
       this.odds = layerConfig.odds || this.odds;
       this.mustAccompany = layerConfig.mustAccompany || this.mustAccompany;
@@ -53,17 +63,30 @@ export class Layer implements Factory {
     }
   }
 
+  getLayerConfigKey(layer: ParentLayer): string {
+    let key = layer.name;
+    if (layer.parentLayer) {
+      key = `${this.getLayerConfigKey(layer.parentLayer)}.${key}`;
+    }
+    return key;
+  }
+
   getLayerConfig(): TenkLayerConfig | undefined {
     const layersConfig = this.config.get("layers");
     if (layersConfig) {
       return {
         ...layersConfig["*"],
-        ...layersConfig[this.name],
+        ...layersConfig[this.getLayerConfigKey(this)],
       };
     }
   }
 
-  create(folderName: string, relativePath: string = layersDir): Layer {
+  create(
+    folderName: string,
+    relativePath: string = layersDir,
+    parentLayer?: ParentLayer
+  ): Layer {
+    this.parentLayer = parentLayer;
     this.parseFolderName(folderName);
     this.updateMetadata({ path: `${relativePath}/${folderName}` });
     this.applyConfig();
@@ -117,9 +140,15 @@ export class Layer implements Factory {
       return;
     }
 
-    this.layers = dirNames.map((dirName) =>
-      this.layerFactory().create(dirName, this.metadata.path)
-    );
+    this.layers = dirNames.map((dirName) => {
+      if (this.parentLayer) {
+        return this.layerFactory().create(dirName, this.metadata.path, {
+          name: this.name,
+          parentLayer: this.parentLayer,
+        });
+      }
+      return this.layerFactory().create(dirName, this.metadata.path);
+    });
   }
 
   setElements(): void {
