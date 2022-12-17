@@ -55,20 +55,21 @@ export class Collection implements Factory {
   getRenderableLayers(layers: Layer[]): Layer[] {
     const renderableLayers = this.filterByOdds(layers)
       .map((layer) => layer.selectElement())
-      .filter((layer) => layer.isRenderable());
+      .filter((layer) => layer.isRenderable())
+      .reduce((acc, next) => {
+        const childLayers = next.getChildLayers();
+        if (childLayers.length) {
+          acc.push(...this.getRenderableLayers(childLayers));
+        } else {
+          acc.push(next);
+        }
+        return acc;
+      }, [])
+      .filter((layer) => layer.selectedElement);
 
     this.throwIfLayersBreakRules(renderableLayers);
 
-    const childLayers: Layer[] = renderableLayers
-      .map((layer) => layer.getChildLayers())
-      .flat() as Layer[];
-
-    if (childLayers.length) {
-      renderableLayers.push(...this.getRenderableLayers(childLayers));
-    }
-
-    // remove layers without element after extracting child layers
-    return renderableLayers.filter((layer) => layer.selectedElement);
+    return renderableLayers;
   }
 
   getDna(layers: Layer[]): string {

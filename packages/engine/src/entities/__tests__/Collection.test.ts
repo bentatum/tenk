@@ -174,4 +174,57 @@ describe("Collection", () => {
       expect(collection.getDna).not.toBeCalled();
     });
   });
+
+  describe("collection with sublayers", () => {
+    it("should list the sub layers after the parent", () => {
+      const body = LayerFactory().create({
+        name: "body",
+        layers: [
+          LayerFactory().create({
+            name: "face",
+            elements: [
+              ElementFactory().create({
+                name: "light",
+              }),
+              ElementFactory().create({
+                name: "medium",
+              }),
+              ElementFactory().create({
+                name: "dark",
+              }),
+            ],
+          }),
+          LayerFactory().create({
+            name: "arms",
+            elements: [
+              ElementFactory().create({
+                name: "light",
+              }),
+              ElementFactory().create({
+                name: "medium",
+              }),
+              ElementFactory().create({
+                name: "dark",
+              }),
+            ],
+          }),
+        ],
+      });
+      const lightBg = ElementFactory().create({
+        name: "light",
+      });
+      const background = LayerFactory().create({
+        name: "background",
+        elements: [lightBg],
+      });
+      background.selectedElement = lightBg;
+      const renderableLayers = CollectionFactory().getRenderableLayers([
+        background,
+        body,
+      ]);
+      expect(renderableLayers[0].name).toBe("background")
+      expect(renderableLayers[1].name).toBe("face")
+      expect(renderableLayers[2].name).toBe("arms")
+    });
+  });
 });
