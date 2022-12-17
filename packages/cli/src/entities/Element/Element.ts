@@ -7,6 +7,7 @@ import {
   FileType,
 } from "@/interfaces";
 import { Logger } from "../Logger";
+import { extname } from "path";
 
 @injectable()
 export class Element implements Factory {
@@ -34,7 +35,8 @@ export class Element implements Factory {
   }
 
   create({ path, metadata, weight }: ElementConfig) {
-    this.name = path.split("/").pop();
+    const fileName = path.split("/").pop();
+    this.name = fileName.replace(extname(fileName), "");
     this.weight = weight;
     this.updateMetadata({ path, ...metadata });
     this.setDimensions();

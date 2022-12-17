@@ -64,6 +64,14 @@ describe("Layer.create", () => {
     });
   });
 
+  it("should append the parent layer name to its own", () => {
+    layer.create(layerName, "/layers", {
+      name: "foo",
+      parentLayer: undefined,
+    });
+    expect(layer.name).toBe("foo.test");
+  });
+
   describe("with layer config", () => {
     const config = {
       layers: {

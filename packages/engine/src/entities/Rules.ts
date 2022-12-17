@@ -5,16 +5,15 @@ import { Layer } from "./Layer";
 @injectable()
 export class Rules {
   parseRule(rules: string): string[] {
-    return rules
-      .toLowerCase()
-      .split(".")
-      .map((rule) => rule.trim())
-      .filter((rule) => rule);
+    const splitRules = rules.split(".");
+    const elementName = splitRules.pop();
+    const layerName = splitRules.join(".");
+    return [layerName, elementName].filter(Boolean);
   }
 
   match(rule: string, comparator: Layer) {
-    const layerName = comparator.name.toLowerCase();
-    const elementName = comparator.selectedElement?.name.toLowerCase();
+    const layerName = comparator.name;
+    const elementName = comparator.selectedElement?.name;
     const rules = this.parseRule(rule);
     const layerMatch = rules[0] === layerName;
 
@@ -28,7 +27,7 @@ export class Rules {
       elementNameRule.endsWith("/")
     ) {
       return Boolean(
-        elementName.match(new RegExp(elementNameRule.replace(/\//gi, ""), "gi"))
+        elementName.match(new RegExp(elementNameRule.replace(/\//gi, ""), "g"))
       );
     }
 
@@ -39,7 +38,7 @@ export class Rules {
     return layerMatch;
   }
 
-  getRulesFromLayer(layer: Layer, rule: RuleTypes) {
+  getRulesFromLayer(layer: Layer, rule: RuleTypes): string[] {
     const layerRules = layer[rule];
     const elementRules = layer.selectedElement?.[rule];
 
@@ -52,18 +51,13 @@ export class Rules {
     } else if (layerRules) {
       rules = Object.keys(layerRules)
         .filter((key) => {
-          // const layerName = layer.name.toLowerCase();
-          const elementName = layer.selectedElement?.name.toLowerCase();
+          const elementName = layer.selectedElement?.name;
           if (key.startsWith("/") && key.endsWith("/")) {
             return Boolean(
-              elementName.match(new RegExp(key.replace(/\//g, ""), "gi"))
+              elementName.match(new RegExp(key.replace(/\//gi, ""), "g"))
             );
           }
-          const _key = key.toLowerCase();
-          return (
-            _key === "*" || _key === elementName
-            // _key === `${layerName}.${elementName}`
-          );
+          return key === "*" || key === elementName;
         })
         .map((key) => layerRules[key])
         .flat();
@@ -82,10 +76,8 @@ export class Rules {
   mustAccompany(layer: Layer, selectedLayers: Layer[]) {
     const rules = this.getRulesFromLayer(layer, "mustAccompany");
     return rules.every((rule) => {
-      const rules = this.parseRule(rule) as [string, string | undefined];
-      const requiredLayer = selectedLayers.find(
-        (x) => x.name.toLowerCase() === rules[0]
-      );
+      const rules = this.parseRule(rule);
+      const requiredLayer = selectedLayers.find((x) => x.name === rules[0]);
       if (!requiredLayer) return true;
       return this.match(rule, requiredLayer);
     });

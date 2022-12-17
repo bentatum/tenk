@@ -8,14 +8,17 @@ import {
   TenkLayerConfig,
 } from "@/interfaces";
 import { inject, injectable } from "inversify";
-import { Element } from "../Element/Element";
+import { Element } from "../Element";
 import { Config } from "../Config";
+
+type ParentLayer = Pick<Layer, "name" | "parentLayer">;
 
 @injectable()
 export class Layer implements Factory {
   odds: number;
   name: string;
   elements: Element[];
+  parentLayer?: ParentLayer;
   layers: Layer[];
   mustAccompany?: Record<string, string[]>;
   cannotAccompany?: Record<string, string[]>;
@@ -43,6 +46,13 @@ export class Layer implements Factory {
 
   applyConfig() {
     const layerConfig = this.getLayerConfig();
+
+    this.logger.verbose(
+      "Creating layer... ",
+      this.name,
+      layerConfig ? layerConfig : "[no config found]"
+    );
+
     if (layerConfig) {
       this.odds = layerConfig.odds || this.odds;
       this.mustAccompany = layerConfig.mustAccompany || this.mustAccompany;
@@ -63,7 +73,12 @@ export class Layer implements Factory {
     }
   }
 
-  create(folderName: string, relativePath: string = layersDir): Layer {
+  create(
+    folderName: string,
+    relativePath: string = layersDir,
+    parentLayer?: ParentLayer
+  ): Layer {
+    this.parentLayer = parentLayer;
     this.parseFolderName(folderName);
     this.updateMetadata({ path: `${relativePath}/${folderName}` });
     this.applyConfig();
@@ -116,10 +131,12 @@ export class Layer implements Factory {
     if (!dirNames.length) {
       return;
     }
-
-    this.layers = dirNames.map((dirName) =>
-      this.layerFactory().create(dirName, this.metadata.path)
-    );
+    this.layers = dirNames.map((dirName) => {
+      return this.layerFactory().create(dirName, this.metadata.path, {
+        name: this.name,
+        parentLayer: this.parentLayer,
+      });
+    });
   }
 
   setElements(): void {
@@ -179,7 +196,9 @@ export class Layer implements Factory {
     );
 
     this.odds = odds;
-    this.name = name;
+    this.name = this.parentLayer
+      ? `${this.parentLayer.name}.${name}`
+      : name;
   }
 
   getFileType(): FileType {

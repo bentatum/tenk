@@ -25,7 +25,7 @@ describe("Element.create", () => {
   });
 
   it("should define the name", () => {
-    expect(element.name).toBe("Blue.png");
+    expect(element.name).toBe("Blue");
   });
 
   it("should define the weight", () => {
