@@ -62,7 +62,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [hat],
-          cannotAccompany: { "*": ["above head.rain cloud"] },
+          cannotAccompany: { "*": ["Above head.Rain Cloud"] },
         });
         headwearLayer.selectedElement = hat;
 
@@ -112,7 +112,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [hat],
-          cannotAccompany: { Hat: ["Above head./rain/"] },
+          cannotAccompany: { Hat: ["Above head./Rain/"] },
         });
         headwearLayer.selectedElement = hat;
 
@@ -162,7 +162,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [hat],
-          cannotAccompany: { hat: ["above head.cloud"] },
+          cannotAccompany: { hat: ["Above head.Cloud"] },
         });
         headwearLayer.selectedElement = hat;
 
@@ -184,7 +184,7 @@ describe("Rules", () => {
         aboveHeadLayer.selectedElement = rainCloud;
         const hat = ElementFactory().create({
           name: "Hat",
-          cannotAccompany: ["above head.rain cloud"],
+          cannotAccompany: ["Above head.Rain Cloud"],
         });
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
@@ -207,7 +207,7 @@ describe("Rules", () => {
         aboveHeadLayer.selectedElement = rainCloud;
         const hat = ElementFactory().create({
           name: "Hat",
-          cannotAccompany: ["above head./rain/"],
+          cannotAccompany: ["Above head./Rain/"],
         });
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
@@ -230,7 +230,7 @@ describe("Rules", () => {
         aboveHeadLayer.selectedElement = rainCloud;
         const hat = ElementFactory().create({
           name: "Hat",
-          cannotAccompany: ["above head"],
+          cannotAccompany: ["Above head"],
         });
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
@@ -382,7 +382,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [hat],
-          mustAccompany: { Hat: ["above head.sun"] },
+          mustAccompany: { Hat: ["Above head.Sun"] },
         });
         headwearLayer.selectedElement = hat;
 
@@ -409,7 +409,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [umbrellaHat],
-          mustAccompany: { "*": ["above head"] },
+          mustAccompany: { "*": ["Above head"] },
         });
         headwearLayer.selectedElement = umbrellaHat;
 
@@ -483,7 +483,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [umbrellaHat],
-          mustAccompany: { [umbrellaHat.name]: ["above head./cloud/"] },
+          mustAccompany: { [umbrellaHat.name]: ["Above head./Cloud/"] },
         });
         headwearLayer.selectedElement = umbrellaHat;
 
@@ -508,7 +508,7 @@ describe("Rules", () => {
         const headwearLayer = LayerFactory().create({
           name: "Headwear",
           elements: [umbrellaHat],
-          mustAccompany: { [umbrellaHat.name]: ["above head./sun/"] },
+          mustAccompany: { [umbrellaHat.name]: ["Above head./Sun/"] },
         });
         headwearLayer.selectedElement = umbrellaHat;
 

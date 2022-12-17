@@ -63,20 +63,12 @@ export class Layer implements Factory {
     }
   }
 
-  getLayerConfigKey(layer: ParentLayer): string {
-    let key = layer.name;
-    if (layer.parentLayer) {
-      key = `${this.getLayerConfigKey(layer.parentLayer)}.${key}`;
-    }
-    return key;
-  }
-
   getLayerConfig(): TenkLayerConfig | undefined {
     const layersConfig = this.config.get("layers");
     if (layersConfig) {
       return {
         ...layersConfig["*"],
-        ...layersConfig[this.getLayerConfigKey(this)],
+        ...layersConfig[this.name],
       };
     }
   }
@@ -139,15 +131,11 @@ export class Layer implements Factory {
     if (!dirNames.length) {
       return;
     }
-
     this.layers = dirNames.map((dirName) => {
-      if (this.parentLayer) {
-        return this.layerFactory().create(dirName, this.metadata.path, {
-          name: this.name,
-          parentLayer: this.parentLayer,
-        });
-      }
-      return this.layerFactory().create(dirName, this.metadata.path);
+      return this.layerFactory().create(dirName, this.metadata.path, {
+        name: this.name,
+        parentLayer: this.parentLayer,
+      });
     });
   }
 
@@ -208,7 +196,9 @@ export class Layer implements Factory {
     );
 
     this.odds = odds;
-    this.name = name;
+    this.name = this.parentLayer
+      ? `${this.parentLayer.name}.${name}`
+      : name;
   }
 
   getFileType(): FileType {
