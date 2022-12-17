@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/bentatum/tenk/compare/v0.11.0...v0.12.0) (2022-12-17)
+
+
+* feat!: config key dot notation (#56) ([3f589b2](https://github.com/bentatum/tenk/commit/3f589b2ff57e406a3dcc375c84a08ef018eab307)), closes [#56](https://github.com/bentatum/tenk/issues/56)
+
+
+### BREAKING CHANGES
+
+* rules config are no longer case insensitive
+
+
+
+
+
 # [0.11.0](https://github.com/bentatum/tenk/compare/v0.10.0...v0.11.0) (2022-12-14)
 
 **Note:** Version bump only for package @tenk/engine
