@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1](https://github.com/bentatum/tenk/compare/v0.12.0...v0.12.1) (2022-12-17)
+
+
+### Bug Fixes
+
+* dont push sublayers to top ([#57](https://github.com/bentatum/tenk/issues/57)) ([381bb14](https://github.com/bentatum/tenk/commit/381bb142dd7f47dc38fce43017dd984ec4a60659))
+
+
+
+
+
 # [0.12.0](https://github.com/bentatum/tenk/compare/v0.11.0...v0.12.0) (2022-12-17)
 
 
