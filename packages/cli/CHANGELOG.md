@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/bentatum/tenk/compare/v0.12.1...v0.13.0) (2022-12-24)
+
+
+### Features
+
+* make element weight definable via filename ([#59](https://github.com/bentatum/tenk/issues/59)) ([1b0f99b](https://github.com/bentatum/tenk/commit/1b0f99b80ed72b250c2c4c410adc7926b2231749))
+
+
+
+
+
 # [0.12.0](https://github.com/bentatum/tenk/compare/v0.11.0...v0.12.0) (2022-12-17)
 
 
