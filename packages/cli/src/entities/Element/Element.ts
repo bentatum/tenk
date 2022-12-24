@@ -34,10 +34,25 @@ export class Element implements Factory {
     this.updateMetadata({ height, width });
   }
 
+  parseFilePath(filePath: string): [string, number | undefined] {
+    const fileName = filePath.split("/").pop();
+    const [name, weight] = fileName.replace(extname(fileName), "").split("#");
+    return [name, weight ? Number(weight) / 100 : undefined];
+  }
+
+  setNameAndWeight(filePath: string, weight?: number) {
+    const [name, weightFromFileName] = this.parseFilePath(filePath);
+    this.logger.verbose("Parsing element name and weight from file name", {
+      name,
+      weight: weightFromFileName,
+    });
+    this.name = name;
+    this.weight = weight || weightFromFileName || 1;
+  }
+
   create({ path, metadata, weight }: ElementConfig) {
-    const fileName = path.split("/").pop();
-    this.name = fileName.replace(extname(fileName), "");
-    this.weight = weight;
+    this.logger.verbose("Creating element...", { path, metadata, weight });
+    this.setNameAndWeight(path, weight);
     this.updateMetadata({ path, ...metadata });
     this.setDimensions();
     return this;
