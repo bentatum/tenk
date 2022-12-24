@@ -58,7 +58,7 @@ describe("Element.create", () => {
       expect(element.weight).toBe(0.5);
     });
 
-    it('should be overridden by the configuration options', () => {
+    it("should be overridden by the configuration options", () => {
       const element = container.get<Element>("Element");
       element.create({
         path: "/layers/Shirt/Color/Blue#50.png",
@@ -68,6 +68,19 @@ describe("Element.create", () => {
         },
       });
       expect(element.weight).toBe(0.2);
-    })
+    });
+  });
+
+  describe("undefined weight", () => {
+    it("should default to 1", () => {
+      const element = container.get<Element>("Element");
+      element.create({
+        path: "/layers/Shirt/Color/Blue.png",
+        metadata: {
+          fileType: FileType.PNG,
+        },
+      });
+      expect(element.weight).toBe(1);
+    });
   });
 });

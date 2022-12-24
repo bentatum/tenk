@@ -156,11 +156,13 @@ export class Layer implements Factory {
     this.elements = fileNames.map((fileName) => {
       const elementName = fileName.replace(path.extname(fileName), "");
       const elementConfig = layerConfig?.elements?.[elementName];
-      this.logger.verbose(
-        "Creating element...",
-        elementName,
-        elementConfig ? elementConfig : "[no config found]"
-      );
+      if (elementConfig) {
+        this.logger.verbose(
+          "Found element with configuration...",
+          elementName,
+          elementConfig
+        );
+      }
       return this.elementFactory().create({
         ...elementConfig,
         path: `${this.metadata.path}/${fileName}`,
@@ -196,9 +198,7 @@ export class Layer implements Factory {
     );
 
     this.odds = odds;
-    this.name = this.parentLayer
-      ? `${this.parentLayer.name}.${name}`
-      : name;
+    this.name = this.parentLayer ? `${this.parentLayer.name}.${name}` : name;
   }
 
   getFileType(): FileType {

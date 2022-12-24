@@ -47,7 +47,7 @@ describe("Layer.setElements", () => {
     });
 
     it("should log verbose", () => {
-      expect(verboseLogMock).toBeCalledTimes(2);
+      expect(verboseLogMock).toBeCalledTimes(1);
     });
 
     it("should call updateMetadata", () => {
@@ -117,13 +117,8 @@ describe("Layer.setElements", () => {
       layer.setElements();
     });
 
-    it("should log verbose", () => {
-      expect(verboseLogMock).toBeCalledTimes(2);
-      expect(verboseLogMock).lastCalledWith(
-        "Creating element...",
-        "test-test",
-        "[no config found]"
-      );
+    it("should not log verbose if no config is found", () => {
+      expect(verboseLogMock).toBeCalledTimes(0);
     });
   });
 });
