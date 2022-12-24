@@ -7,10 +7,13 @@
 
 Generative art projects made simple.
 
+## Setup
+
+tenk cli uses `node-canvas` to render pngs. If you encounter errors upon installation, check if you have the required packages. https://github.com/Automattic/node-canvas#installation.
+
 ## Get Started
 
 Create a directory with a folder called `layers`. Each layer needs to be a folder with image files.
-
 `cd` to your project folder in your terminal and type `npx tenk`. Images are rendered to the `.tenk` folder next to `layers`.
 
 ### Layer Ordering
