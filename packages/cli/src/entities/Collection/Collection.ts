@@ -51,6 +51,7 @@ export class Collection implements Factory {
 
     const metadata = tenk(this.layers, {
       size: this.config.get("size"),
+      modifier: this.config.get("modifier"),
     });
 
     if (!metadata.length) {

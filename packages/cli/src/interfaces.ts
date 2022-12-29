@@ -23,7 +23,9 @@ export interface ElementConfig {
   weight?: number;
 }
 
-export interface TenkLayerConfig {
+export type ParentLayer = Pick<LayerConfig, "name" | "parentLayer">;
+
+export interface TenkJsonLayerConfig {
   layers?: LayerConfig[];
   odds?: number;
   bypassDNA?: boolean;
@@ -34,11 +36,11 @@ export interface TenkLayerConfig {
   elements?: Record<string, Partial<ElementConfig>>;
 }
 
-export interface TenkConfig {
+export interface TenkJsonConfig {
   size?: number;
   formats?: string;
   verbose?: boolean;
-  layers?: Record<string, TenkLayerConfig>;
+  layers?: Record<string, TenkJsonLayerConfig>;
 }
 
 export enum FileType {

@@ -2,7 +2,7 @@ import fs from "fs";
 import { container } from "@/inversify.config";
 import { createMock } from "ts-jest-mock";
 import { Config } from "../Config";
-import { TenkConfig } from "@/interfaces";
+import { TenkJsonConfig } from "@/interfaces";
 
 jest.mock("@/env", () => ({
   configPath: "/test/tenk.config.js",
@@ -11,7 +11,7 @@ jest.mock("@/env", () => ({
 jest.mock("fs");
 const mockedFsExistsSync = createMock(fs.existsSync);
 
-const mockedConfig: TenkConfig = {
+const mockedConfig: TenkJsonConfig = {
   layers: {
     layer1: {
       mustAccompany: {

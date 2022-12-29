@@ -1,4 +1,4 @@
-import { Factory, LayerConfig } from "@/interfaces";
+import { Factory, LayerConfig, ParentLayer } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "./Element";
 import { Rules } from "./Rules";
@@ -14,6 +14,7 @@ export class Layer implements Factory {
   cannotAccompany?: Record<string, string[]>;
   mustAccompany?: Record<string, string[]>;
   metadata: Record<string, any> = {};
+  parentLayer?: ParentLayer;
 
   constructor(
     @inject("Factory<Element>")
@@ -24,19 +25,25 @@ export class Layer implements Factory {
     public rules: Rules
   ) {}
 
-  selectElement(): Layer {
-    const elements = this.elements.filter((element) => element.weight > 0);
-    const totalWeight = elements.reduce((acc, element) => {
-      acc += element.weight;
-      return acc;
-    }, 0);
-    let random = Math.random() * totalWeight;
-    for (let i = 0; i < elements.length; i++) {
-      if (elements[i].weight > random) {
-        this.selectedElement = elements[i];
-        break;
-      } else {
-        random -= elements[i].weight;
+  selectElement(elementName?: string): Layer {
+    if (elementName) {
+      this.selectedElement = this.elements.find(
+        (element) => element.name === elementName
+      );
+    } else {
+      const elements = this.elements.filter((element) => element.weight > 0);
+      const totalWeight = elements.reduce((acc, element) => {
+        acc += element.weight;
+        return acc;
+      }, 0);
+      let random = Math.random() * totalWeight;
+      for (let i = 0; i < elements.length; i++) {
+        if (elements[i].weight > random) {
+          this.selectedElement = elements[i];
+          break;
+        } else {
+          random -= elements[i].weight;
+        }
       }
     }
     return this;
@@ -61,6 +68,7 @@ export class Layer implements Factory {
     cannotAccompany,
     mustAccompany,
     metadata,
+    parentLayer
   }: LayerConfig) {
     this.name = name;
     this.layers = layers.map((layer) => this.layerFactory().create(layer));
@@ -72,6 +80,7 @@ export class Layer implements Factory {
     this.cannotAccompany = cannotAccompany;
     this.mustAccompany = mustAccompany;
     this.metadata = metadata;
+    this.parentLayer = parentLayer;
     return this;
   }
 

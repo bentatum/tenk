@@ -16,6 +16,7 @@ export class Collection implements Factory {
   brokenRuleThreshold: number;
   layers: Layer[] = [];
   metadata: Metadata[];
+  modifier?(renderableLayers: Layer[], tokenId: number, allLayers: Layer[]): Layer[];
 
   constructor(
     @inject("Factory<Layer>")
@@ -28,6 +29,7 @@ export class Collection implements Factory {
       brokenRuleThreshold = 1000000,
       duplicateThreshold = 100,
       size = 10000,
+      modifier,
     }: Options = {}
   ) {
     this.layers = layerConfigurations.map((layer) =>
@@ -36,6 +38,7 @@ export class Collection implements Factory {
     this.brokenRuleThreshold = brokenRuleThreshold;
     this.duplicateThreshold = duplicateThreshold;
     this.size = size;
+    this.modifier = modifier;
     return this.generateMetadata();
   }
 
@@ -52,23 +55,28 @@ export class Collection implements Factory {
     }
   }
 
-  getRenderableLayers(layers: Layer[]): Layer[] {
-    const renderableLayers = this.filterByOdds(layers)
+  chooseLayers(layers: Layer[]): Layer[] {
+    return this.filterByOdds(layers)
       .map((layer) => layer.selectElement())
       .filter((layer) => layer.isRenderable())
       .reduce((acc, next) => {
         const childLayers = next.getChildLayers();
         if (childLayers.length) {
-          acc.push(...this.getRenderableLayers(childLayers));
+          acc.push(...this.chooseLayers(childLayers));
         } else {
           acc.push(next);
         }
         return acc;
       }, [])
       .filter((layer) => layer.selectedElement);
+  }
 
+  getRenderableLayers(layers: Layer[], tokenId: number): Layer[] {
+    const renderableLayers = this.chooseLayers(layers);
     this.throwIfLayersBreakRules(renderableLayers);
-
+    if (this.modifier) {
+      return this.modifier(renderableLayers, tokenId, this.layers);
+    }
     return renderableLayers;
   }
 
@@ -110,7 +118,7 @@ export class Collection implements Factory {
       let renderableLayers: Layer[] = [];
 
       try {
-        renderableLayers = this.getRenderableLayers(this.layers);
+        renderableLayers = this.getRenderableLayers(this.layers, tokenId);
       } catch {
         if (_brokenRuleThreshold > 0) {
           _brokenRuleThreshold--;

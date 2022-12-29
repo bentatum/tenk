@@ -61,4 +61,40 @@ describe("Rules", () => {
       expect(layer.getChildLayers()).toEqual([]);
     });
   });
+
+  describe("selectElement", () => {
+    it("should select an element", () => {
+      const element = ElementFactory().create({
+        name: "test",
+      });
+
+      const layer = LayerFactory().create({
+        name: "test",
+        elements: [element],
+      });
+
+      expect(layer.selectedElement).toBeUndefined();
+
+      layer.selectElement();
+
+      expect(layer.selectedElement).toBeInstanceOf(Element);
+    });
+
+    it("should select an element by name", () => {
+      const element = ElementFactory().create({
+        name: "test",
+      });
+
+      const layer = LayerFactory().create({
+        name: "test",
+        elements: [element],
+      });
+
+      expect(layer.selectedElement).toBeUndefined();
+
+      layer.selectElement("test");
+
+      expect(layer.selectedElement.name).toBe("test");
+    });
+  });
 });
