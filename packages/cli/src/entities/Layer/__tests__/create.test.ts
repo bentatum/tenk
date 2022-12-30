@@ -69,7 +69,7 @@ describe("Layer.create", () => {
       name: "foo",
       parentLayer: undefined,
     });
-    expect(layer.name).toBe("foo.test");
+    expect(layer.name).toBe("foo_test");
   });
 
   describe("with layer config", () => {

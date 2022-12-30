@@ -5,13 +5,12 @@ import {
   Factory,
   FileType,
   LayerMetadata,
-  TenkLayerConfig,
+  TenkJsonLayerConfig,
+  ParentLayer,
 } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "../Element";
 import { Config } from "../Config";
-
-type ParentLayer = Pick<Layer, "name" | "parentLayer">;
 
 @injectable()
 export class Layer implements Factory {
@@ -63,7 +62,7 @@ export class Layer implements Factory {
     }
   }
 
-  getLayerConfig(): TenkLayerConfig | undefined {
+  getLayerConfig(): TenkJsonLayerConfig | undefined {
     const layersConfig = this.config.get("layers");
     if (layersConfig) {
       return {
@@ -198,7 +197,7 @@ export class Layer implements Factory {
     );
 
     this.odds = odds;
-    this.name = this.parentLayer ? `${this.parentLayer.name}.${name}` : name;
+    this.name = this.parentLayer ? `${this.parentLayer.name}_${name}` : name;
   }
 
   getFileType(): FileType {

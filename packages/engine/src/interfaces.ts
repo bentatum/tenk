@@ -1,3 +1,5 @@
+import { Layer } from "./entities";
+
 export interface Factory {
   create(...args: any): any;
 }
@@ -11,6 +13,8 @@ export interface ElementConfig {
   metadata?: Record<string, any>;
 }
 
+export type ParentLayer = Pick<LayerConfig, "name" | "parentLayer">;
+
 export interface LayerConfig {
   name: string;
   layers?: LayerConfig[];
@@ -21,12 +25,14 @@ export interface LayerConfig {
   cannotAccompany?: Record<string, string[]>;
   svgAttributes?: Record<string, any>;
   metadata?: Record<string, any>;
+  parentLayer?: ParentLayer;
 }
 
 export interface Options {
   size?: number;
   duplicateThreshold?: number;
   brokenRuleThreshold?: number;
+  modifier?(renderableLayers: Layer[], tokenId: number, allLayers: Layer[]): Layer[];
 }
 
 export interface Collection {

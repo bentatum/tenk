@@ -218,13 +218,42 @@ describe("Collection", () => {
         elements: [lightBg],
       });
       background.selectedElement = lightBg;
-      const renderableLayers = CollectionFactory().getRenderableLayers([
-        background,
-        body,
-      ]);
-      expect(renderableLayers[0].name).toBe("background")
-      expect(renderableLayers[1].name).toBe("face")
-      expect(renderableLayers[2].name).toBe("arms")
+      const renderableLayers = CollectionFactory().getRenderableLayers(
+        [background, body],
+        1
+      );
+      expect(renderableLayers[0].name).toBe("background");
+      expect(renderableLayers[1].name).toBe("face");
+      expect(renderableLayers[2].name).toBe("arms");
+    });
+  });
+
+  describe("modifier", () => {
+    it("should apply a modifier", () => {
+      const element = ElementFactory().create({
+        name: "test",
+      });
+      const layer1 = LayerFactory().create({
+        name: "layer1",
+        elements: [element],
+      });
+      const layer2 = LayerFactory().create({
+        name: "layer2",
+        elements: [element],
+      });
+      const layer3 = LayerFactory().create({
+        odds: 0,
+        name: "layer3",
+        elements: [element],
+      });
+      layer1.selectedElement = element;
+      layer2.selectedElement = element;
+      const allLayers = [layer1, layer2, layer3];
+      const renderableLayers = [layer1, layer2];
+      const collection = CollectionFactory();
+      const modifier = jest.fn().mockReturnValue([layer1, layer2]);
+      collection.create(allLayers, { modifier });
+      expect(modifier).toBeCalledWith(renderableLayers, 1, allLayers);
     });
   });
 });
