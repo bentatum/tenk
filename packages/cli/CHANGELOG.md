@@ -3,6 +3,195 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/bentatum/tenk/compare/tenk@0.1.3...tenk@2.0.0) (2022-12-30)
+
+
+
+## 0.13.1 (2022-12-30)
+
+
+
+# 0.13.0 (2022-12-24)
+
+
+### Features
+
+* make element weight definable via filename ([#59](https://github.com/bentatum/tenk/issues/59)) ([1b0f99b](https://github.com/bentatum/tenk/commit/1b0f99b80ed72b250c2c4c410adc7926b2231749))
+
+
+
+# 0.12.0 (2022-12-17)
+
+
+* feat!: config key dot notation (#56) ([3f589b2](https://github.com/bentatum/tenk/commit/3f589b2ff57e406a3dcc375c84a08ef018eab307)), closes [#56](https://github.com/bentatum/tenk/issues/56)
+
+
+### BREAKING CHANGES
+
+* rules config are no longer case insensitive
+
+
+
+# 0.11.0 (2022-12-14)
+
+
+### Features
+
+* **sub-layers:** tests ([#55](https://github.com/bentatum/tenk/issues/55)) ([1cdb240](https://github.com/bentatum/tenk/commit/1cdb24046675607d2d04294a75640d7e966deed7))
+
+
+
+# 0.10.0 (2022-12-13)
+
+
+### Features
+
+* make elements configurable ([#54](https://github.com/bentatum/tenk/issues/54)) ([d43ab83](https://github.com/bentatum/tenk/commit/d43ab8305e96ba92d7377d9aaa5b407b33652dd6))
+
+
+
+# 0.9.0 (2022-12-12)
+
+
+### Features
+
+* verbose mode ([#53](https://github.com/bentatum/tenk/issues/53)) ([42c5af3](https://github.com/bentatum/tenk/commit/42c5af3f199f098e7b1c09365c85f3d06951faed))
+
+
+
+## 0.8.1 (2022-12-12)
+
+
+### Bug Fixes
+
+* properly inject config ([#52](https://github.com/bentatum/tenk/issues/52)) ([f999014](https://github.com/bentatum/tenk/commit/f99901410bb23c656c7e9b4f936444f9f1a2f765))
+
+
+
+# 0.8.0 (2022-12-11)
+
+
+* feat!: use standard cli argument format (#51) ([91caef6](https://github.com/bentatum/tenk/commit/91caef69d09185292e59087fa7cba3410c8f9a75)), closes [#51](https://github.com/bentatum/tenk/issues/51)
+
+
+### BREAKING CHANGES
+
+* using standard arg flags instead of implicit indexed args
+
+
+
+# 0.7.0 (2022-12-10)
+
+
+
+## 0.6.1 (2022-12-10)
+
+
+
+# 0.6.0 (2022-10-18)
+
+
+### Features
+
+* formats argument ([#47](https://github.com/bentatum/tenk/issues/47)) ([d5d9659](https://github.com/bentatum/tenk/commit/d5d9659f27fd8408944d78bdfe3334831404759d))
+
+
+
+# 0.5.0 (2022-10-18)
+
+
+### Features
+
+* support png projects ([#46](https://github.com/bentatum/tenk/issues/46)) ([0120276](https://github.com/bentatum/tenk/commit/0120276ad4e56be613a691534a8b26835b96ee1b))
+
+
+
+## 0.4.9 (2022-10-18)
+
+
+
+## 0.4.8 (2022-10-17)
+
+
+
+## 0.4.7 (2022-10-17)
+
+
+
+## 0.4.6 (2022-10-16)
+
+
+
+## 0.4.5 (2022-10-16)
+
+
+
+## 0.4.4 (2022-10-16)
+
+
+
+## 0.4.3 (2022-10-16)
+
+
+
+## 0.4.2 (2022-10-16)
+
+
+
+## 0.4.1 (2022-10-16)
+
+
+### Bug Fixes
+
+* process exit if metadata is empty ([#35](https://github.com/bentatum/tenk/issues/35)) ([cfd9aa9](https://github.com/bentatum/tenk/commit/cfd9aa9dd9dbe9d3c695d3a60d0133b774d15af6))
+
+
+
+# 0.4.0 (2022-10-15)
+
+
+### Features
+
+* better error handling when layers directory is missing ([#34](https://github.com/bentatum/tenk/issues/34)) ([0970a77](https://github.com/bentatum/tenk/commit/0970a77a703d519d880087977e934346d1c03001))
+
+
+
+## 0.3.4 (2022-10-15)
+
+
+
+## 0.3.3 (2022-10-15)
+
+
+
+## 0.3.1 (2022-10-14)
+
+
+
+# 0.3.0 (2022-10-14)
+
+
+### Bug Fixes
+
+* cli yarn lock ([#17](https://github.com/bentatum/tenk/issues/17)) ([8d2eb2d](https://github.com/bentatum/tenk/commit/8d2eb2dcb4af53ffb61410f0473401a0a908661a))
+* version ([#18](https://github.com/bentatum/tenk/issues/18)) ([0ac3efd](https://github.com/bentatum/tenk/commit/0ac3efde848900a5732370d3cbd735182c4d0a6d))
+* version ([#25](https://github.com/bentatum/tenk/issues/25)) ([d976bdf](https://github.com/bentatum/tenk/commit/d976bdf2567677ece470a412d9c8da18ee92d19b))
+* version ([#26](https://github.com/bentatum/tenk/issues/26)) ([18da797](https://github.com/bentatum/tenk/commit/18da79749eba68447d4ca2637a16b8ced58ae5ab))
+* version ([#27](https://github.com/bentatum/tenk/issues/27)) ([e9387f1](https://github.com/bentatum/tenk/commit/e9387f144f472d01b0c0309e83f0761a7c2cc664))
+* version ([#28](https://github.com/bentatum/tenk/issues/28)) ([f3377eb](https://github.com/bentatum/tenk/commit/f3377ebce1aafd57d6ce3fd865288806ed394ccd))
+
+
+### Features
+
+* ci publishing ([#21](https://github.com/bentatum/tenk/issues/21)) ([c789b22](https://github.com/bentatum/tenk/commit/c789b22c031176a304e36dc608744b7ab1b22fad))
+* ci publishing ([#22](https://github.com/bentatum/tenk/issues/22)) ([3efc960](https://github.com/bentatum/tenk/commit/3efc960ec46ed9c7b2bbc01e50778f24c16279bb))
+* ci publishing ([#23](https://github.com/bentatum/tenk/issues/23)) ([8d142b0](https://github.com/bentatum/tenk/commit/8d142b0a01964c7aa0bcb9db2c72ebdb6a5a7ff2))
+* ci publishing ([#24](https://github.com/bentatum/tenk/issues/24)) ([c37e901](https://github.com/bentatum/tenk/commit/c37e901e393f9264ddd7c285aeea8af6dd19bd7e))
+
+
+
+
+
 ## [0.13.1](https://github.com/bentatum/tenk/compare/v0.13.0...v0.13.1) (2022-12-30)
 
 **Note:** Version bump only for package tenk
