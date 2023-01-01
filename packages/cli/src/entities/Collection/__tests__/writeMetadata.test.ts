@@ -21,7 +21,7 @@ describe("Collection.writeMetadata", () => {
     collection = container.get<Collection>("Collection");
   });
 
-  it("writes metadata file and removes dna attribute", () => {
+  it("writes metadata file and removes metadata attribute", () => {
     mockedFsWriteFileSync.mockReturnValue();
     const mockedMetadata = [
       {
@@ -31,6 +31,10 @@ describe("Collection.writeMetadata", () => {
           {
             trait_type: "Background",
             value: "Light Salmon",
+            metadata: {
+              height: 100,
+              width: 100,
+            },
           },
           {
             trait_type: "Body",
@@ -66,7 +70,7 @@ describe("Collection.writeMetadata", () => {
     collection.writeMetadata(mockedMetadata);
     expect(mockedFsWriteFileSync).toBeCalledWith(
       expect.stringContaining("metadata.json"),
-      expect.not.stringContaining("dna")
+      expect.not.stringContaining("metadata")
     );
   });
 });

@@ -1,4 +1,4 @@
-import { Factory, LayerConfig, ParentLayer } from "@/interfaces";
+import { Attribute, Factory, LayerConfig, ParentLayer } from "@/interfaces";
 import { inject, injectable } from "inversify";
 import { Element } from "./Element";
 import { Rules } from "./Rules";
@@ -15,6 +15,7 @@ export class Layer implements Factory {
   mustAccompany?: Record<string, string[]>;
   metadata: Record<string, any> = {};
   parentLayer?: ParentLayer;
+  attribute?(layer: Layer, tokenLayers: Layer[], dna: string): Attribute | null;
 
   constructor(
     @inject("Factory<Element>")
@@ -68,7 +69,8 @@ export class Layer implements Factory {
     cannotAccompany,
     mustAccompany,
     metadata,
-    parentLayer
+    parentLayer,
+    attribute
   }: LayerConfig) {
     this.name = name;
     this.layers = layers.map((layer) => this.layerFactory().create(layer));
@@ -81,6 +83,7 @@ export class Layer implements Factory {
     this.mustAccompany = mustAccompany;
     this.metadata = metadata;
     this.parentLayer = parentLayer;
+    this.attribute = attribute;
     return this;
   }
 

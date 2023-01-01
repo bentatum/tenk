@@ -16,7 +16,19 @@ export class Collection implements Factory {
   brokenRuleThreshold: number;
   layers: Layer[] = [];
   metadata: Metadata[];
-  modifier?(renderableLayers: Layer[], tokenId: number, allLayers: Layer[]): Layer[];
+
+  modifyLayers?(
+    tokenLayers: Layer[],
+    tokenId: number,
+    allLayers: Layer[]
+  ): Layer[];
+
+  modifyMetadata?(
+    tokenId: number,
+    attributes: Attribute[],
+    tokenLayers: Layer[],
+    dna: string
+  ): Metadata;
 
   constructor(
     @inject("Factory<Layer>")
@@ -29,7 +41,8 @@ export class Collection implements Factory {
       brokenRuleThreshold = 1000000,
       duplicateThreshold = 100,
       size = 10000,
-      modifier,
+      modifyLayers,
+      modifyMetadata,
     }: Options = {}
   ) {
     this.layers = layerConfigurations.map((layer) =>
@@ -38,7 +51,8 @@ export class Collection implements Factory {
     this.brokenRuleThreshold = brokenRuleThreshold;
     this.duplicateThreshold = duplicateThreshold;
     this.size = size;
-    this.modifier = modifier;
+    this.modifyLayers = modifyLayers;
+    this.modifyMetadata = modifyMetadata;
     return this.generateMetadata();
   }
 
@@ -74,8 +88,9 @@ export class Collection implements Factory {
   getRenderableLayers(layers: Layer[], tokenId: number): Layer[] {
     const renderableLayers = this.chooseLayers(layers);
     this.throwIfLayersBreakRules(renderableLayers);
-    if (this.modifier) {
-      return this.modifier(renderableLayers, tokenId, this.layers);
+    if (this.modifyLayers) {
+      // modify token layers
+      return this.modifyLayers(renderableLayers, tokenId, this.layers);
     }
     return renderableLayers;
   }
@@ -93,18 +108,36 @@ export class Collection implements Factory {
     return sha256(message);
   }
 
-  mapLayerAttributes(layer: Layer) {
+  mapLayerAttributes(layer: Layer, tokenLayers: Layer[], dna: string): Attribute {
     if (!layer.selectedElement) {
       throw new Error("Layer must have a selected element");
     }
-    const attr: Attribute = {
-      trait_type: layer.name,
-      value: layer.selectedElement.name,
-    };
+    const attr: Attribute = layer.attribute
+      ? { ...layer.attribute(layer, tokenLayers, dna) }
+      : {
+          trait_type: layer.name,
+          value: layer.selectedElement.name,
+        };
+
     if (layer.selectedElement.metadata) {
       attr.metadata = layer.selectedElement.metadata;
     }
+    
     return attr;
+  }
+
+  renderTokenData(tokenId: number, renderableLayers: Layer[], dna: string) {
+    const attributes = renderableLayers.map((layer) => this.mapLayerAttributes(layer, renderableLayers, dna));
+    return {
+      name: String(tokenId),
+      attributes,
+      ...this.modifyMetadata?.(
+        tokenId,
+        attributes,
+        renderableLayers,
+        dna
+      ),
+    };
   }
 
   generateMetadata() {
@@ -133,11 +166,7 @@ export class Collection implements Factory {
       if (renderableLayers.length) {
         const dna = this.getDna(renderableLayers);
         if (!dnaSet.has(dna)) {
-          data.push({
-            name: String(tokenId),
-            attributes: renderableLayers.map(this.mapLayerAttributes),
-            dna,
-          });
+          data.push(this.renderTokenData(tokenId, renderableLayers, dna));
           dnaSet.add(dna);
         } else if (dnaSet.has(dna) && _duplicateThreshold > 0) {
           _duplicateThreshold -= 1;

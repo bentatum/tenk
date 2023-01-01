@@ -22,16 +22,16 @@ describe("tenk", () => {
   test("recursive sublayers", () => {
     const metadata = tenk(require("./configs/recursive-sub-layers.json"));
     // usually 4 * 5 is the value.
-    // but 99/100 the duplicate threshold is 
+    // but 99/100 the duplicate threshold is
     // reached and we arrive at an amount less than 20.
     // expect(metadata.length).toBe(4 * 5);
     expect(metadata.length).toBeGreaterThan(4 * 4);
   });
 
-  test("layer with only sublayers",() => {
+  test("layer with only sublayers", () => {
     const metadata = tenk(require("./configs/layer-with-only-sublayers.json"));
     // see above
     // expect(metadata.length).toBeGreaterThan(3 * 9);
     expect(metadata.length).toBeGreaterThan(3 * 8);
-  })
+  });
 });

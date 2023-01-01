@@ -51,7 +51,8 @@ export class Collection implements Factory {
 
     const metadata = tenk(this.layers, {
       size: this.config.get("size"),
-      modifier: this.config.get("modifier"),
+      modifyLayers: this.config.get("modifyLayers"),
+      modifyMetadata: this.config.get("modifyMetadata"),
     });
 
     if (!metadata.length) {
@@ -115,10 +116,10 @@ export class Collection implements Factory {
     return attr;
   }
 
-  mapMetadata({ dna, ...metadata }: Metadata) {
+  mapMetadata(metadata: Metadata) {
     return {
       ...metadata,
-      attributes: metadata.attributes.map(this.mapAttribute),
+      attributes: metadata.attributes.map(this.mapAttribute).filter((attr) => attr.trait_type || attr.value),
     };
   }
 
