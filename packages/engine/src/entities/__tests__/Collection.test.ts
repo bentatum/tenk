@@ -112,7 +112,7 @@ describe("Collection", () => {
       });
       const collection = CollectionFactory();
       expect(() => {
-        collection.mapLayerAttributes(layer);
+        collection.mapLayerAttributes(layer, [layer], 'dna');
       }).toThrow();
     });
     it("should map metadata", () => {
@@ -132,9 +132,24 @@ describe("Collection", () => {
       });
       const collection = CollectionFactory();
       layer.selectedElement = element;
-      expect(collection.mapLayerAttributes(layer)).toEqual(
+      expect(collection.mapLayerAttributes(layer, [layer], 'dna')).toEqual(
         expect.objectContaining({ metadata })
       );
+    });
+    it("should call the attribute function with the correct arguments", () => {
+      const attributeFn = jest.fn();
+      const element = ElementFactory().create({
+        name: "test",
+      });
+      const layer = LayerFactory().create({
+        name: "test",
+        elements: [element],
+        attribute: attributeFn
+      });
+      const collection = CollectionFactory();
+      layer.selectedElement = element;
+      collection.mapLayerAttributes(layer, [layer], 'dna');
+      expect(attributeFn).toBeCalledWith(layer, [layer], 'dna');
     });
   });
 
@@ -228,8 +243,8 @@ describe("Collection", () => {
     });
   });
 
-  describe("modifier", () => {
-    it("should apply a modifier", () => {
+  describe("modifyLayers", () => {
+    it("should call modifyLayers", () => {
       const element = ElementFactory().create({
         name: "test",
       });
@@ -251,9 +266,38 @@ describe("Collection", () => {
       const allLayers = [layer1, layer2, layer3];
       const renderableLayers = [layer1, layer2];
       const collection = CollectionFactory();
-      const modifier = jest.fn().mockReturnValue([layer1, layer2]);
-      collection.create(allLayers, { modifier });
-      expect(modifier).toBeCalledWith(renderableLayers, 1, allLayers);
+      const modifyLayers = jest.fn().mockReturnValue([layer1, layer2]);
+      collection.create(allLayers, { modifyLayers });
+      expect(modifyLayers).toBeCalledWith(renderableLayers, 1, allLayers);
+    });
+  });
+
+  describe("modifyMetadata", () => {
+    it("should call modifyMetadata", () => {
+      const element = ElementFactory().create({
+        name: "test",
+      });
+      const layer1 = LayerFactory().create({
+        name: "layer1",
+        elements: [element],
+      });
+      const layer2 = LayerFactory().create({
+        name: "layer2",
+        elements: [element],
+      });
+      const layer3 = LayerFactory().create({
+        odds: 0,
+        name: "layer3",
+        elements: [element],
+      });
+      layer1.selectedElement = element;
+      layer2.selectedElement = element;
+      const allLayers = [layer1, layer2, layer3];
+      const renderableLayers = [layer1, layer2];
+      const collection = CollectionFactory();
+      const modifyMetadata = jest.fn().mockReturnValue({});
+      collection.create(allLayers, { modifyMetadata });
+      expect(modifyMetadata).toBeCalledWith(0, expect.any(Array), renderableLayers, expect.any(String));
     });
   });
 });

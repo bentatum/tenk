@@ -26,13 +26,24 @@ export interface LayerConfig {
   svgAttributes?: Record<string, any>;
   metadata?: Record<string, any>;
   parentLayer?: ParentLayer;
+  attribute?(layer: Layer, tokenLayers: Layer[], dna: string): Attribute | null;
 }
 
 export interface Options {
   size?: number;
   duplicateThreshold?: number;
   brokenRuleThreshold?: number;
-  modifier?(renderableLayers: Layer[], tokenId: number, allLayers: Layer[]): Layer[];
+  modifyLayers?(
+    renderableLayers: Layer[],
+    tokenId: number,
+    allLayers: Layer[]
+  ): Layer[];
+  modifyMetadata?(
+    tokenId: number,
+    attributes: Attribute[],
+    tokenLayers: Layer[],
+    dna: string
+  ): Metadata;
 }
 
 export interface Collection {

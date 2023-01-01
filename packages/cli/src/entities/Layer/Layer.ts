@@ -5,9 +5,9 @@ import {
   Factory,
   FileType,
   LayerMetadata,
-  TenkJsonLayerConfig,
   ParentLayer,
 } from "@/interfaces";
+import { LayerConfig } from '@tenk/engine'
 import { inject, injectable } from "inversify";
 import { Element } from "../Element";
 import { Config } from "../Config";
@@ -27,6 +27,7 @@ export class Layer implements Factory {
     fileType: FileType.PNG,
     path: "",
   };
+  attribute: LayerConfig["attribute"];
 
   constructor(
     @inject("Logger")
@@ -59,10 +60,11 @@ export class Layer implements Factory {
         layerConfig.cannotAccompany || this.cannotAccompany;
       this.bypassDNA = layerConfig.bypassDNA || this.bypassDNA;
       this.svgAttributes = layerConfig.svgAttributes || this.svgAttributes;
+      this.attribute = layerConfig.attribute || this.attribute;
     }
   }
 
-  getLayerConfig(): TenkJsonLayerConfig | undefined {
+  getLayerConfig(): LayerConfig | undefined {
     const layersConfig = this.config.get("layers");
     if (layersConfig) {
       return {

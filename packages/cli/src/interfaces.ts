@@ -25,15 +25,11 @@ export interface ElementConfig {
 
 export type ParentLayer = Pick<LayerConfig, "name" | "parentLayer">;
 
-export interface TenkJsonLayerConfig {
-  layers?: LayerConfig[];
-  odds?: number;
-  bypassDNA?: boolean;
-  mustAccompany?: Record<string, string[]>;
-  cannotAccompany?: Record<string, string[]>;
-  svgAttributes?: Record<string, any>;
-  metadata?: Record<string, any>;
-  elements?: Record<string, Partial<ElementConfig>>;
+export interface TenkJsonLayerConfig
+  extends Omit<LayerConfig, "name" | "layers" | "elements"> {
+    name?: string;
+  layers?: TenkJsonLayerConfig[];
+  elements?: Record<string, ElementConfig>;
 }
 
 export interface TenkJsonConfig {
