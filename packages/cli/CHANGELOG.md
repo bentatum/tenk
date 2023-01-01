@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/bentatum/tenk/compare/tenk@2.0.0...tenk@3.0.0) (2023-01-01)
+
+
+* feat!: layer attribute option (#62) ([e27038f](https://github.com/bentatum/tenk/commit/e27038fe649c9850f654ea534da4f769bc65f24e)), closes [#62](https://github.com/bentatum/tenk/issues/62)
+
+
+### BREAKING CHANGES
+
+* modifier renamed to modifyLayers
+Added modifyMetadata option
+Updated engine docs
+
+
+
+
+
 # [2.0.0](https://github.com/bentatum/tenk/compare/tenk@0.1.3...tenk@2.0.0) (2022-12-30)
 
 
