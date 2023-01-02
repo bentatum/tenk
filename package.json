@@ -16,7 +16,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "nx run-many --target=build",
+    "build": "nx run-many --target=build --parallel",
     "test:packages": "nx run-many --target=test --",
     "test": "jest",
     "make-badges": "istanbul-badges-readme",
