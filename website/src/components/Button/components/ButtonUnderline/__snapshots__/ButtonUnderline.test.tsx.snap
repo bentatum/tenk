@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonUnderline destructive snapshot 1`] = `
+<div>
+  <span
+    class="mx-auto h-0.5 w-11/12 absolute inset-x-0 bottom-0 bg-red-500 hover:bg-red-600 active:bg-red-700"
+    role="presentation"
+  />
+</div>
+`;
+
+exports[`ButtonUnderline neutral snapshot 1`] = `
+<div>
+  <span
+    class="mx-auto h-0.5 w-11/12 absolute inset-x-0 bottom-0 bg-black hover:bg-neutral-700 active:bg-neutral-600 disabled:bg-neutral-300 dark:bg-white dark:hover:bg-neutral-300 dark:active:bg-neutral-400 dark:disabled:bg-neutral-500"
+    role="presentation"
+  />
+</div>
+`;
+
+exports[`ButtonUnderline primary snapshot 1`] = `
+<div>
+  <span
+    class="mx-auto h-0.5 w-11/12 absolute inset-x-0 bottom-0 bg-gradient-to-r from-yellow-300 via-orange-400 to-pink-400"
+    role="presentation"
+  />
+</div>
+`;
+
+exports[`ButtonUnderline secondary snapshot 1`] = `
+<div>
+  <span
+    class="mx-auto h-0.5 w-11/12 absolute inset-x-0 bottom-0 bg-pink-500 hover:bg-pink-600 active:bg-pink-700 disabled:bg-pink-300"
+    role="presentation"
+  />
+</div>
+`;

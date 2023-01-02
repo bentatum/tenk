@@ -16,8 +16,8 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "nx run-many --target=build",
-    "test:packages": "nx run-many --target=test --",
+    "build": "nx run-many --target=build --projects=tenk,@tenk/engine --parallel",
+    "test:packages": "nx run-many --target=test --projects=tenk,@tenk/engine --parallel --",
     "test": "jest",
     "make-badges": "istanbul-badges-readme",
     "make-badges:ci": "istanbul-badges-readme --ci"
