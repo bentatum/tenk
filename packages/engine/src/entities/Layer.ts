@@ -15,7 +15,7 @@ export class Layer implements Factory {
   mustAccompany?: Record<string, string[]>;
   metadata: Record<string, any> = {};
   parentLayer?: ParentLayer;
-  attribute?(layer: Layer, tokenLayers: Layer[], dna: string): Attribute | null;
+  attribute?(layer: Layer, tokenLayers: Layer[], dna: string): Attribute | Attribute[] | null;
 
   constructor(
     @inject("Factory<Element>")

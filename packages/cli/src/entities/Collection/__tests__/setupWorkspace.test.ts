@@ -44,6 +44,6 @@ describe("Collection.setupWorkspace", () => {
   it("will create a fresh directory structure", () => {
     mockedFsExistsSync.mockReturnValue(false);
     collection.setupWorkspace();
-    expect(fs.mkdirSync).toBeCalledTimes(4);
+    expect(fs.mkdirSync).toBeCalledTimes(2);
   });
 });

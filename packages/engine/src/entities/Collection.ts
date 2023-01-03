@@ -108,35 +108,48 @@ export class Collection implements Factory {
     return sha256(message);
   }
 
-  mapLayerAttributes(layer: Layer, tokenLayers: Layer[], dna: string): Attribute {
+  mapLayerAttributes(
+    layer: Layer,
+    tokenLayers: Layer[],
+    dna: string
+  ): Attribute[] {
     if (!layer.selectedElement) {
       throw new Error("Layer must have a selected element");
     }
-    const attr: Attribute = layer.attribute
-      ? { ...layer.attribute(layer, tokenLayers, dna) }
-      : {
-          trait_type: layer.name,
-          value: layer.selectedElement.name,
-        };
+
+    let attrs: Array<Attribute | null> = [];
+
+    if (layer.attribute) {
+      const singleOrList = layer.attribute(layer, tokenLayers, dna);
+      if (Array.isArray(singleOrList)) {
+        attrs.push(...singleOrList.map((attr) => (!attr ? {} : attr)));
+      } else {
+        attrs.push(singleOrList ?? {});
+      }
+    } else {
+      attrs.push({
+        trait_type: layer.name,
+        value: layer.selectedElement.name,
+      });
+    }
 
     if (layer.selectedElement.metadata) {
-      attr.metadata = layer.selectedElement.metadata;
+      attrs.forEach((attr) => {
+        attr.metadata = layer.selectedElement.metadata;
+      });
     }
-    
-    return attr;
+
+    return attrs;
   }
 
   renderTokenData(tokenId: number, renderableLayers: Layer[], dna: string) {
-    const attributes = renderableLayers.map((layer) => this.mapLayerAttributes(layer, renderableLayers, dna));
+    const attributes = renderableLayers
+      .map((layer) => this.mapLayerAttributes(layer, renderableLayers, dna))
+      .flat();
     return {
       name: String(tokenId),
       attributes,
-      ...this.modifyMetadata?.(
-        tokenId,
-        attributes,
-        renderableLayers,
-        dna
-      ),
+      ...this.modifyMetadata?.(tokenId, attributes, renderableLayers, dna),
     };
   }
 

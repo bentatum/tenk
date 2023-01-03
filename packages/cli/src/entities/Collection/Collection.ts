@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Attribute, Factory, FileType } from "@/interfaces";
 import { injectable, inject } from "inversify";
-import { buildDir, layersDir } from "@/env";
+import { assetsDir, buildDir, layersDir } from "@/env";
 import { Layer } from "../Layer";
 import tenk, { Metadata } from "@tenk/engine";
 import { SvgFile } from "../SvgFile";
@@ -9,6 +9,7 @@ import { PngFile } from "../PngFile";
 import cliProgress from "cli-progress";
 import { Config } from "../Config";
 import { Logger } from "../Logger";
+import { extname } from "path";
 
 @injectable()
 export class Collection implements Factory {
@@ -82,8 +83,8 @@ export class Collection implements Factory {
       if (this.fileType === FileType.SVG) {
         // if file type is svg, create an svg first
         // so we can apply top level user defined attributes
-        const svgPath = `${buildDir}/svg/${i}.svg`;
-        const pngPath = `${buildDir}/png/${i}.png`;
+        const svgPath = `${assetsDir}/${i}.svg`;
+        const pngPath = `${assetsDir}/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
         this.svgFile.create(attributes, svgPath);
         if (!formats || formats.includes("png")) {
@@ -97,7 +98,7 @@ export class Collection implements Factory {
           process.exitCode = 1;
           return;
         }
-        const pngPath = `${buildDir}/png/${i}.png`;
+        const pngPath = `${assetsDir}/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
         await this.pngFile.create(attributes, pngPath);
       }
@@ -108,7 +109,8 @@ export class Collection implements Factory {
 
     progressBar.stop();
 
-    this.writeMetadata(metadata);
+    this.writeCollectionJson();
+    this.writeMetadataJson(metadata);
   }
 
   mapAttribute({ metadata, ...attr }: Attribute) {
@@ -119,18 +121,47 @@ export class Collection implements Factory {
   mapMetadata(metadata: Metadata) {
     return {
       ...metadata,
-      attributes: metadata.attributes.map(this.mapAttribute).filter((attr) => attr.trait_type || attr.value),
+      attributes: metadata.attributes
+        .map(this.mapAttribute)
+        .filter((attr) => attr.trait_type || attr.value),
     };
   }
 
   writeSingleMetadata(metadata: Metadata, index: number) {
     fs.writeFileSync(
-      `${buildDir}/json/${index}.json`,
+      `${assetsDir}/${index}.json`,
       JSON.stringify(this.mapMetadata(metadata))
     );
   }
 
-  writeMetadata(metadata: Metadata[]) {
+  writeCollectionJson() {
+    const image = this.config.get("image");
+    const imgExt = image && extname(image) === ".svg" ? ".svg" : ".png";
+    const imgMimeTypes = {
+      ".png": "image/png",
+      ".svg": "image/svg+xml",
+    };
+    fs.writeFileSync(
+      `${assetsDir}/collection.json`,
+      JSON.stringify({
+        name: this.config.get("name"),
+        symbol: this.config.get("symbol"),
+        description: this.config.get("description"),
+        image: this.config.get("image"),
+        attributes: [],
+        properties: {
+          files: [
+            {
+              uri: image,
+              type: imgMimeTypes[imgExt],
+            },
+          ],
+        },
+      })
+    );
+  }
+
+  writeMetadataJson(metadata: Metadata[]) {
     fs.writeFileSync(
       `${buildDir}/metadata.json`,
       JSON.stringify(metadata.map((md) => this.mapMetadata(md)))
@@ -154,8 +185,6 @@ export class Collection implements Factory {
       fs.rmSync(buildDir, { recursive: true });
     }
     fs.mkdirSync(buildDir);
-    fs.mkdirSync(`${buildDir}/json`);
-    fs.mkdirSync(`${buildDir}/png`);
-    fs.mkdirSync(`${buildDir}/svg`);
+    fs.mkdirSync(`${buildDir}/assets`);
   }
 }

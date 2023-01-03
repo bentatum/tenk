@@ -14,16 +14,9 @@ jest.mock("@tenk/engine");
 const mockedTenk = createMock(tenk);
 
 jest.mock("@/env", () => ({
-  buildDir: "/test/build/dir",
+  buildDir: "/.tenk",
+  assetsDir: "/.tenk/assets",
 }));
-
-// todo see if you can remove this
-// jest.mock("image-size", () =>
-//   jest.fn().mockReturnValue({
-//     width: 100,
-//     height: 100,
-//   })
-// );
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -76,7 +69,8 @@ describe("Collection.create", () => {
         create: jest.fn(),
       } as any;
       collection.writeSingleMetadata = jest.fn();
-      collection.writeMetadata = jest.fn();
+      collection.writeMetadataJson = jest.fn();
+      collection.writeCollectionJson = jest.fn();
       collection.layerFactory = jest.fn().mockReturnValue({
         create: jest.fn().mockReturnThis(),
         getFileType: jest.fn().mockReturnValue(FileType.SVG),
@@ -122,7 +116,7 @@ describe("Collection.create", () => {
     });
 
     it("renders to svg", () => {
-      const svgPath = `/test/build/dir/svg/0.svg`;
+      const svgPath = `/.tenk/assets/0.svg`;
       expect(collection.pngFile.setupCanvas).toBeCalledTimes(0);
       expect(collection.pngFile.create).toBeCalledTimes(0);
       expect(collection.svgFile.create).toBeCalledWith(
@@ -140,8 +134,8 @@ describe("Collection.create", () => {
     });
 
     it("should write the entire collection to a single json file", () => {
-      expect(collection.writeMetadata).toBeCalledTimes(1);
-      expect(collection.writeMetadata).toBeCalledWith(mockedMetadata);
+      expect(collection.writeMetadataJson).toBeCalledTimes(1);
+      expect(collection.writeMetadataJson).toBeCalledWith(mockedMetadata);
     });
   });
 
@@ -189,7 +183,8 @@ describe("Collection.create", () => {
         create: jest.fn(),
       } as any;
       collection.writeSingleMetadata = jest.fn();
-      collection.writeMetadata = jest.fn();
+      collection.writeMetadataJson = jest.fn();
+      collection.writeCollectionJson = jest.fn();
       collection.layerFactory = jest.fn().mockReturnValue({
         create: jest.fn().mockReturnThis(),
         getFileType: jest.fn().mockReturnValue(FileType.SVG),
@@ -345,7 +340,8 @@ describe("Collection.create", () => {
         create: jest.fn(),
       } as any;
       collection.writeSingleMetadata = jest.fn();
-      collection.writeMetadata = jest.fn();
+      collection.writeMetadataJson = jest.fn();
+      collection.writeCollectionJson = jest.fn();
       collection.layerFactory = jest.fn().mockReturnValue({
         create: jest.fn().mockReturnThis(),
         getFileType: jest.fn().mockReturnValue(FileType.PNG),

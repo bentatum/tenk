@@ -14,7 +14,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe("Collection.writeMetadata", () => {
+describe("Collection.writeMetadataJson", () => {
   let collection: Collection;
 
   beforeEach(() => {
@@ -67,7 +67,7 @@ describe("Collection.writeMetadata", () => {
         ],
       },
     ];
-    collection.writeMetadata(mockedMetadata);
+    collection.writeMetadataJson(mockedMetadata);
     expect(mockedFsWriteFileSync).toBeCalledWith(
       expect.stringContaining("metadata.json"),
       expect.not.stringContaining("metadata")
