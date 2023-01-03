@@ -33,6 +33,10 @@ export interface TenkJsonLayerConfig
 }
 
 export interface TenkJsonConfig {
+  name?: string;
+  image?: string;
+  symbol?: string;
+  description?: string;
   size?: number;
   formats?: string;
   verbose?: boolean;

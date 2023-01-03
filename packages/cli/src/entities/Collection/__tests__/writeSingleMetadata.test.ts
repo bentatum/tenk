@@ -10,7 +10,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe("Collection.writeMetadata", () => {
+describe("Collection.writeMetadataJson", () => {
   let collection: Collection;
 
   beforeEach(() => {
@@ -63,7 +63,7 @@ describe("Collection.writeMetadata", () => {
     };
     collection.writeSingleMetadata(mockedMetadata, 0);
     expect(mockedFsWriteFileSync).toBeCalledWith(
-      expect.stringContaining('/json/0.json'),
+      expect.stringContaining('0.json'),
       expect.not.stringContaining("metadata")
     );
   });

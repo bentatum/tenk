@@ -26,7 +26,7 @@ export interface LayerConfig {
   svgAttributes?: Record<string, any>;
   metadata?: Record<string, any>;
   parentLayer?: ParentLayer;
-  attribute?(layer: Layer, tokenLayers: Layer[], dna: string): Attribute | null;
+  attribute?(layer: Layer, tokenLayers: Layer[], dna: string): Attribute | Attribute[] | null;
 }
 
 export interface Options {
@@ -58,8 +58,8 @@ export interface Metadata {
 }
 
 export interface Attribute {
-  trait_type: string;
-  value: string;
+  trait_type?: string;
+  value?: string;
   metadata?: Record<string, any>;
 }
 
