@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/bentatum/tenk/compare/tenk@3.0.0...tenk@4.0.0) (2023-01-03)
+
+
+* feat!: change output format to work with solana (#64) ([597697b](https://github.com/bentatum/tenk/commit/597697bd7965f9def190d4c9e2dca7c7330afc91)), closes [#64](https://github.com/bentatum/tenk/issues/64)
+
+
+### BREAKING CHANGES
+
+* changed file output format
+`tenk.config.json` file now supports `name`, `symbol`, `description` and `image`
+
+You can leverage the modifyMetadata function to adhere to Solana standards:
+```
+modifyMetadata(tokenId, attributes, tokenLayers, dna) {
+  return {
+    name: String(tokenId),
+    description: "10k collection of Tenk the Tank",
+    symbol: "TENK",
+    attributes,
+    image: `${tokenId}.png`,
+    properties: {
+      category: "image",
+      files: [
+        {
+          uri: `${tokenId}.svg`,
+          type: "image/svg+xml",
+        },
+        {
+          uri: `${tokenId}.png`,
+          type: "image/png",
+        },
+      ],
+    },
+  };
+}
+```
+
+
+
+
+
 # [3.0.0](https://github.com/bentatum/tenk/compare/tenk@2.0.0...tenk@3.0.0) (2023-01-01)
 
 
