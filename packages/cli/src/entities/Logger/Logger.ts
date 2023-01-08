@@ -14,6 +14,10 @@ export class Logger {
     }
   }
 
+  info(...args: any[]) {
+    console.log(...args);
+  }
+
   debug(...args: any[]) {
     console.log("DEBUG:", ...args);
   }

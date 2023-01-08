@@ -16,6 +16,7 @@ export class Collection implements Factory {
   brokenRuleThreshold: number;
   layers: Layer[] = [];
   metadata: Metadata[];
+  disableDNA: boolean;
 
   modifyLayers?(
     tokenLayers: Layer[],
@@ -43,6 +44,7 @@ export class Collection implements Factory {
       size = 10000,
       modifyLayers,
       modifyMetadata,
+      disableDNA = false,
     }: Options = {}
   ) {
     this.layers = layerConfigurations.map((layer) =>
@@ -53,6 +55,7 @@ export class Collection implements Factory {
     this.size = size;
     this.modifyLayers = modifyLayers;
     this.modifyMetadata = modifyMetadata;
+    this.disableDNA = disableDNA;
     return this.generateMetadata();
   }
 
@@ -111,7 +114,7 @@ export class Collection implements Factory {
   mapLayerAttributes(
     layer: Layer,
     tokenLayers: Layer[],
-    dna: string
+    dna?: string
   ): Attribute[] {
     if (!layer.selectedElement) {
       throw new Error("Layer must have a selected element");
@@ -142,7 +145,7 @@ export class Collection implements Factory {
     return attrs;
   }
 
-  renderTokenData(tokenId: number, renderableLayers: Layer[], dna: string) {
+  renderTokenData(tokenId: number, renderableLayers: Layer[], dna?: string) {
     const attributes = renderableLayers
       .map((layer) => this.mapLayerAttributes(layer, renderableLayers, dna))
       .flat();
@@ -176,7 +179,9 @@ export class Collection implements Factory {
         }
       }
 
-      if (renderableLayers.length) {
+      if (renderableLayers.length && this.disableDNA) {
+        data.push(this.renderTokenData(tokenId, renderableLayers));
+      } else if (renderableLayers.length) {
         const dna = this.getDna(renderableLayers);
         if (!dnaSet.has(dna)) {
           data.push(this.renderTokenData(tokenId, renderableLayers, dna));

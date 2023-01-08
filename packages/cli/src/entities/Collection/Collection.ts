@@ -43,18 +43,26 @@ export class Collection implements Factory {
   }
 
   async create() {
-    this.logger.verbose("Creating collection...");
-
     this.setupWorkspace();
     this.createLayers();
 
     this.fileType = this.layers[0].getFileType();
 
-    const metadata = tenk(this.layers, {
+    const options = {
       size: this.config.get("size"),
       modifyLayers: this.config.get("modifyLayers"),
       modifyMetadata: this.config.get("modifyMetadata"),
-    });
+      disableDNA: this.config.get("disableDNA"),
+    };
+
+    this.logger.verbose(
+      "Creating collection...",
+      this.layers,
+      { fileType: this.fileType },
+      options
+    );
+
+    const metadata = tenk(this.layers, options);
 
     if (!metadata.length) {
       console.warn("No metadata generated. Check your layers for errors.");
@@ -91,13 +99,13 @@ export class Collection implements Factory {
           await this.pngFile.create(attributes, pngPath, svgPath);
         }
       } else if (this.fileType === FileType.PNG) {
-        if (formats && formats.includes("svg")) {
-          const warning =
-            "Your layers are png files. SVG files cannot not be generated.";
-          console.warn(warning);
-          process.exitCode = 1;
-          return;
-        }
+        // if (formats && formats.includes("svg")) {
+        //   const warning =
+        //     "Your layers are png files. SVG files cannot not be generated.";
+        //   console.warn(warning);
+        //   process.exitCode = 1;
+        //   return;
+        // }
         const pngPath = `${assetsDir}/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
         await this.pngFile.create(attributes, pngPath);

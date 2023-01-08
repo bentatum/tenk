@@ -41,6 +41,7 @@ export interface TenkJsonConfig {
   formats?: string;
   verbose?: boolean;
   layers?: Record<string, TenkJsonLayerConfig>;
+  disableDNA?: boolean;
 }
 
 export enum FileType {
