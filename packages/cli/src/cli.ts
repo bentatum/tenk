@@ -33,10 +33,9 @@ yargs
         describe: "Enable verbose logging.",
         alias: "v",
       });
-      argv.positional("disableDNA", {
+      argv.positional("disable-dna", {
         type: "boolean",
         describe: "Disable DNA generation.",
-        alias: "d",
       });
     },
     async (argv) => {
@@ -51,16 +50,15 @@ yargs
             return obj;
           }, {})
       );
+
       // Welcome message
       const logger = container.get<Logger>("Logger");
       logger.info("Name: ", config.get("name"));
       logger.info("Symbol: ", config.get("symbol"));
-      logger.info("Image: ", config.get("image"));
-      
       logger.info("Size: ", config.get("size"));
 
-      if (config.get("disableDNA")) {
-        logger.info("DNA: ", "Disabled");
+      if (config.get("disableDna")) {
+        logger.info("🧬 DNA disabled");
       }
 
       logger.info("Description: ", config.get("description"));

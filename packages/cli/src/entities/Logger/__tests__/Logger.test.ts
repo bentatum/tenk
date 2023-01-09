@@ -39,4 +39,13 @@ describe("Logger", () => {
       spy.mockRestore();
     });
   });
+
+  describe('info', () => {
+    it('should log', () => {
+      const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+      logger.info('foo');
+      expect(spy).toHaveBeenCalledWith('foo');
+      spy.mockRestore();
+    });
+  })
 });

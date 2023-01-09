@@ -52,7 +52,7 @@ export class Collection implements Factory {
       size: this.config.get("size"),
       modifyLayers: this.config.get("modifyLayers"),
       modifyMetadata: this.config.get("modifyMetadata"),
-      disableDNA: this.config.get("disableDNA"),
+      disableDna: this.config.get("disableDna"),
     };
 
     this.logger.verbose(
@@ -99,13 +99,6 @@ export class Collection implements Factory {
           await this.pngFile.create(attributes, pngPath, svgPath);
         }
       } else if (this.fileType === FileType.PNG) {
-        // if (formats && formats.includes("svg")) {
-        //   const warning =
-        //     "Your layers are png files. SVG files cannot not be generated.";
-        //   console.warn(warning);
-        //   process.exitCode = 1;
-        //   return;
-        // }
         const pngPath = `${assetsDir}/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
         await this.pngFile.create(attributes, pngPath);

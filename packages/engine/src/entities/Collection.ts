@@ -16,7 +16,7 @@ export class Collection implements Factory {
   brokenRuleThreshold: number;
   layers: Layer[] = [];
   metadata: Metadata[];
-  disableDNA: boolean;
+  disableDna: boolean;
 
   modifyLayers?(
     tokenLayers: Layer[],
@@ -44,7 +44,7 @@ export class Collection implements Factory {
       size = 10000,
       modifyLayers,
       modifyMetadata,
-      disableDNA = false,
+      disableDna = false,
     }: Options = {}
   ) {
     this.layers = layerConfigurations.map((layer) =>
@@ -55,7 +55,7 @@ export class Collection implements Factory {
     this.size = size;
     this.modifyLayers = modifyLayers;
     this.modifyMetadata = modifyMetadata;
-    this.disableDNA = disableDNA;
+    this.disableDna = disableDna;
     return this.generateMetadata();
   }
 
@@ -179,7 +179,7 @@ export class Collection implements Factory {
         }
       }
 
-      if (renderableLayers.length && this.disableDNA) {
+      if (renderableLayers.length && this.disableDna) {
         data.push(this.renderTokenData(tokenId, renderableLayers));
       } else if (renderableLayers.length) {
         const dna = this.getDna(renderableLayers);

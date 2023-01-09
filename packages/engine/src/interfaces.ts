@@ -44,7 +44,7 @@ export interface Options {
     tokenLayers: Layer[],
     dna: string
   ): Metadata;
-  disableDNA?: boolean;
+  disableDna?: boolean;
 }
 
 export interface Collection {
