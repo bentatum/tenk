@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/bentatum/tenk/compare/@tenk/engine@4.0.0...@tenk/engine@4.1.0) (2023-01-09)
+
+
+### Features
+
+* disable dna ([#65](https://github.com/bentatum/tenk/issues/65)) ([0408309](https://github.com/bentatum/tenk/commit/04083096e89fbe9705f07d403823dd448fad21f3))
+
+
+
+
+
 # [4.0.0](https://github.com/bentatum/tenk/compare/@tenk/engine@3.0.0...@tenk/engine@4.0.0) (2023-01-03)
 
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/bentatum/tenk/compare/tenk@4.0.0...tenk@4.1.0) (2023-01-09)
+
+
+### Bug Fixes
+
+* revert cli engine dependency to latest dist tag ([#66](https://github.com/bentatum/tenk/issues/66)) ([395994f](https://github.com/bentatum/tenk/commit/395994f6017ff6422ad2d27d1d29bfe9bdd422c1))
+
+
+### Features
+
+* disable dna ([#65](https://github.com/bentatum/tenk/issues/65)) ([0408309](https://github.com/bentatum/tenk/commit/04083096e89fbe9705f07d403823dd448fad21f3))
+
+
+
+
+
 # [4.0.0](https://github.com/bentatum/tenk/compare/tenk@3.0.0...tenk@4.0.0) (2023-01-03)
 
 
