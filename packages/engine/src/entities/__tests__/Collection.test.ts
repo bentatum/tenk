@@ -140,7 +140,7 @@ describe("Collection", () => {
       const attributeFn = jest.fn().mockImplementation(() => ({
         trait_type: "Suit",
         value: "Sleeveless",
-      }))
+      }));
       const element = ElementFactory().create({
         name: "test",
       });
@@ -151,7 +151,9 @@ describe("Collection", () => {
       });
       const collection = CollectionFactory();
       layer.selectedElement = element;
-      expect(collection.mapLayerAttributes(layer, [layer], "dna").length).toBe(1);
+      expect(collection.mapLayerAttributes(layer, [layer], "dna").length).toBe(
+        1
+      );
       expect(attributeFn).toBeCalledWith(layer, [layer], "dna");
     });
     it("should support multiple attributes", () => {
@@ -179,7 +181,7 @@ describe("Collection", () => {
         2
       );
     });
-    it('should convert null in a list', () => {
+    it("should convert null in a list", () => {
       const attributeFn = jest.fn().mockImplementation(() => [
         null,
         {
@@ -204,12 +206,14 @@ describe("Collection", () => {
       });
       const collection = CollectionFactory();
       layer.selectedElement = element;
-      expect(collection.mapLayerAttributes(layer, [layer], "dna").length).toBe(2);
+      expect(collection.mapLayerAttributes(layer, [layer], "dna").length).toBe(
+        2
+      );
       expect(collection.mapLayerAttributes(layer, [layer], "dna")[0]).toEqual({
         metadata,
       });
-    })
-    it('should convert null', () => {
+    });
+    it("should convert null", () => {
       const attributeFn = jest.fn().mockImplementation(() => null);
       const metadata = {
         filePath: "/path/to/some/img.png",
@@ -228,11 +232,13 @@ describe("Collection", () => {
       });
       const collection = CollectionFactory();
       layer.selectedElement = element;
-      expect(collection.mapLayerAttributes(layer, [layer], "dna").length).toBe(1);
+      expect(collection.mapLayerAttributes(layer, [layer], "dna").length).toBe(
+        1
+      );
       expect(collection.mapLayerAttributes(layer, [layer], "dna")[0]).toEqual({
         metadata,
       });
-    })
+    });
   });
 
   describe("generateMetadata", () => {
@@ -385,6 +391,23 @@ describe("Collection", () => {
         renderableLayers,
         expect.any(String)
       );
+    });
+  });
+
+  describe("disable dna", () => {
+    it("should not use dna", () => {
+      const element = ElementFactory().create({
+        name: "test",
+      });
+      const layer1 = LayerFactory().create({
+        name: "layer1",
+        elements: [element],
+      });
+      const layers = [layer1];
+      const collection = CollectionFactory();
+      collection.getDna = jest.fn();
+      collection.create(layers, { disableDna: true });
+      expect(collection.getDna).not.toBeCalled();
     });
   });
 });

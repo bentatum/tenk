@@ -10,6 +10,9 @@ export class Config {
   constructor() {
     if (!_config && fs.existsSync(configPath)) {
       _config = require(configPath) as TenkJsonConfig;
+      if (_config) {
+        this.set(_config);
+      }
     }
   }
 
