@@ -1,8 +1,6 @@
 import { SvgFile } from "@/entities";
 import { container } from "@/inversify.config";
 
-// container.get('Factory<SvgFile>');
-
 describe('Factory<SvgFile>', () => {
     it('should be a function', () => {
         const svgFileFactory = container.get<() => SvgFile>('Factory<SvgFile>')
