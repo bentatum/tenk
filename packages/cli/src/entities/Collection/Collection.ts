@@ -24,8 +24,8 @@ export class Collection implements Factory {
     public logger: Logger,
     @inject("Factory<Layer>")
     public layerFactory: () => Layer,
-    @inject("SvgFile")
-    public svgFile: SvgFile,
+    @inject("Factory<SvgFile>")
+    public svgFileFactory: () => SvgFile,
     @inject("PngFile")
     public pngFile: PngFile
   ) {}
@@ -94,9 +94,12 @@ export class Collection implements Factory {
         const svgPath = `${assetsDir}/${i}.svg`;
         const pngPath = `${assetsDir}/${i}.png`;
         const attributes = metadata[i].attributes as Attribute[];
-        this.svgFile.create(attributes, svgPath);
+        const svgFile = this.svgFileFactory().create(attributes, svgPath);
         if (!formats || formats.includes("png")) {
           await this.pngFile.create(attributes, pngPath, svgPath);
+          if (!formats.includes("svg")) {
+            svgFile.delete();
+          }
         }
       } else if (this.fileType === FileType.PNG) {
         const pngPath = `${assetsDir}/${i}.png`;

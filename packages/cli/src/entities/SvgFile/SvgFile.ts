@@ -1,10 +1,12 @@
 import fs from "fs";
-import { Attribute, Factory } from "@/interfaces";
+import { Attribute, Factory, File } from "@/interfaces";
 import { parse as parseHtml } from "node-html-parser";
 import { injectable } from "inversify";
 
 @injectable()
-export class SvgFile implements Factory {
+export class SvgFile implements Factory, File {
+  path: string;
+
   readAttributeFile(attribute: Attribute) {
     return fs.readFileSync(attribute.metadata.path);
   }
@@ -29,7 +31,8 @@ export class SvgFile implements Factory {
       .getAttribute("viewBox");
   }
 
-  create(attributes: Attribute[], renderPath: string) {
+  create(attributes: Attribute[], path: string): SvgFile {
+    this.path = path;
     const viewBox = this.getViewBox(attributes[0]);
     const svgRootElement = parseHtml(
       `<svg
@@ -49,6 +52,14 @@ export class SvgFile implements Factory {
       }
       svgElement.appendChild(g);
     });
-    fs.writeFileSync(renderPath, svgElement.toString());
+    fs.writeFileSync(path, svgElement.toString());
+    return this;
+  }
+
+  delete() {
+    if (!this.path) {
+      throw new Error("path is not defined");
+    }
+    fs.rmSync(this.path);
   }
 }
