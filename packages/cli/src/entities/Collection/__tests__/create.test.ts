@@ -50,6 +50,7 @@ describe("Collection.create", () => {
     const incrementProgressBar = jest.fn();
     const updateProgressBar = jest.fn();
     const stopProgressBar = jest.fn();
+    const svgFileCreate = jest.fn().mockReturnThis();
 
     beforeEach(async () => {
       collection = CollectionFactory();
@@ -61,9 +62,10 @@ describe("Collection.create", () => {
       const layer1 = jest.fn();
       const layer2 = jest.fn();
       collection.layers = [layer1, layer2] as any;
-      collection.svgFile = {
-        create: jest.fn(),
-      } as any;
+      collection.svgFileFactory = jest.fn().mockReturnValue({
+        create: svgFileCreate,
+        delete: jest.fn(),
+      }) as any;
       collection.pngFile = {
         setupCanvas: jest.fn(),
         create: jest.fn(),
@@ -119,7 +121,7 @@ describe("Collection.create", () => {
       const svgPath = `/.tenk/assets/0.svg`;
       expect(collection.pngFile.setupCanvas).toBeCalledTimes(0);
       expect(collection.pngFile.create).toBeCalledTimes(0);
-      expect(collection.svgFile.create).toBeCalledWith(
+      expect(svgFileCreate).toBeCalledWith(
         mockedAttributes,
         svgPath
       );
@@ -166,6 +168,8 @@ describe("Collection.create", () => {
     const incrementProgressBar = jest.fn();
     const updateProgressBar = jest.fn();
     const stopProgressBar = jest.fn();
+    const svgFileCreate = jest.fn().mockReturnThis();
+    const svgFileDelete = jest.fn()
 
     beforeEach(async () => {
       collection = CollectionFactory();
@@ -175,9 +179,10 @@ describe("Collection.create", () => {
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
       collection.layers = [jest.fn(), jest.fn()] as any;
-      collection.svgFile = {
-        create: jest.fn(),
-      } as any;
+      collection.svgFileFactory = jest.fn().mockReturnValue({
+        create: svgFileCreate,
+        delete: svgFileDelete,
+      }) as any;
       collection.pngFile = {
         setupCanvas: jest.fn(),
         create: jest.fn(),
@@ -216,7 +221,7 @@ describe("Collection.create", () => {
       } as any;
       await collection.create();
       expect(collection.pngFile.setupCanvas).not.toBeCalled();
-      expect(collection.svgFile.create).toBeCalled();
+      expect(svgFileCreate).toBeCalled();
       expect(collection.pngFile.create).not.toBeCalled();
     });
 
@@ -235,7 +240,8 @@ describe("Collection.create", () => {
       } as any;
       await collection.create();
       expect(collection.pngFile.setupCanvas).toBeCalled();
-      expect(collection.svgFile.create).toBeCalled();
+      expect(svgFileCreate).toBeCalled();
+      expect(svgFileDelete).toBeCalled();
       expect(collection.pngFile.create).toBeCalled();
     });
 
@@ -254,7 +260,7 @@ describe("Collection.create", () => {
       } as any;
       await collection.create();
       expect(collection.pngFile.setupCanvas).toBeCalled();
-      expect(collection.svgFile.create).toBeCalled();
+      expect(svgFileCreate).toBeCalled();
       expect(collection.pngFile.create).toBeCalled();
     });
   });
@@ -324,6 +330,7 @@ describe("Collection.create", () => {
     const incrementProgressBar = jest.fn();
     const updateProgressBar = jest.fn();
     const stopProgressBar = jest.fn();
+    const svgFileCreate = jest.fn().mockReturnThis();
 
     beforeEach(async () => {
       collection = CollectionFactory();
@@ -332,9 +339,10 @@ describe("Collection.create", () => {
       collection.getLayerDirNames = jest
         .fn()
         .mockReturnValue(["layer1", "layer2"]);
-      collection.svgFile = {
-        create: jest.fn(),
-      } as any;
+      collection.svgFileFactory = jest.fn().mockReturnValue({
+        create: svgFileCreate,
+        delete: jest.fn(),
+      }) as any;
       collection.pngFile = {
         setupCanvas: jest.fn(),
         create: jest.fn(),
@@ -357,51 +365,6 @@ describe("Collection.create", () => {
       } as any);
     });
 
-    // test("svg", async () => {
-    //   // const warnSpy = jest.spyOn(console, "warn").mockImplementation();
-    //   collection.layerFactory = jest.fn().mockReturnValue({
-    //     create: jest.fn().mockReturnThis(),
-    //     getFileType: jest.fn().mockReturnValue(FileType.SVG),
-    //   });
-    //   collection.config = {
-    //     get: jest.fn().mockImplementation((key) => {
-    //       switch (key) {
-    //         case "size":
-    //           return 10000;
-    //         case "formats":
-    //           return "svg";
-    //         default:
-    //           return undefined;
-    //       }
-    //     }),
-    //   } as any;
-    //   await collection.create();
-
-    //   // expect(warnSpy).toBeCalledWith(
-    //   //   "Your layers are png files. SVG files cannot not be generated."
-    //   // );
-    //   // expect(process.exitCode).toBe(1);
-    // });
-    // test("png and svg", async () => {
-    //   const warnSpy = jest.spyOn(console, "warn").mockImplementation();
-    //   collection.config = {
-    //     get: jest.fn().mockImplementation((key) => {
-    //       switch (key) {
-    //         case "size":
-    //           return 10000;
-    //         case "formats":
-    //           return "svg,png";
-    //         default:
-    //           return undefined;
-    //       }
-    //     }),
-    //   } as any;
-    //   await collection.create();
-    //   expect(warnSpy).toBeCalledWith(
-    //     "Your layers are png files. SVG files cannot not be generated."
-    //   );
-    //   expect(process.exitCode).toBe(1);
-    // });
     test("png only", async () => {
       collection.config = {
         get: jest.fn().mockImplementation((key) => {
@@ -417,7 +380,7 @@ describe("Collection.create", () => {
       } as any;
       await collection.create();
       expect(collection.pngFile.setupCanvas).toBeCalled();
-      expect(collection.svgFile.create).not.toBeCalled();
+      expect(svgFileCreate).not.toBeCalled();
       expect(collection.pngFile.create).toBeCalled();
     });
   });

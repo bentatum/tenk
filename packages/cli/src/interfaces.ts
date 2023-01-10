@@ -4,6 +4,10 @@ export interface Factory {
   create(...args: any): any;
 }
 
+export interface File {
+  delete(...args: any): any;
+}
+
 export interface LayerMetadata {
   path: string;
   fileType: FileType;

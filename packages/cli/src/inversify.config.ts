@@ -31,6 +31,13 @@ container
   );
 
 container.bind<SvgFile>("SvgFile").to(SvgFile);
+container
+  .bind<interfaces.Factory<SvgFile>>("Factory<SvgFile>")
+  .toFactory<SvgFile>(
+    (context: interfaces.Context) => () =>
+      context.container.get<SvgFile>("SvgFile")
+  );
+
 container.bind<PngFile>("PngFile").to(PngFile);
 
 export { container };
