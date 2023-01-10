@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/bentatum/tenk/compare/tenk@4.1.0...tenk@5.0.0) (2023-01-10)
+
+
+* feat!: leave no svg file when only png is defined in formats (#67) ([f970365](https://github.com/bentatum/tenk/commit/f970365b83d1f1ca2fcf48e9b8a1e16b4251bdfe)), closes [#67](https://github.com/bentatum/tenk/issues/67)
+
+
+### BREAKING CHANGES
+
+* output is only png files and json files when formats is defined as png
+output should be as expected when using the following commands:
+
+tenk -f svg
+.tenk/
+  0.json
+  0.svg
+  1.json
+  1.svg
+  ...
+
+tenk -f png
+.tenk/
+  0.json
+  0.png
+  1.json
+  1.png
+  ...
+
+tenk -f svg,png
+.tenk/
+  0.json
+  0.png
+  0.svg
+  1.json
+  1.png
+  1.svg
+
+
+
+
+
 # [4.1.0](https://github.com/bentatum/tenk/compare/tenk@4.0.0...tenk@4.1.0) (2023-01-09)
 
 
