@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/bentatum/tenk/compare/tenk@5.0.0...tenk@5.1.0) (2023-01-16)
+
+
+### Features
+
+* layer display name ([#68](https://github.com/bentatum/tenk/issues/68)) ([3ea593a](https://github.com/bentatum/tenk/commit/3ea593a48ee477065b4973bcb061002b6ff34e07)), closes [Footwear#50](https://github.com/Footwear/issues/50) [Shoes#50](https://github.com/Shoes/issues/50) [Boots#50](https://github.com/Boots/issues/50)
+
+
+
+
+
 # [5.0.0](https://github.com/bentatum/tenk/compare/tenk@4.1.0...tenk@5.0.0) (2023-01-10)
 
 
