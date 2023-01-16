@@ -6,6 +6,7 @@ import { Rules } from "./Rules";
 @injectable()
 export class Layer implements Factory {
   name: string;
+  displayName?: string;
   layers: Layer[];
   elements: Element[];
   selectedElement?: Element;
@@ -62,6 +63,7 @@ export class Layer implements Factory {
 
   create({
     name,
+    displayName,
     layers = [],
     elements = [],
     odds,
@@ -73,6 +75,7 @@ export class Layer implements Factory {
     attribute
   }: LayerConfig) {
     this.name = name;
+    this.displayName = displayName;
     this.layers = layers.map((layer) => this.layerFactory().create(layer));
     this.elements = elements.map((element) =>
       this.elementFactory().create(element)

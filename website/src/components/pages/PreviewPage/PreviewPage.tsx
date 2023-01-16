@@ -5,16 +5,21 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { useMemo, useState } from "react";
 import useSwr from "swr";
 import type { Metadata } from "@tenk/engine";
+import { useRouter } from "next/router";
+import * as config from "@/config";
+
+interface TokenMetadata extends Metadata {
+  image: string;
+}
 
 type Filters = Map<string, string[] | undefined>;
 
 const PreviewPage = () => {
-  const {
-    data: metadata = [],
-    error,
-    isLoading,
-  } = useSwr<Metadata[]>(
-    "https://racers-dev-2.s3.us-east-1.amazonaws.com/2/metadata.json",
+  const router = useRouter();
+  const { data: metadata = [] } = useSwr<TokenMetadata[]>(
+    router.query.id
+      ? `${config.mediaUrl}/${router.query.id}/metadata.json`
+      : null,
     (url) => fetch(url).then((res) => res.json())
   );
 
@@ -95,6 +100,7 @@ const PreviewPage = () => {
                               id={value}
                               name={value}
                               value={value}
+                              checked={filters.get(key)?.includes(value)}
                               onClick={() => onTraitValueClick(key, value)}
                             />
                             <label htmlFor={value}>{value}</label>
@@ -121,16 +127,14 @@ const PreviewPage = () => {
                   return filters.get(filterKey)?.includes(attribute?.value!);
                 });
               })
-              .map(({ name }) => (
-                <div key={name}>
-                  <Image
-                    src={`https://racers-dev-2.s3.us-east-1.amazonaws.com/2/png/${name}.png`}
-                    alt=""
-                    width="480"
-                    height="480"
-                  />
-                </div>
-              ))}
+              .map(({ image }, index) => {
+                const src = `${config.mediaUrl}/${router.query.id}/assets/${image}`;
+                return (
+                  <a href={src} target="_blank" key={src} rel="noreferrer">
+                    <img src={src} alt="" width="480" height="480" />
+                  </a>
+                );
+              })}
           </div>
         </div>
       </div>
