@@ -15,7 +15,8 @@ export class Rules {
     const layerName = comparator.name;
     const elementName = comparator.selectedElement?.name;
     const rules = this.parseRule(rule);
-    const layerMatch = rules[0] === layerName;
+    const layerMatch =
+      rules[0] === layerName || rules[0] === comparator.parentLayer?.name;
 
     if (!layerMatch) return false;
 
@@ -31,7 +32,7 @@ export class Rules {
       );
     }
 
-    if (layerMatch && elementNameRule) {
+    if (elementNameRule) {
       return elementNameRule === elementName;
     }
 

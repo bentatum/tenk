@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['racers-dev-2.s3.us-east-1.amazonaws.com']
+    domains: [process.env.NEXT_PUBLIC_MEDIA_URL],
   },
 };
 

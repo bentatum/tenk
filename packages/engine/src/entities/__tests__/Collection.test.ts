@@ -136,6 +136,21 @@ describe("Collection", () => {
         expect.objectContaining({ metadata }),
       ]);
     });
+    it("should prefer display name over name for trait_type", () => {
+      const element = ElementFactory().create({
+        name: "test",
+      });
+      const layer = LayerFactory().create({
+        name: "test",
+        elements: [element],
+        displayName: "TESTING",
+      });
+      const collection = CollectionFactory();
+      layer.selectedElement = element;
+      expect(collection.mapLayerAttributes(layer, [layer], "dna")).toEqual([
+        expect.objectContaining({ trait_type: "TESTING" }),
+      ]);
+    });
     it("should call the attribute function with the correct arguments", () => {
       const attributeFn = jest.fn().mockImplementation(() => ({
         trait_type: "Suit",

@@ -24,6 +24,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.245.0",
     "@tenk/engine": "latest",
     "canvas": "^2.10.1",
     "cli-progress": "^3.11.2",

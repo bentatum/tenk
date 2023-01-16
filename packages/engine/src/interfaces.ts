@@ -17,6 +17,7 @@ export type ParentLayer = Pick<LayerConfig, "name" | "parentLayer">;
 
 export interface LayerConfig {
   name: string;
+  displayName?: string;
   layers?: LayerConfig[];
   elements?: ElementConfig[];
   odds?: number;

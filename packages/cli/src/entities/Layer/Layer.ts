@@ -28,6 +28,7 @@ export class Layer implements Factory {
     path: "",
   };
   attribute: LayerConfig["attribute"];
+  displayName: string;
 
   constructor(
     @inject("Logger")
@@ -61,6 +62,7 @@ export class Layer implements Factory {
       this.bypassDNA = layerConfig.bypassDNA || this.bypassDNA;
       this.svgAttributes = layerConfig.svgAttributes || this.svgAttributes;
       this.attribute = layerConfig.attribute || this.attribute;
+      this.displayName = layerConfig.displayName || this.displayName;
     }
   }
 

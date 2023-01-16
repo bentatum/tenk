@@ -566,6 +566,33 @@ describe("Rules", () => {
         const result = rules.mustAccompany(eyeWhites, layers);
         expect(result).toBe(false);
       });
+
+      test("parent layer match", () => {
+        const shoesLayer = LayerFactory().create({
+          name: "Shoes",
+          elements: [ElementFactory().create({ name: "Red" })],
+          cannotAccompany: {
+            "*": ["Footwear"],
+          },
+          parentLayer: {
+            name: "Footwear",
+          },
+        });
+        const bootsLayer = LayerFactory().create({
+          name: "Boots",
+          elements: [ElementFactory().create({ name: "Red" })],
+          cannotAccompany: {
+            "*": ["Footwear"],
+          },
+          parentLayer: {
+            name: "Footwear",
+          },
+        });
+
+        const layers = [shoesLayer, bootsLayer];
+        const result = rules.cannotAccompany(shoesLayer, layers);
+        expect(result).toBe(false);
+      });
     });
   });
 });

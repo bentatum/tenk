@@ -131,7 +131,7 @@ export class Collection implements Factory {
       }
     } else {
       attrs.push({
-        trait_type: layer.name,
+        trait_type: layer.displayName || layer.name,
         value: layer.selectedElement.name,
       });
     }
