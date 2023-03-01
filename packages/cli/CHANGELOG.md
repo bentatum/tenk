@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/bentatum/tenk/compare/tenk@5.1.0...tenk@5.1.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* undefined format breaks builds ([#69](https://github.com/bentatum/tenk/issues/69)) ([99ecbb9](https://github.com/bentatum/tenk/commit/99ecbb904bc4c9de60b393c37ec9987c75846cf1))
+
+
+
+
+
 # [5.1.0](https://github.com/bentatum/tenk/compare/tenk@5.0.0...tenk@5.1.0) (2023-01-16)
 
 
