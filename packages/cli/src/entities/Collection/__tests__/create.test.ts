@@ -121,10 +121,7 @@ describe("Collection.create", () => {
       const svgPath = `/.tenk/assets/0.svg`;
       expect(collection.pngFile.setupCanvas).toBeCalledTimes(0);
       expect(collection.pngFile.create).toBeCalledTimes(0);
-      expect(svgFileCreate).toBeCalledWith(
-        mockedAttributes,
-        svgPath
-      );
+      expect(svgFileCreate).toBeCalledWith(mockedAttributes, svgPath);
     });
 
     it("should write metadata json files for each token", () => {
@@ -169,7 +166,7 @@ describe("Collection.create", () => {
     const updateProgressBar = jest.fn();
     const stopProgressBar = jest.fn();
     const svgFileCreate = jest.fn().mockReturnThis();
-    const svgFileDelete = jest.fn()
+    const svgFileDelete = jest.fn();
 
     beforeEach(async () => {
       collection = CollectionFactory();
@@ -203,6 +200,25 @@ describe("Collection.create", () => {
         stop: stopProgressBar,
         increment: incrementProgressBar,
       } as any);
+    });
+
+    test("no formats defined", async () => {
+      collection.config = {
+        get: jest.fn().mockImplementation((key) => {
+          switch (key) {
+            case "size":
+              return 10000;
+            case "formats":
+              return undefined;
+            default:
+              return undefined;
+          }
+        }),
+      } as any;
+      await collection.create();
+      expect(collection.pngFile.setupCanvas).toBeCalled();
+      expect(svgFileCreate).toBeCalled();
+      expect(collection.pngFile.create).toBeCalled();
     });
 
     test("svg only", async () => {

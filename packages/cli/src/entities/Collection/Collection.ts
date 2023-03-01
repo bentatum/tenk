@@ -97,7 +97,7 @@ export class Collection implements Factory {
         const svgFile = this.svgFileFactory().create(attributes, svgPath);
         if (!formats || formats.includes("png")) {
           await this.pngFile.create(attributes, pngPath, svgPath);
-          if (!formats.includes("svg")) {
+          if (formats && !formats.includes("svg")) {
             svgFile.delete();
           }
         }
