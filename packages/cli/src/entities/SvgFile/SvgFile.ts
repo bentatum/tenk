@@ -1,6 +1,6 @@
 import fs from "fs";
 import { Attribute, Factory, File } from "@/interfaces";
-import { parse as parseHtml } from "node-html-parser";
+import { parse as parseHtml,  } from "node-html-parser";
 import { injectable } from "inversify";
 
 @injectable()
@@ -16,7 +16,8 @@ export class SvgFile implements Factory, File {
   }
 
   getLayerGroupElement(attribute: Attribute) {
-    return this.getHtmlElement(attribute).querySelector("g");
+    const svg = this.getHtmlElement(attribute).querySelector("svg")
+    return parseHtml(`<g>${svg.innerHTML}</g>`)
   }
 
   getSvgGroupElements(attributes: Attribute[]) {
