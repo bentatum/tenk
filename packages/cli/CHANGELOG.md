@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.2](https://github.com/bentatum/tenk/compare/tenk@5.1.1...tenk@5.1.2) (2023-05-10)
+
+
+### Bug Fixes
+
+* dont require group element ([#70](https://github.com/bentatum/tenk/issues/70)) ([aa83050](https://github.com/bentatum/tenk/commit/aa83050a6a674d0a0cd39e107083cd96dfff661f))
+
+
+
+
+
 ## [5.1.1](https://github.com/bentatum/tenk/compare/tenk@5.1.0...tenk@5.1.1) (2023-03-01)
 
 
