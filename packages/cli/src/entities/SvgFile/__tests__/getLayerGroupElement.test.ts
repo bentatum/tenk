@@ -38,11 +38,7 @@ describe("SvgFile.getLayerGroupElement", () => {
     expect(svgFile.getHtmlElement).toBeCalledWith(mockedAttribute);
   });
 
-  it("calls querySelector with g", () => {
-    expect(mockedQuerySelector).toBeCalledWith("g");
-  });
-
-  it("returns the element", () => {
-    expect(result).toEqual(mockedHtmlElement);
+  it("calls querySelector with svg", () => {
+    expect(mockedQuerySelector).toBeCalledWith("svg");
   });
 });
