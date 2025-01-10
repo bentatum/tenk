@@ -68,7 +68,7 @@ describe("PngFile.create", () => {
 
     it("should call loadImage with the metadata path if no load path is provided", async () => {
       await pngFile.create(attributes, renderPath);
-      expect(mockedLoadImage).toHaveBeenCalledWith(attributes[0].metadata.path);
+      expect(mockedLoadImage).toHaveBeenCalledWith(attributes[0]?.metadata.path!);
     });
   });
 
@@ -78,8 +78,8 @@ describe("PngFile.create", () => {
       img,
       0,
       0,
-      attributes[0].metadata.width,
-      attributes[0].metadata.height
+      attributes[0]?.metadata.width ?? 0,
+      attributes[0]?.metadata.height ?? 0
     );
   });
 

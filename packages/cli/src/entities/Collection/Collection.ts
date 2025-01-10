@@ -13,9 +13,9 @@ import { extname } from "path";
 
 @injectable()
 export class Collection implements Factory {
-  size: number;
-  layers: Layer[];
-  fileType: FileType;
+  size!: number;
+  layers!: Layer[];
+  fileType!: FileType;
 
   constructor(
     @inject("Config")
@@ -39,14 +39,14 @@ export class Collection implements Factory {
       folders
     );
 
-    this.layers = folders.map((name) => this.layerFactory().create(name));
+    this.layers = (folders ?? []).map((name) => this.layerFactory().create(name));
   }
 
   async create() {
     this.setupWorkspace();
     this.createLayers();
 
-    this.fileType = this.layers[0].getFileType();
+    this.fileType = this.layers[0]?.getFileType() ?? FileType.PNG;
 
     const options = {
       size: this.config.get("size"),
@@ -82,7 +82,9 @@ export class Collection implements Factory {
 
     if (!formats || formats.includes("png")) {
       this.pngFile.setupCanvas(
+        // @ts-expect-error todo
         metadata[0].attributes[0].metadata.height,
+        // @ts-expect-error todo
         metadata[0].attributes[0].metadata.width
       );
     }
@@ -93,6 +95,7 @@ export class Collection implements Factory {
         // so we can apply top level user defined attributes
         const svgPath = `${assetsDir}/${i}.svg`;
         const pngPath = `${assetsDir}/${i}.png`;
+        // @ts-expect-error todo
         const attributes = metadata[i].attributes as Attribute[];
         const svgFile = this.svgFileFactory().create(attributes, svgPath);
         if (!formats || formats.includes("png")) {
@@ -103,9 +106,11 @@ export class Collection implements Factory {
         }
       } else if (this.fileType === FileType.PNG) {
         const pngPath = `${assetsDir}/${i}.png`;
+        // @ts-expect-error todo
         const attributes = metadata[i].attributes as Attribute[];
         await this.pngFile.create(attributes, pngPath);
       }
+      // @ts-expect-error todo
       this.writeSingleMetadata(metadata[i], i);
       progressBar.increment();
       progressBar.update(i + 1);
@@ -126,6 +131,7 @@ export class Collection implements Factory {
     return {
       ...metadata,
       attributes: metadata.attributes
+        // @ts-expect-error todo
         .map(this.mapAttribute)
         .filter((attr) => attr.trait_type || attr.value),
     };
@@ -172,7 +178,7 @@ export class Collection implements Factory {
     );
   }
 
-  getLayerDirNames(): string[] {
+  getLayerDirNames(): string[] | undefined {
     try {
       return fs
         .readdirSync(layersDir, { withFileTypes: true })

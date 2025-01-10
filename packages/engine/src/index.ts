@@ -5,5 +5,5 @@ export type { Metadata, Options, LayerConfig, ElementConfig, Attribute } from ".
 
 export default (layers: LayerConfig[], options?: Options): Metadata[] => {
   const collection = container.get<Collection>("Collection");
-  return collection.create(layers, options);
+  return collection.create(layers, options ?? {});
 };

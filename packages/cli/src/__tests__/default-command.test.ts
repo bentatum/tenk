@@ -14,7 +14,7 @@ const cmd = async (...args: string[]): Promise<void> => {
 };
 
 describe("cli default command", () => {
-  let originalArgv;
+  let originalArgv: string[];
 
   beforeEach(() => {
     // this breaks it :(

@@ -11,12 +11,12 @@ import sha256 from "@/lib/sha256";
 
 @injectable()
 export class Collection implements Factory {
-  size: number;
-  duplicateThreshold: number;
-  brokenRuleThreshold: number;
-  layers: Layer[] = [];
-  metadata: Metadata[];
-  disableDna: boolean;
+  size!: number;
+  duplicateThreshold!: number;
+  brokenRuleThreshold!: number;
+  layers!: Layer[];
+  metadata!: Metadata[];
+  disableDna!: boolean;
 
   modifyLayers?(
     tokenLayers: Layer[],
@@ -76,7 +76,7 @@ export class Collection implements Factory {
     return this.filterByOdds(layers)
       .map((layer) => layer.selectElement())
       .filter((layer) => layer.isRenderable())
-      .reduce((acc, next) => {
+      .reduce<Layer[]>((acc, next) => {
         const childLayers = next.getChildLayers();
         if (childLayers.length) {
           acc.push(...this.chooseLayers(childLayers));
@@ -123,7 +123,7 @@ export class Collection implements Factory {
     let attrs: Array<Attribute | null> = [];
 
     if (layer.attribute) {
-      const singleOrList = layer.attribute(layer, tokenLayers, dna);
+      const singleOrList = layer.attribute(layer, tokenLayers, dna!);
       if (Array.isArray(singleOrList)) {
         attrs.push(...singleOrList.map((attr) => (!attr ? {} : attr)));
       } else {
@@ -138,11 +138,11 @@ export class Collection implements Factory {
 
     if (layer.selectedElement.metadata) {
       attrs.forEach((attr) => {
-        attr.metadata = layer.selectedElement.metadata;
+        attr!.metadata = layer.selectedElement?.metadata;
       });
     }
 
-    return attrs;
+    return attrs as Attribute[];
   }
 
   renderTokenData(tokenId: number, renderableLayers: Layer[], dna?: string) {
@@ -152,7 +152,7 @@ export class Collection implements Factory {
     return {
       name: String(tokenId),
       attributes,
-      ...this.modifyMetadata?.(tokenId, attributes, renderableLayers, dna),
+      ...this.modifyMetadata?.(tokenId, attributes, renderableLayers, dna!),
     };
   }
 
@@ -180,11 +180,11 @@ export class Collection implements Factory {
       }
 
       if (renderableLayers.length && this.disableDna) {
-        data.push(this.renderTokenData(tokenId, renderableLayers));
+        data.push(this.renderTokenData(tokenId, renderableLayers) as Metadata);
       } else if (renderableLayers.length) {
         const dna = this.getDna(renderableLayers);
         if (!dnaSet.has(dna)) {
-          data.push(this.renderTokenData(tokenId, renderableLayers, dna));
+          data.push(this.renderTokenData(tokenId, renderableLayers, dna) as Metadata);
           dnaSet.add(dna);
         } else if (dnaSet.has(dna) && _duplicateThreshold > 0) {
           _duplicateThreshold -= 1;

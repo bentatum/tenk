@@ -14,11 +14,11 @@ import { Config } from "../Config";
 
 @injectable()
 export class Layer implements Factory {
-  odds: number;
-  name: string;
-  elements: Element[];
+  odds!: number;
+  name!: string;
+  elements!: Element[];
   parentLayer?: ParentLayer;
-  layers: Layer[];
+  layers!: Layer[];
   mustAccompany?: Record<string, string[]>;
   cannotAccompany?: Record<string, string[]>;
   bypassDNA?: boolean;
@@ -28,7 +28,7 @@ export class Layer implements Factory {
     path: "",
   };
   attribute: LayerConfig["attribute"];
-  displayName: string;
+  displayName!: string;
 
   constructor(
     @inject("Logger")
@@ -90,7 +90,7 @@ export class Layer implements Factory {
     return this;
   }
 
-  getLayerFileNames(): string[] {
+  getLayerFileNames(): string[] | undefined {
     try {
       return fs
         .readdirSync(this.metadata.path, { withFileTypes: true })
@@ -106,7 +106,7 @@ export class Layer implements Factory {
     }
   }
 
-  getLayerDirNames(): string[] {
+  getLayerDirNames(): string[] | undefined {
     try {
       return fs
         .readdirSync(this.metadata.path, { withFileTypes: true })
@@ -131,7 +131,7 @@ export class Layer implements Factory {
 
   setSubLayers(): void {
     const dirNames = this.getLayerDirNames();
-    if (!dirNames.length) {
+    if (!dirNames?.length) {
       return;
     }
     this.layers = dirNames.map((dirName) => {
@@ -144,20 +144,21 @@ export class Layer implements Factory {
 
   setElements(): void {
     const fileNames = this.getLayerFileNames();
-    if (!fileNames.length) {
+    if (!fileNames?.length) {
       return;
     }
 
     this.updateMetadata({
       // we don't support mixed file types in a collection, yet.
       // grab the first file and use it to determine the type.
-      fileType: this.parseFileType(fileNames[0]),
+      fileType: this.parseFileType(fileNames?.[0]!),
     });
 
     const layerConfig = this.getLayerConfig();
 
-    this.elements = fileNames.map((fileName) => {
+    this.elements = fileNames?.map((fileName) => {
       const elementName = fileName.replace(path.extname(fileName), "");
+      // @ts-expect-error todo
       const elementConfig = layerConfig?.elements?.[elementName];
       if (elementConfig) {
         this.logger.verbose(

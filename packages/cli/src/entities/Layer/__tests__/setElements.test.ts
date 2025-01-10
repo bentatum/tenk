@@ -8,8 +8,8 @@ beforeEach(() => {
 
 describe("Layer.setElements", () => {
   describe("layer that has elements", () => {
-    let verboseLogMock;
-    let elementFactoryCreateMock;
+    let verboseLogMock: jest.Mock;
+    let elementFactoryCreateMock: jest.Mock;
     let layer: Layer;
 
     beforeEach(() => {
@@ -38,8 +38,8 @@ describe("Layer.setElements", () => {
     });
 
     it("should pass down configuration to the element", () => {
-      expect(elementFactoryCreateMock).toBeCalledTimes(2);
-      expect(elementFactoryCreateMock).toBeCalledWith(
+      expect(elementFactoryCreateMock).toHaveBeenCalledTimes(2);
+      expect(elementFactoryCreateMock).toHaveBeenCalledWith(
         expect.objectContaining({
           weight: 0.25,
         })
@@ -47,7 +47,7 @@ describe("Layer.setElements", () => {
     });
 
     it("should log verbose", () => {
-      expect(verboseLogMock).toBeCalledTimes(1);
+      expect(verboseLogMock).toHaveBeenCalledTimes(1);
     });
 
     it("should call updateMetadata", () => {
@@ -56,7 +56,7 @@ describe("Layer.setElements", () => {
   });
 
   describe("layer that has no elements", () => {
-    let verboseLogMock;
+    let verboseLogMock: jest.Mock;
     let elementFactoryCreateMock;
     let layer: Layer;
 
@@ -85,16 +85,16 @@ describe("Layer.setElements", () => {
 
     it("should not log verbose", () => {
       // we might want to change this and log a warning
-      expect(verboseLogMock).not.toBeCalled();
+      expect(verboseLogMock).not.toHaveBeenCalled();
     });
 
     it("should not call updateMetadata", () => {
-      expect(layer.updateMetadata).not.toBeCalled();
+      expect(layer.updateMetadata).not.toHaveBeenCalled();
     });
   });
 
   describe("layer that has elements but no configuration", () => {
-    let verboseLogMock;
+    let verboseLogMock: jest.Mock;
     let elementFactoryCreateMock;
     let layer: Layer;
 
@@ -118,7 +118,7 @@ describe("Layer.setElements", () => {
     });
 
     it("should not log verbose if no config is found", () => {
-      expect(verboseLogMock).toBeCalledTimes(0);
+      expect(verboseLogMock).toHaveBeenCalledTimes(0);
     });
   });
 });

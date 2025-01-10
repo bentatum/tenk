@@ -8,7 +8,7 @@ describe("Layer.getFileType", () => {
     const randomFileName = ["test.svg", "test.png"][
       Math.floor(Math.random() * 2)
     ];
-    const randomFileType = layer.parseFileType(randomFileName);
+    const randomFileType = layer.parseFileType(randomFileName!);
     layer.metadata = {
       path: "/layers/background",
       fileType: randomFileType,

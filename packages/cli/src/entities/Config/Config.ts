@@ -25,6 +25,7 @@ export class Config {
 
   get(key: string) {
     if (_config) {
+      // @ts-expect-error todo
       return _config[key];
     }
   }

@@ -5,7 +5,7 @@ import { injectable } from "inversify";
 
 @injectable()
 export class SvgFile implements Factory, File {
-  path: string;
+  path!: string;
 
   readAttributeFile(attribute: Attribute) {
     return fs.readFileSync(attribute.metadata.path);
@@ -17,7 +17,7 @@ export class SvgFile implements Factory, File {
 
   getLayerGroupElement(attribute: Attribute) {
     const svg = this.getHtmlElement(attribute).querySelector("svg")
-    return parseHtml(`<g>${svg.innerHTML}</g>`)
+    return parseHtml(`<g>${svg?.innerHTML}</g>`)
   }
 
   getSvgGroupElements(attributes: Attribute[]) {
@@ -27,33 +27,31 @@ export class SvgFile implements Factory, File {
   }
 
   getViewBox(attribute: Attribute) {
-    return this.getHtmlElement(attribute)
-      .querySelector("svg")
-      .getAttribute("viewBox");
+    return this.getHtmlElement(attribute).querySelector("svg")?.getAttribute("viewBox")
   }
 
   create(attributes: Attribute[], path: string): SvgFile {
     this.path = path;
-    const viewBox = this.getViewBox(attributes[0]);
+    const viewBox = this.getViewBox(attributes[0]!);
     const svgRootElement = parseHtml(
       `<svg
         version="1.1"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="${viewBox}"
-        height="${attributes[0].metadata.height}"
-        width="${attributes[0].metadata.width}">
+        height="${attributes[0]?.metadata.height}"
+        width="${attributes[0]?.metadata.width}">
       </svg>`
     );
     const svgElement = svgRootElement.querySelector("svg");
     const svgGroupElements = this.getSvgGroupElements(attributes);
     svgGroupElements.forEach((g, i) => {
-      if (attributes[i].metadata.svgAttributes) {
-        g.setAttributes(attributes[i].metadata.svgAttributes);
+      if (attributes[i]?.metadata.svgAttributes) {
+        g.setAttributes(attributes[i]?.metadata.svgAttributes!);
       }
-      svgElement.appendChild(g);
+      svgElement?.appendChild(g);
     });
-    fs.writeFileSync(path, svgElement.toString());
+    fs.writeFileSync(path, svgElement?.toString() ?? "");
     return this;
   }
 

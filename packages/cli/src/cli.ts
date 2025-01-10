@@ -46,6 +46,7 @@ yargs
         Object.keys(argv)
           .filter((key) => argv[key] !== undefined)
           .reduce((obj, key) => {
+            // @ts-expect-error todo
             obj[key] = argv[key];
             return obj;
           }, {})

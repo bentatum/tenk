@@ -1,16 +1,15 @@
 {
+  "extends": "@repo/tsconfig/base.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es5",
-    "lib": ["es2019", "dom"],
-    "types": ["reflect-metadata", "jest", "node"],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "emitDecoratorMetadata": true,
+    "outDir": "./dist",
+    "noEmit": false,
+    "declaration": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@/test": ["test/*"]
+      "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
 }

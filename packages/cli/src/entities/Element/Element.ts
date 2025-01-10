@@ -11,8 +11,8 @@ import { extname } from "path";
 
 @injectable()
 export class Element implements Factory {
-  name: string;
-  weight: number;
+  name!: string;
+  weight!: number;
   metadata: ElementMetadata = {
     fileType: FileType.PNG,
     path: "",
@@ -36,8 +36,8 @@ export class Element implements Factory {
 
   parseFilePath(filePath: string): [string, number | undefined] {
     const fileName = filePath.split("/").pop();
-    const [name, weight] = fileName.replace(extname(fileName), "").split("#");
-    return [name, weight ? Number(weight) / 100 : undefined];
+    const [name, weight] = fileName?.replace(extname(fileName!), "").split("#") ?? [];
+    return [name!, weight ? Number(weight) / 100 : undefined];
   }
 
   setNameAndWeight(filePath: string, weight?: number) {

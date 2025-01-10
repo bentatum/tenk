@@ -1,13 +1,15 @@
 {
+  "extends": "@repo/tsconfig/base.json",
   "compilerOptions": {
-    "baseUrl": "src",
-    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "noEmit": false,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
 }

@@ -8,7 +8,7 @@ export class Rules {
     const splitRules = rules.split(".");
     const elementName = splitRules.pop();
     const layerName = splitRules.join(".");
-    return [layerName, elementName].filter(Boolean);
+    return [layerName, elementName].filter(Boolean) as string[];
   }
 
   match(rule: string, comparator: Layer) {
@@ -28,7 +28,7 @@ export class Rules {
       elementNameRule.endsWith("/")
     ) {
       return Boolean(
-        elementName.match(new RegExp(elementNameRule.replace(/\//gi, ""), "g"))
+        elementName?.match(new RegExp(elementNameRule.replace(/\//gi, ""), "g"))
       );
     }
 
@@ -55,13 +55,13 @@ export class Rules {
           const elementName = layer.selectedElement?.name;
           if (key.startsWith("/") && key.endsWith("/")) {
             return Boolean(
-              elementName.match(new RegExp(key.replace(/\//gi, ""), "g"))
+              elementName?.match(new RegExp(key.replace(/\//gi, ""), "g"))
             );
           }
           return key === "*" || key === elementName;
         })
         .map((key) => layerRules[key])
-        .flat();
+        .flat() as string[];
     }
 
     return rules;

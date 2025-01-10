@@ -4,9 +4,9 @@ import { inject, injectable } from "inversify";
 
 @injectable()
 export class Element implements Factory {
-  name: string;
-  weight: number;
-  layers: Layer[];
+  name!: string;
+  weight!: number;
+  layers!: Layer[];
   cannotAccompany?: string[];
   mustAccompany?: string[];
   metadata?: Record<string, any>;

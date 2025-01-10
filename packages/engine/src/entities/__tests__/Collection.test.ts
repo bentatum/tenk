@@ -340,9 +340,9 @@ describe("Collection", () => {
         [background, body],
         1
       );
-      expect(renderableLayers[0].name).toBe("background");
-      expect(renderableLayers[1].name).toBe("face");
-      expect(renderableLayers[2].name).toBe("arms");
+      expect(renderableLayers[0]?.name).toBe("background");
+      expect(renderableLayers[1]?.name).toBe("face");
+      expect(renderableLayers[2]?.name).toBe("arms");
     });
   });
 

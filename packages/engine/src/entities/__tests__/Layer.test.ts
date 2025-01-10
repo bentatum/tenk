@@ -94,7 +94,7 @@ describe("Rules", () => {
 
       layer.selectElement("test");
 
-      expect(layer.selectedElement.name).toBe("test");
+      expect(layer.selectedElement?.name).toBe("test");
     });
   });
 });

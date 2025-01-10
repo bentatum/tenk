@@ -5,13 +5,13 @@ import { Rules } from "./Rules";
 
 @injectable()
 export class Layer implements Factory {
-  name: string;
+  name!: string;
   displayName?: string;
-  layers: Layer[];
-  elements: Element[];
+  layers!: Layer[];
+  elements!: Element[];
   selectedElement?: Element;
-  odds: number;
-  bypassDNA: boolean;
+  odds!: number;
+  bypassDNA!: boolean;
   cannotAccompany?: Record<string, string[]>;
   mustAccompany?: Record<string, string[]>;
   metadata: Record<string, any> = {};
@@ -40,11 +40,11 @@ export class Layer implements Factory {
       }, 0);
       let random = Math.random() * totalWeight;
       for (let i = 0; i < elements.length; i++) {
-        if (elements[i].weight > random) {
+        if ((elements[i]?.weight ?? 0) > random) {
           this.selectedElement = elements[i];
           break;
         } else {
-          random -= elements[i].weight;
+          random -= elements[i]?.weight ?? 0;
         }
       }
     }
@@ -84,7 +84,7 @@ export class Layer implements Factory {
     this.bypassDNA = bypassDNA || false;
     this.cannotAccompany = cannotAccompany;
     this.mustAccompany = mustAccompany;
-    this.metadata = metadata;
+    this.metadata = metadata ?? {};
     this.parentLayer = parentLayer;
     this.attribute = attribute;
     return this;

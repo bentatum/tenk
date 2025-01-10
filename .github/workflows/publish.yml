@@ -1,37 +1,40 @@
-name: Publish
+name: Publish Package
+
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
+
 jobs:
-  publish:
-    if: github.event.pull_request.merged == true 
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: "16.x"
-          registry-url: 'https://registry.npmjs.org'
-      - name: Use Yarn Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install Root Dependencies
+          token: ${{ secrets.GH_PAT }}
+    
+      - uses: volta-cli/action@v4
+    
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Package Dependencies
-        run: yarn lerna bootstrap
-      - name: Run builds
-        run: yarn lerna exec yarn build
-      - name: "Version and publish"
+      
+      # - name: Create .npmrc
+      #   run: |
+      #     echo "@verysimple:registry=https://registry.npmjs.org/" > .npmrc
+      #     echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
+      - name: Publish
+        run: yarn publish-packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit changes
         run: |
-          git config user.name "Ben Tatum"
-          git config user.email "mail@benjtatum.com"
-          yarn lerna publish --yes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "ci: Update package versions" || echo "No changes to commit"
+          git push
