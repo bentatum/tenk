@@ -23,7 +23,7 @@
     "make-badges:ci": "istanbul-badges-readme --ci"
   },
   "volta": {
-    "node": "22.13.0",
+    "node": "20.18.1",
     "yarn": "1.22.19"
   }
 }
