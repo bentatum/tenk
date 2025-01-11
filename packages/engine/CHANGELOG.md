@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/bentatum/tenk/compare/@tenk/engine@4.2.0...@tenk/engine@4.2.1) (2025-01-11)
+
+
+### Bug Fixes
+
+* **png:** call setup canvas ([#71](https://github.com/bentatum/tenk/issues/71)) ([d6286eb](https://github.com/bentatum/tenk/commit/d6286eb7c77d3665ec31f2fc6114bfcf19c46878))
+
+
+
+
+
 # [4.2.0](https://github.com/bentatum/tenk/compare/@tenk/engine@4.1.0...@tenk/engine@4.2.0) (2023-01-16)
 
 

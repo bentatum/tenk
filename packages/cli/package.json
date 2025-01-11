@@ -1,6 +1,6 @@
 {
   "name": "tenk",
-  "version": "5.1.2",
+  "version": "5.1.3",
   "main": "dist/cli.js",
   "author": "Benjamin Tatum",
   "license": "MIT",

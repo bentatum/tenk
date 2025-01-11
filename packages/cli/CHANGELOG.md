@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.3](https://github.com/bentatum/tenk/compare/tenk@5.1.2...tenk@5.1.3) (2025-01-11)
+
+
+### Bug Fixes
+
+* **png:** call setup canvas ([#71](https://github.com/bentatum/tenk/issues/71)) ([d6286eb](https://github.com/bentatum/tenk/commit/d6286eb7c77d3665ec31f2fc6114bfcf19c46878))
+
+
+
+
+
 ## [5.1.2](https://github.com/bentatum/tenk/compare/tenk@5.1.1...tenk@5.1.2) (2023-05-10)
 
 
