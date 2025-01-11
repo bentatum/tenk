@@ -7,22 +7,23 @@ jobs:
     name: "Run"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
         with:
-          node-version: "16.x"
-      - name: Use Yarn Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install Root Dependencies
+          fetch-depth: 0
+
+      - uses: volta-cli/action@v4
+
+      - name: Install Dependencies
         run: yarn install --frozen-lockfile
+
       - name: Install Pacakge Dependencies
         run: yarn bootstrap
+
       - name: Build
         run: yarn build
+
       - name: Test
         run: yarn test
+
       - name: Generate coverage badges
         run: yarn make-badges:ci
