@@ -19,6 +19,7 @@ export class PngFile implements Factory {
   }
 
   async create(attributes: Attribute[], renderPath: string, loadPath?: string) {
+    this.setupCanvas(attributes[0].metadata.height, attributes[0].metadata.width);
     for (let i = 0; i < attributes.length; i++) {
       const img = await loadImage(loadPath || attributes[i].metadata.path);
       this.canvasContext.drawImage(

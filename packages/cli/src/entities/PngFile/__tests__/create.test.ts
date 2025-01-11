@@ -6,7 +6,9 @@ import { PngFile } from "../PngFile";
 import fs from "fs";
 
 jest.mock("canvas", () => ({
-  createCanvas: jest.fn(),
+  createCanvas: jest.fn().mockReturnValue({
+    getContext: jest.fn(),
+  }),
   loadImage: jest.fn(),
 }));
 const mockedLoadImage = createMock(loadImage);
