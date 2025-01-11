@@ -7,7 +7,10 @@ import fs from "fs";
 
 jest.mock("canvas", () => ({
   createCanvas: jest.fn().mockReturnValue({
-    getContext: jest.fn(),
+    getContext: jest.fn().mockReturnValue({
+      drawImage: jest.fn()
+    }),
+    toBuffer: jest.fn().mockReturnValue(Buffer.from([])),
   }),
   loadImage: jest.fn(),
 }));
@@ -56,10 +59,6 @@ describe("PngFile.create", () => {
   beforeEach(async () => {
     mockedLoadImage.mockResolvedValue(img as any);
     pngFile = PngFileFactory();
-    pngFile.canvas = { toBuffer: jest.fn() } as any;
-    pngFile.canvasContext = {
-      drawImage: jest.fn(),
-    } as any;
   });
 
   describe("load path", () => {
@@ -102,4 +101,6 @@ describe("PngFile.create", () => {
     await pngFile.create(attributes, renderPath);
     expect(mockedLoadImage).toHaveBeenCalledTimes(attributes.length);
   });
+
+  it.todo("calls setupCanvas with the correct arguments");
 });
